@@ -23,7 +23,10 @@ import {
   X,
   Edit2,
   Trash2,
+  Mail,
+  RotateCw,
 } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { generatePDF } from '../../../utils/exportPdf';
 import BatchDetails from './BatchDetails';
@@ -89,6 +92,8 @@ export default function ViewBatches() {
   const [selectedBatch, setSelectedBatch] = useState<any>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
+  const [isMailingAll, setIsMailingAll] = useState(false);
+  const [isMailingFiltered, setIsMailingFiltered] = useState(false);
 
   const authToken = localStorage.getItem('authToken');
 
@@ -231,22 +236,22 @@ export default function ViewBatches() {
 
       const uniqueMethodologies = batch.parameterValuesByCategory
         ? Array.from(
-            new Set(
-              Object.values(batch.parameterValuesByCategory)
-                .flat()
-                .filter((param: any) => param.methodology)
-                .map((param: any) => param.methodology.name)
-            )
+          new Set(
+            Object.values(batch.parameterValuesByCategory)
+              .flat()
+              .filter((param: any) => param.methodology)
+              .map((param: any) => param.methodology.name)
           )
+        )
         : [];
 
       const activities =
         batch.recentActivities && batch.recentActivities.length > 0
           ? batch.recentActivities.map((activity: any) => ({
-              details: activity.details,
-              by: activity.User?.name || 'System',
-              date: formatDate(activity.createdAt),
-            }))
+            details: activity.details,
+            by: activity.User?.name || 'System',
+            date: formatDate(activity.createdAt),
+          }))
           : [];
 
       return {
@@ -303,6 +308,74 @@ export default function ViewBatches() {
       page: 1,
       limit: 10,
     });
+  };
+
+  // Handle mail all batches
+  const handleMailAll = async () => {
+    if (!batchesData || !batchesData.batches || batchesData.batches.length === 0) {
+      toast.error('No batches available to mail');
+      return;
+    }
+
+    try {
+      setIsMailingAll(true);
+      const response = await axios.get(API_ROUTES.BATCH.MAIL_ALL_BATCHES, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message || 'Batches report mailed successfully');
+      } else {
+        toast.error(response.data.error || 'Failed to mail batches');
+      }
+    } catch (error) {
+      console.error('Mail failed:', error);
+      toast.error('Failed to mail batches report');
+    } finally {
+      setIsMailingAll(false);
+    }
+  };
+
+  // Handle mail filtered batches
+  const handleMailFiltered = async () => {
+    const hasFilters = filters.status || filters.productId || filters.dateFrom || filters.dateTo || filters.batchNumber;
+    if (!hasFilters) {
+      toast.error('Please apply at least one filter before mailing');
+      return;
+    }
+
+    if (!batchesData || !batchesData.batches || batchesData.batches.length === 0) {
+      toast.error('No batches match the current filters');
+      return;
+    }
+
+    try {
+      setIsMailingFiltered(true);
+      const response = await axios.post(
+        API_ROUTES.BATCH.MAIL_FILTERED_BATCHES,
+        {
+          batchNumber: filters.batchNumber,
+          status: filters.status,
+          productId: filters.productId,
+          dateFrom: filters.dateFrom,
+          dateTo: filters.dateTo,
+        },
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message || 'Filtered batches report mailed successfully');
+      } else {
+        toast.error(response.data.error || 'Failed to mail filtered batches');
+      }
+    } catch (error) {
+      console.error('Mail filtered failed:', error);
+      toast.error('Failed to mail filtered batches report');
+    } finally {
+      setIsMailingFiltered(false);
+    }
   };
 
   // Show details view if selected
@@ -409,6 +482,62 @@ export default function ViewBatches() {
                 >
                   <Download className="h-4 w-4 text-muted-foreground" />
                   <span className="text-foreground">Export</span>
+                </motion.button>
+
+                <motion.button
+                  onClick={handleMailAll}
+                  disabled={isMailingAll || !batchesData?.batches?.length}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-colors duration-200 text-sm ${isMailingAll || !batchesData?.batches?.length
+                    ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    }`}
+                  whileHover={{ scale: isMailingAll ? 1 : 1.02 }}
+                  whileTap={{ scale: isMailingAll ? 1 : 0.98 }}
+                >
+                  {isMailingAll ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, ease: 'linear', repeat: Infinity }}
+                      >
+                        <RotateCw className="h-4 w-4" />
+                      </motion.div>
+                      <span>Mailing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="h-4 w-4" />
+                      <span>Mail All</span>
+                    </>
+                  )}
+                </motion.button>
+
+                <motion.button
+                  onClick={handleMailFiltered}
+                  disabled={isMailingFiltered || !batchesData?.batches?.length || !(filters.status || filters.productId || filters.dateFrom || filters.dateTo || filters.batchNumber)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-colors duration-200 text-sm ${isMailingFiltered || !batchesData?.batches?.length || !(filters.status || filters.productId || filters.dateFrom || filters.dateTo || filters.batchNumber)
+                    ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/90'
+                    }`}
+                  whileHover={{ scale: isMailingFiltered ? 1 : 1.02 }}
+                  whileTap={{ scale: isMailingFiltered ? 1 : 0.98 }}
+                >
+                  {isMailingFiltered ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, ease: 'linear', repeat: Infinity }}
+                      >
+                        <RotateCw className="h-4 w-4" />
+                      </motion.div>
+                      <span>Mailing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Filter className="h-4 w-4" />
+                      <span>Mail Filtered</span>
+                    </>
+                  )}
                 </motion.button>
               </div>
             </div>
@@ -530,55 +659,55 @@ export default function ViewBatches() {
               filters.productId ||
               filters.dateFrom ||
               filters.dateTo) && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {filters.status && (
-                  <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
-                    Status: {filters.status}
-                    <button
-                      onClick={() => handleFilterChange('status', '')}
-                      className="ml-2 hover:text-primary/80"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                )}
-                {filters.productId && (
-                  <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
-                    Product:{' '}
-                    {products.find((p) => p.id === filters.productId)?.name ||
-                      filters.productId}
-                    <button
-                      onClick={() => handleFilterChange('productId', '')}
-                      className="ml-2 hover:text-primary/80"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                )}
-                {filters.dateFrom && (
-                  <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
-                    From: {filters.dateFrom}
-                    <button
-                      onClick={() => handleFilterChange('dateFrom', '')}
-                      className="ml-2 hover:text-primary/80"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                )}
-                {filters.dateTo && (
-                  <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
-                    To: {filters.dateTo}
-                    <button
-                      onClick={() => handleFilterChange('dateTo', '')}
-                      className="ml-2 hover:text-primary/80"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {filters.status && (
+                    <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
+                      Status: {filters.status}
+                      <button
+                        onClick={() => handleFilterChange('status', '')}
+                        className="ml-2 hover:text-primary/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  )}
+                  {filters.productId && (
+                    <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
+                      Product:{' '}
+                      {products.find((p) => p.id === filters.productId)?.name ||
+                        filters.productId}
+                      <button
+                        onClick={() => handleFilterChange('productId', '')}
+                        className="ml-2 hover:text-primary/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  )}
+                  {filters.dateFrom && (
+                    <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
+                      From: {filters.dateFrom}
+                      <button
+                        onClick={() => handleFilterChange('dateFrom', '')}
+                        className="ml-2 hover:text-primary/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  )}
+                  {filters.dateTo && (
+                    <div className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-xs border border-primary/20">
+                      To: {filters.dateTo}
+                      <button
+                        onClick={() => handleFilterChange('dateTo', '')}
+                        className="ml-2 hover:text-primary/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
           </div>
 
           {/* Table Section */}
@@ -698,7 +827,7 @@ export default function ViewBatches() {
                           className="px-6 py-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                         >
                           <div className="flex items-center gap-2 justify-end">
-                            <Eye className="w-4 h-4" />
+                            <Eye className="w-4 h-4 hover:h-10" />
                             Actions
                           </div>
                         </th>
@@ -708,7 +837,7 @@ export default function ViewBatches() {
                       {batchesData.batches.map((batch: any, index: number) => (
                         <motion.tr
                           key={batch.id}
-                          className="hover:bg-muted/50 transition-colors duration-150"
+                          className="hover:bg-secondary/10 transition-colors duration-150"
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -728,18 +857,17 @@ export default function ViewBatches() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center space-x-2">
                               <span
-                                className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                                  statusColors[
-                                    batch.status as keyof typeof statusColors
-                                  ]
-                                }`}
+                                className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border ${statusColors[
+                                  batch.status as keyof typeof statusColors
+                                ]
+                                  }`}
                               >
                                 {
                                   statusIcons[
-                                    batch.status as keyof typeof statusIcons
+                                  batch.status as keyof typeof statusIcons
                                   ]
                                 }
-                                {batch.status}
+                                <span className="leading-none">{batch.status}</span>
                               </span>
                             </div>
                           </td>
@@ -778,7 +906,7 @@ export default function ViewBatches() {
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
                                   onClick={() => handleViewDetails(batch)}
-                                  className="group relative flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all"
+                                  className="group relative flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-lg hover:bg-secondary/90 transition-all"
                                   title="View Details"
                                 >
                                   <Eye size={16} />
@@ -807,7 +935,7 @@ export default function ViewBatches() {
                         <span className="font-medium text-foreground">
                           {Math.min(
                             batchesData.pagination.page *
-                              batchesData.pagination.limit,
+                            batchesData.pagination.limit,
                             batchesData.pagination.totalCount
                           )}
                         </span>{' '}
@@ -823,11 +951,10 @@ export default function ViewBatches() {
                             handlePageChange(Math.max(1, filters.page! - 1))
                           }
                           disabled={filters.page === 1}
-                          className={`p-2 rounded-md ${
-                            filters.page === 1
-                              ? 'text-muted-foreground cursor-not-allowed'
-                              : 'text-foreground hover:bg-muted'
-                          }`}
+                          className={`p-2 rounded-md ${filters.page === 1
+                            ? 'text-muted-foreground cursor-not-allowed'
+                            : 'text-foreground hover:bg-muted'
+                            }`}
                           whileHover={filters.page !== 1 ? { scale: 1.1 } : {}}
                           whileTap={filters.page !== 1 ? { scale: 0.9 } : {}}
                         >
@@ -864,11 +991,10 @@ export default function ViewBatches() {
                               <motion.button
                                 key={page}
                                 onClick={() => handlePageChange(page)}
-                                className={`px-3 py-1 rounded-md ${
-                                  currentPage === page
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'text-foreground hover:bg-muted'
-                                }`}
+                                className={`px-3 py-1 rounded-md ${currentPage === page
+                                  ? 'bg-primary text-primary-foreground'
+                                  : 'text-foreground hover:bg-muted'
+                                  }`}
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 transition={{
@@ -894,11 +1020,10 @@ export default function ViewBatches() {
                           disabled={
                             filters.page === batchesData.pagination.totalPages
                           }
-                          className={`p-2 rounded-md ${
-                            filters.page === batchesData.pagination.totalPages
-                              ? 'text-muted-foreground cursor-not-allowed'
-                              : 'text-foreground hover:bg-muted'
-                          }`}
+                          className={`p-2 rounded-md ${filters.page === batchesData.pagination.totalPages
+                            ? 'text-muted-foreground cursor-not-allowed'
+                            : 'text-foreground hover:bg-muted'
+                            }`}
                           whileHover={
                             filters.page !== batchesData.pagination.totalPages
                               ? { scale: 1.1 }

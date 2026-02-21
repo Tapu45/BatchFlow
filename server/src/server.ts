@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import cron from 'node-cron';
@@ -5,13 +6,14 @@ import cron from 'node-cron';
 import authRoutes from './routes/auth.route';
 import batchRoutes from './routes/batch.route';
 import standardRoutes from './routes/standard.route';
-import productRoutes from './routes/product.route'; 
+import productRoutes from './routes/product.route';
 import dashboardRoutes from './routes/dashboard.route';
 import trainingRoutes from './routes/training.route';
 import auditRoutes from './routes/audit.route';
 import rawRoutes from './routes/raw.route';
 import draftRoutes from './routes/draft.route';
 import { updateAuditStatuses } from './jobs/updateauditstatus';
+import { runScheduledMailJob } from './jobs/scheduledMailJob';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -52,7 +54,8 @@ app.use('/draft', draftRoutes);
 // });
 
 // Also run once at server startup to ensure statuses are updated immediately
-(async () => {
+// Delay execution to allow database to wake up (Neon databases auto-pause)
+setTimeout(async () => {
   console.log('Running initial audit status update job at server startup...');
   try {
     const result = await updateAuditStatuses();
@@ -60,7 +63,19 @@ app.use('/draft', draftRoutes);
   } catch (err) {
     console.error('Failed to run initial audit status update job:', err);
   }
-})();
+}, 5000); // Wait 5 seconds before running
+
+// Schedule mail job - Runs every 1 minute (FOR TESTING)
+// TODO: Change back to '0 9 * * 1' for production (Monday at 9 AM)
+// cron.schedule('*/1 * * * *', async () => {
+//   console.log('Running scheduled mail job...');
+//   try {
+//     const result = await runScheduledMailJob();
+//     console.log('Scheduled mail job result:', result);
+//   } catch (err) {
+//     console.error('Failed to run scheduled mail job:', err);
+//   }
+// });
 
 // Start the server
 app.listen(PORT, () => {

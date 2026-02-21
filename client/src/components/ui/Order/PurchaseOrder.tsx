@@ -506,7 +506,7 @@ const PurchaseOrder = () => {
 
                         <div>
                           <label className="block text-sm font-medium text-foreground mb-2">
-                            Rate (₹)
+                            Rate (₦)
                           </label>
                           <div className="flex items-center gap-2">
                             <input
@@ -544,7 +544,7 @@ const PurchaseOrder = () => {
                               Subtotal:
                             </span>
                             <span className="font-medium text-foreground">
-                              ₹{(item.quantityOrdered * item.rate).toFixed(2)}
+                              ₦{(item.quantityOrdered * item.rate).toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -559,7 +559,7 @@ const PurchaseOrder = () => {
                     <div className="flex justify-between items-center text-lg font-semibold">
                       <span className="text-foreground">Total Amount:</span>
                       <span className="text-primary">
-                        ₹{calculateTotal().toFixed(2)}
+                        ₦{calculateTotal().toFixed(2)}
                       </span>
                     </div>
                   </div>

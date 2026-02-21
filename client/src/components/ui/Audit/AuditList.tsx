@@ -25,20 +25,20 @@ import { toast } from 'react-hot-toast';
 import EditAuditForm from './minicomponents/EditAudit';
 import AuditDetails from './AuditDetails';
 
-// Enhanced Audit status badge component with animation
+// Enhanced Audit status badge component with animation - theme aware
 const StatusBadge = ({ status }: { status: string }) => {
   const getStatusColor = (status: any) => {
     switch (status) {
       case 'PLANNED':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800';
       case 'IN_PROGRESS':
-        return 'bg-amber-100 text-amber-800 border-amber-200';
+        return 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800';
       case 'COMPLETED':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+        return 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800';
       case 'CANCELLED':
-        return 'bg-rose-100 text-rose-800 border-rose-200';
+        return 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-800';
       default:
-        return 'bg-slate-100 text-slate-800 border-slate-200';
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -125,8 +125,6 @@ const AuditList = () => {
     },
   });
 
-  // Change status mutation
-
   const handleDelete = (id: string) => {
     if (window.confirm('Are you sure you want to delete this audit?')) {
       deleteMutation.mutate(id);
@@ -142,7 +140,6 @@ const AuditList = () => {
     setShowDetailsView(false);
     setSelectedAuditId(null);
   };
-
 
   const openEditAudit = (id: string) => {
     setEditingAuditId(id);
@@ -196,18 +193,18 @@ const AuditList = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden border border-blue-100"
+              className="bg-card rounded-xl shadow-lg overflow-hidden border border-border"
             >
               {/* Table Header with Title and Actions */}
-              <div className="bg-gradient-to-r from-blue-50 to-white p-6 border-b border-blue-100">
+              <div className="bg-muted/50 p-6 border-b border-border">
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                   <div className="flex-1">
                     <motion.div 
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                     >
-                      <h1 className="text-3xl font-bold text-gray-800 mb-2">Audit Management</h1>
-                      <p className="text-gray-600">Track, manage and review all your audits in one place</p>
+                      <h1 className="text-3xl font-bold text-foreground mb-2">Audit Management</h1>
+                      <p className="text-muted-foreground">Track, manage and review all your audits in one place</p>
                     </motion.div>
                   </div>
                   
@@ -218,7 +215,7 @@ const AuditList = () => {
                   >
                     <Link 
                       to="/audits/new" 
-                      className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md flex items-center font-medium hover:shadow-lg transform hover:scale-105"
+                      className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-all duration-200 shadow-md flex items-center font-medium hover:shadow-lg transform hover:scale-105"
                     >
                       <Plus size={20} className="mr-2" />
                       Create New Audit
@@ -234,9 +231,9 @@ const AuditList = () => {
                       placeholder="Search audits..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+                      className="w-full pl-12 pr-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground placeholder:text-muted-foreground"
                     />
-                    <Search className="absolute left-4 top-3.5 text-blue-400" size={20} />
+                    <Search className="absolute left-4 top-3.5 text-muted-foreground" size={20} />
                   </div>
                   
                   <div className="flex items-center gap-3 flex-wrap">
@@ -244,7 +241,7 @@ const AuditList = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
-                      className="flex items-center px-4 py-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-all duration-200 shadow-sm text-blue-700 font-medium"
+                      className="flex items-center px-4 py-3 bg-card border border-border rounded-lg hover:bg-muted transition-all duration-200 shadow-sm text-foreground font-medium"
                     >
                       <Filter size={18} className="mr-2" />
                       {isFilterVisible ? 'Hide Filters' : 'Show Filters'}
@@ -254,7 +251,7 @@ const AuditList = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => refetch()}
-                      className="flex items-center px-4 py-3 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-all duration-200 shadow-sm text-blue-700 font-medium"
+                      className="flex items-center px-4 py-3 bg-card border border-border rounded-lg hover:bg-muted transition-all duration-200 shadow-sm text-foreground font-medium"
                     >
                       <RefreshCcw size={18} className="mr-2" />
                       Refresh
@@ -276,25 +273,25 @@ const AuditList = () => {
                   }}
                   style={{ overflow: 'hidden' }}
                 >
-                  <div className="p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
+                  <div className="p-6 bg-card rounded-xl border border-border shadow-sm">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-semibold text-gray-800">Filter Options</h3>
+                      <h3 className="text-lg font-semibold text-foreground">Filter Options</h3>
                       <button 
                         onClick={() => setIsFilterVisible(false)}
-                        className="p-1 rounded-full hover:bg-blue-50 transition-colors"
+                        className="p-1 rounded-full hover:bg-muted transition-colors"
                       >
-                        <X size={18} className="text-gray-500" />
+                        <X size={18} className="text-muted-foreground" />
                       </button>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">Status</label>
                         <select
                           name="status"
                           value={filters.status}
                           onChange={handleFilterChange}
-                          className="w-full p-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                          className="w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card text-foreground"
                         >
                           <option value="">All Statuses</option>
                           <option value="PLANNED">Planned</option>
@@ -305,12 +302,12 @@ const AuditList = () => {
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Audit Type</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">Audit Type</label>
                         <select
                           name="auditType"
                           value={filters.auditType}
                           onChange={handleFilterChange}
-                          className="w-full p-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                          className="w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card text-foreground"
                         >
                           <option value="">All Types</option>
                           <option value="INTERNAL">Internal</option>
@@ -321,24 +318,24 @@ const AuditList = () => {
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">Start Date</label>
                         <input
                           type="date"
                           name="startDate"
                           value={filters.startDate}
                           onChange={handleFilterChange}
-                          className="w-full p-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                          className="w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card text-foreground"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">End Date</label>
                         <input
                           type="date"
                           name="endDate"
                           value={filters.endDate}
                           onChange={handleFilterChange}
-                          className="w-full p-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                          className="w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card text-foreground"
                         />
                       </div>
                     </div>
@@ -348,7 +345,7 @@ const AuditList = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={resetFilters}
-                        className="px-5 py-2.5 text-sm border border-blue-200 rounded-lg hover:bg-blue-50 bg-white shadow-sm font-medium text-blue-700"
+                        className="px-5 py-2.5 text-sm border border-border rounded-lg hover:bg-muted bg-card shadow-sm font-medium text-foreground"
                       >
                         Reset Filters
                       </motion.button>
@@ -360,7 +357,7 @@ const AuditList = () => {
                           refetch();
                           setIsFilterVisible(false);
                         }}
-                        className="px-5 py-2.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm font-medium"
+                        className="px-5 py-2.5 text-sm bg-primary text-primary-foreground rounded-lg hover:opacity-90 shadow-sm font-medium"
                       >
                         Apply Filters
                       </motion.button>
@@ -376,23 +373,23 @@ const AuditList = () => {
                   animate={{ opacity: 1 }}
                   className="p-16 flex flex-col items-center justify-center"
                 >
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div>
-                  <p className="mt-4 text-gray-600 font-medium">Loading audits...</p>
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-muted border-t-primary"></div>
+                  <p className="mt-4 text-muted-foreground font-medium">Loading audits...</p>
                 </motion.div>
               ) : isError ? (
                 <motion.div 
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="p-16 flex flex-col items-center justify-center text-rose-600 bg-rose-50 m-6 rounded-lg"
+                  className="p-16 flex flex-col items-center justify-center text-destructive bg-destructive/10 m-6 rounded-lg"
                 >
                   <AlertTriangle size={48} className="mb-4" />
                   <p className="text-lg font-medium">Error loading audits</p>
-                  <p className="text-sm text-rose-500 mt-2">Please try refreshing the page</p>
+                  <p className="text-sm text-destructive/80 mt-2">Please try refreshing the page</p>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => refetch()}
-                    className="mt-4 px-5 py-2.5 bg-white text-rose-600 rounded-lg border border-rose-200 hover:bg-rose-50 shadow-sm"
+                    className="mt-4 px-5 py-2.5 bg-card text-destructive rounded-lg border border-destructive/30 hover:bg-destructive/10 shadow-sm"
                   >
                     Try Again
                   </motion.button>
@@ -401,14 +398,14 @@ const AuditList = () => {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="p-16 flex flex-col items-center justify-center text-gray-500 bg-blue-50 m-6 rounded-lg"
+                  className="p-16 flex flex-col items-center justify-center text-muted-foreground bg-muted m-6 rounded-lg"
                 >
-                  <Clipboard size={48} className="mb-4 text-blue-400" />
-                  <p className="text-lg font-medium text-gray-700">No audits found</p>
-                  <p className="text-gray-500 mt-2">Try adjusting your search or filters</p>
+                  <Clipboard size={48} className="mb-4 text-primary" />
+                  <p className="text-lg font-medium text-foreground">No audits found</p>
+                  <p className="text-muted-foreground mt-2">Try adjusting your search or filters</p>
                   <Link 
                     to="/audits/new" 
-                    className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center shadow-sm font-medium"
+                    className="mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-colors flex items-center shadow-sm font-medium"
                   >
                     <Plus size={18} className="mr-2" />
                     Create Your First Audit
@@ -416,18 +413,18 @@ const AuditList = () => {
                 </motion.div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-blue-100">
-                    <thead className="bg-blue-50">
+                  <table className="min-w-full divide-y divide-border">
+                    <thead className="bg-muted">
                       <tr>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Audit Name</th>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Type</th>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Department</th>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Schedule</th>
-                        <th className="px-6 py-4 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Audit Name</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Type</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Department</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Schedule</th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-foreground uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-blue-50">
+                    <tbody className="bg-card divide-y divide-border">
                       {filteredAudits.map((audit: {
                         id: string;
                         name: string;
@@ -443,23 +440,23 @@ const AuditList = () => {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.05 }}
-                          whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.05)' }}
+                          whileHover={{ backgroundColor: 'var(--muted)' }}
                           className="group hover:shadow-sm transition-all duration-200"
                         >
                           <td className="px-6 py-4">
                             <div 
-                              className="text-sm font-semibold text-blue-700 cursor-pointer hover:text-blue-900 group-hover:underline transition-colors"
+                              className="text-sm font-semibold text-primary cursor-pointer hover:opacity-80 group-hover:underline transition-colors"
                               onClick={() => openAuditDetails(audit.id)}
                             >
                               {audit.name}
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="text-sm text-gray-700 font-medium">{audit.auditType}</span>
+                            <span className="text-sm text-foreground font-medium">{audit.auditType}</span>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="flex items-center text-sm text-gray-700">
-                              <Building size={16} className="mr-2 text-blue-500" />
+                            <div className="flex items-center text-sm text-foreground">
+                              <Building size={16} className="mr-2 text-secondary" />
                               {audit.department?.name || 'N/A'}
                             </div>
                           </td>
@@ -467,12 +464,12 @@ const AuditList = () => {
                             <StatusBadge status={audit.status} />
                           </td>
                           <td className="px-6 py-4">
-                            <div className="flex items-center text-sm text-gray-700">
-                              <Calendar size={16} className="mr-2 text-blue-500" />
+                            <div className="flex items-center text-sm text-foreground">
+                              <Calendar size={16} className="mr-2 text-secondary" />
                               <div>
                                 {new Date(audit.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })} 
                                 {audit.endDate && (
-                                  <div className="text-xs text-gray-500">
+                                  <div className="text-xs text-muted-foreground">
                                     to {new Date(audit.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                   </div>
                                 )}
@@ -487,7 +484,7 @@ const AuditList = () => {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => openAuditDetails(audit.id)}
-                                className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                                className="p-2 text-primary hover:opacity-80 hover:bg-primary/10 rounded-lg transition-all duration-200"
                                 title="View Details"
                               >
                                 <Eye size={16} />
@@ -499,7 +496,7 @@ const AuditList = () => {
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.95 }}
                                   onClick={() => openEditAudit(audit.id)}
-                                  className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200"
                                   title="Edit"
                                 >
                                   <Edit size={16} />
@@ -512,7 +509,7 @@ const AuditList = () => {
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.95 }}
                                   onClick={() => handleDelete(audit.id)}
-                                  className="p-2 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-all duration-200"
+                                  className="p-2 text-destructive hover:opacity-80 hover:bg-destructive/10 rounded-lg transition-all duration-200"
                                   title="Delete"
                                 >
                                   <Trash2 size={16} />
@@ -534,19 +531,19 @@ const AuditList = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="bg-white rounded-xl shadow-lg border border-blue-100"
+            className="bg-card rounded-xl shadow-lg border border-border"
           >
-            <div className="p-6 border-b border-blue-100 bg-blue-50">
+            <div className="p-6 border-b border-border bg-muted/50">
               <motion.button 
                 whileHover={{ x: -3 }}
                 onClick={closeEditAudit}
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 cursor-pointer font-medium mb-4"
+                className="inline-flex items-center text-primary hover:opacity-80 cursor-pointer font-medium mb-4"
               >
                 <ArrowLeft size={18} className="mr-2" />
                 Back to {selectedAuditId ? 'Details' : 'Audits'}
               </motion.button>
               
-              <h1 className="text-2xl font-bold text-gray-800">Edit Audit</h1>
+              <h1 className="text-2xl font-bold text-foreground">Edit Audit</h1>
             </div>
             
             {editingAuditId && (

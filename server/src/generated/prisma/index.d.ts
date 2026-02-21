@@ -244,6 +244,16 @@ export type PurchaseOrder = $Result.DefaultSelection<Prisma.$PurchaseOrderPayloa
  */
 export type PurchaseOrderItem = $Result.DefaultSelection<Prisma.$PurchaseOrderItemPayload>
 /**
+ * Model GRN
+ * 
+ */
+export type GRN = $Result.DefaultSelection<Prisma.$GRNPayload>
+/**
+ * Model GRNBagWeight
+ * 
+ */
+export type GRNBagWeight = $Result.DefaultSelection<Prisma.$GRNBagWeightPayload>
+/**
  * Model StockEntry
  * 
  */
@@ -1126,6 +1136,26 @@ export class PrismaClient<
   get purchaseOrderItem(): Prisma.PurchaseOrderItemDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.gRN`: Exposes CRUD operations for the **GRN** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GRNS
+    * const gRNS = await prisma.gRN.findMany()
+    * ```
+    */
+  get gRN(): Prisma.GRNDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gRNBagWeight`: Exposes CRUD operations for the **GRNBagWeight** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GRNBagWeights
+    * const gRNBagWeights = await prisma.gRNBagWeight.findMany()
+    * ```
+    */
+  get gRNBagWeight(): Prisma.GRNBagWeightDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.stockEntry`: Exposes CRUD operations for the **StockEntry** model.
     * Example usage:
     * ```ts
@@ -1741,6 +1771,8 @@ export namespace Prisma {
     RawMaterialProduct: 'RawMaterialProduct',
     PurchaseOrder: 'PurchaseOrder',
     PurchaseOrderItem: 'PurchaseOrderItem',
+    GRN: 'GRN',
+    GRNBagWeight: 'GRNBagWeight',
     StockEntry: 'StockEntry',
     Warehouse: 'Warehouse',
     CleaningJob: 'CleaningJob',
@@ -1772,7 +1804,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activityLog" | "batch" | "exportLog" | "methodology" | "notification" | "permission" | "product" | "productParameter" | "role" | "unitOfMeasurement" | "user" | "batchDraft" | "standard" | "standardCategory" | "productStandardCategory" | "standardParameter" | "standardDefinition" | "batchParameterValue" | "trainingCalendar" | "training" | "trainingSession" | "trainingDocument" | "participant" | "trainingParticipant" | "attendance" | "trainingPhoto" | "trainingFeedback" | "feedbackForm" | "trainingFollowup" | "trainingNotification" | "trainingInviteToken" | "trainingSessionPhoto" | "auditor" | "audit" | "auditInspectionItem" | "department" | "finding" | "correctiveAction" | "auditDocument" | "preAuditChecklistItem" | "auditReminder" | "auditNotification" | "vendor" | "rawMaterialProduct" | "purchaseOrder" | "purchaseOrderItem" | "stockEntry" | "warehouse" | "cleaningJob" | "cleaningLog" | "unfinishedStock" | "processingJob" | "finishedGood" | "byProduct" | "currentStock" | "transactionLog" | "reusableStock" | "rMQualityReport" | "rMQualityParameter"
+      modelProps: "activityLog" | "batch" | "exportLog" | "methodology" | "notification" | "permission" | "product" | "productParameter" | "role" | "unitOfMeasurement" | "user" | "batchDraft" | "standard" | "standardCategory" | "productStandardCategory" | "standardParameter" | "standardDefinition" | "batchParameterValue" | "trainingCalendar" | "training" | "trainingSession" | "trainingDocument" | "participant" | "trainingParticipant" | "attendance" | "trainingPhoto" | "trainingFeedback" | "feedbackForm" | "trainingFollowup" | "trainingNotification" | "trainingInviteToken" | "trainingSessionPhoto" | "auditor" | "audit" | "auditInspectionItem" | "department" | "finding" | "correctiveAction" | "auditDocument" | "preAuditChecklistItem" | "auditReminder" | "auditNotification" | "vendor" | "rawMaterialProduct" | "purchaseOrder" | "purchaseOrderItem" | "gRN" | "gRNBagWeight" | "stockEntry" | "warehouse" | "cleaningJob" | "cleaningLog" | "unfinishedStock" | "processingJob" | "finishedGood" | "byProduct" | "currentStock" | "transactionLog" | "reusableStock" | "rMQualityReport" | "rMQualityParameter"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5180,6 +5212,154 @@ export namespace Prisma {
           }
         }
       }
+      GRN: {
+        payload: Prisma.$GRNPayload<ExtArgs>
+        fields: Prisma.GRNFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GRNFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GRNFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          findFirst: {
+            args: Prisma.GRNFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GRNFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          findMany: {
+            args: Prisma.GRNFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>[]
+          }
+          create: {
+            args: Prisma.GRNCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          createMany: {
+            args: Prisma.GRNCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GRNCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>[]
+          }
+          delete: {
+            args: Prisma.GRNDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          update: {
+            args: Prisma.GRNUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          deleteMany: {
+            args: Prisma.GRNDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GRNUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GRNUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>[]
+          }
+          upsert: {
+            args: Prisma.GRNUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNPayload>
+          }
+          aggregate: {
+            args: Prisma.GRNAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGRN>
+          }
+          groupBy: {
+            args: Prisma.GRNGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GRNGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GRNCountArgs<ExtArgs>
+            result: $Utils.Optional<GRNCountAggregateOutputType> | number
+          }
+        }
+      }
+      GRNBagWeight: {
+        payload: Prisma.$GRNBagWeightPayload<ExtArgs>
+        fields: Prisma.GRNBagWeightFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GRNBagWeightFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GRNBagWeightFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          findFirst: {
+            args: Prisma.GRNBagWeightFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GRNBagWeightFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          findMany: {
+            args: Prisma.GRNBagWeightFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>[]
+          }
+          create: {
+            args: Prisma.GRNBagWeightCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          createMany: {
+            args: Prisma.GRNBagWeightCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GRNBagWeightCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>[]
+          }
+          delete: {
+            args: Prisma.GRNBagWeightDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          update: {
+            args: Prisma.GRNBagWeightUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          deleteMany: {
+            args: Prisma.GRNBagWeightDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GRNBagWeightUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GRNBagWeightUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>[]
+          }
+          upsert: {
+            args: Prisma.GRNBagWeightUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GRNBagWeightPayload>
+          }
+          aggregate: {
+            args: Prisma.GRNBagWeightAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGRNBagWeight>
+          }
+          groupBy: {
+            args: Prisma.GRNBagWeightGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GRNBagWeightGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GRNBagWeightCountArgs<ExtArgs>
+            result: $Utils.Optional<GRNBagWeightCountAggregateOutputType> | number
+          }
+        }
+      }
       StockEntry: {
         payload: Prisma.$StockEntryPayload<ExtArgs>
         fields: Prisma.StockEntryFieldRefs
@@ -6284,6 +6464,8 @@ export namespace Prisma {
     rawMaterialProduct?: RawMaterialProductOmit
     purchaseOrder?: PurchaseOrderOmit
     purchaseOrderItem?: PurchaseOrderItemOmit
+    gRN?: GRNOmit
+    gRNBagWeight?: GRNBagWeightOmit
     stockEntry?: StockEntryOmit
     warehouse?: WarehouseOmit
     cleaningJob?: CleaningJobOmit
@@ -7722,6 +7904,37 @@ export namespace Prisma {
    */
   export type PurchaseOrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PurchaseOrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type GRNCountOutputType
+   */
+
+  export type GRNCountOutputType = {
+    bagWeights: number
+  }
+
+  export type GRNCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bagWeights?: boolean | GRNCountOutputTypeCountBagWeightsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GRNCountOutputType without action
+   */
+  export type GRNCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNCountOutputType
+     */
+    select?: GRNCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GRNCountOutputType without action
+   */
+  export type GRNCountOutputTypeCountBagWeightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GRNBagWeightWhereInput
   }
 
 
@@ -61644,6 +61857,7 @@ export namespace Prisma {
     status?: boolean
     purchaseOrder?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
     rawMaterial?: boolean | RawMaterialProductDefaultArgs<ExtArgs>
+    grn?: boolean | PurchaseOrderItem$grnArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseOrderItem"]>
 
   export type PurchaseOrderItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -61684,6 +61898,7 @@ export namespace Prisma {
   export type PurchaseOrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchaseOrder?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
     rawMaterial?: boolean | RawMaterialProductDefaultArgs<ExtArgs>
+    grn?: boolean | PurchaseOrderItem$grnArgs<ExtArgs>
   }
   export type PurchaseOrderItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchaseOrder?: boolean | PurchaseOrderDefaultArgs<ExtArgs>
@@ -61699,6 +61914,7 @@ export namespace Prisma {
     objects: {
       purchaseOrder: Prisma.$PurchaseOrderPayload<ExtArgs>
       rawMaterial: Prisma.$RawMaterialProductPayload<ExtArgs>
+      grn: Prisma.$GRNPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -62104,6 +62320,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     purchaseOrder<T extends PurchaseOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrderDefaultArgs<ExtArgs>>): Prisma__PurchaseOrderClient<$Result.GetResult<Prisma.$PurchaseOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     rawMaterial<T extends RawMaterialProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RawMaterialProductDefaultArgs<ExtArgs>>): Prisma__RawMaterialProductClient<$Result.GetResult<Prisma.$RawMaterialProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    grn<T extends PurchaseOrderItem$grnArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrderItem$grnArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -62536,6 +62753,25 @@ export namespace Prisma {
   }
 
   /**
+   * PurchaseOrderItem.grn
+   */
+  export type PurchaseOrderItem$grnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    where?: GRNWhereInput
+  }
+
+  /**
    * PurchaseOrderItem without action
    */
   export type PurchaseOrderItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -62551,6 +62787,2331 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PurchaseOrderItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GRN
+   */
+
+  export type AggregateGRN = {
+    _count: GRNCountAggregateOutputType | null
+    _avg: GRNAvgAggregateOutputType | null
+    _sum: GRNSumAggregateOutputType | null
+    _min: GRNMinAggregateOutputType | null
+    _max: GRNMaxAggregateOutputType | null
+  }
+
+  export type GRNAvgAggregateOutputType = {
+    invoiceQtyBags: number | null
+    invoiceWeight: number | null
+    confirmedQtyBags: number | null
+    confirmedWeight: number | null
+    weightDifference: number | null
+  }
+
+  export type GRNSumAggregateOutputType = {
+    invoiceQtyBags: number | null
+    invoiceWeight: number | null
+    confirmedQtyBags: number | null
+    confirmedWeight: number | null
+    weightDifference: number | null
+  }
+
+  export type GRNMinAggregateOutputType = {
+    id: string | null
+    grnNumber: string | null
+    purchaseOrderItemId: string | null
+    date: Date | null
+    itemName: string | null
+    supplierName: string | null
+    invoiceQtyBags: number | null
+    invoiceWeight: number | null
+    confirmedQtyBags: number | null
+    confirmedWeight: number | null
+    weightDifference: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GRNMaxAggregateOutputType = {
+    id: string | null
+    grnNumber: string | null
+    purchaseOrderItemId: string | null
+    date: Date | null
+    itemName: string | null
+    supplierName: string | null
+    invoiceQtyBags: number | null
+    invoiceWeight: number | null
+    confirmedQtyBags: number | null
+    confirmedWeight: number | null
+    weightDifference: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GRNCountAggregateOutputType = {
+    id: number
+    grnNumber: number
+    purchaseOrderItemId: number
+    date: number
+    itemName: number
+    supplierName: number
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GRNAvgAggregateInputType = {
+    invoiceQtyBags?: true
+    invoiceWeight?: true
+    confirmedQtyBags?: true
+    confirmedWeight?: true
+    weightDifference?: true
+  }
+
+  export type GRNSumAggregateInputType = {
+    invoiceQtyBags?: true
+    invoiceWeight?: true
+    confirmedQtyBags?: true
+    confirmedWeight?: true
+    weightDifference?: true
+  }
+
+  export type GRNMinAggregateInputType = {
+    id?: true
+    grnNumber?: true
+    purchaseOrderItemId?: true
+    date?: true
+    itemName?: true
+    supplierName?: true
+    invoiceQtyBags?: true
+    invoiceWeight?: true
+    confirmedQtyBags?: true
+    confirmedWeight?: true
+    weightDifference?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GRNMaxAggregateInputType = {
+    id?: true
+    grnNumber?: true
+    purchaseOrderItemId?: true
+    date?: true
+    itemName?: true
+    supplierName?: true
+    invoiceQtyBags?: true
+    invoiceWeight?: true
+    confirmedQtyBags?: true
+    confirmedWeight?: true
+    weightDifference?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GRNCountAggregateInputType = {
+    id?: true
+    grnNumber?: true
+    purchaseOrderItemId?: true
+    date?: true
+    itemName?: true
+    supplierName?: true
+    invoiceQtyBags?: true
+    invoiceWeight?: true
+    confirmedQtyBags?: true
+    confirmedWeight?: true
+    weightDifference?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GRNAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GRN to aggregate.
+     */
+    where?: GRNWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNS to fetch.
+     */
+    orderBy?: GRNOrderByWithRelationInput | GRNOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GRNWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GRNS
+    **/
+    _count?: true | GRNCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GRNAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GRNSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GRNMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GRNMaxAggregateInputType
+  }
+
+  export type GetGRNAggregateType<T extends GRNAggregateArgs> = {
+        [P in keyof T & keyof AggregateGRN]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGRN[P]>
+      : GetScalarType<T[P], AggregateGRN[P]>
+  }
+
+
+
+
+  export type GRNGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GRNWhereInput
+    orderBy?: GRNOrderByWithAggregationInput | GRNOrderByWithAggregationInput[]
+    by: GRNScalarFieldEnum[] | GRNScalarFieldEnum
+    having?: GRNScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GRNCountAggregateInputType | true
+    _avg?: GRNAvgAggregateInputType
+    _sum?: GRNSumAggregateInputType
+    _min?: GRNMinAggregateInputType
+    _max?: GRNMaxAggregateInputType
+  }
+
+  export type GRNGroupByOutputType = {
+    id: string
+    grnNumber: string
+    purchaseOrderItemId: string
+    date: Date
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt: Date
+    updatedAt: Date
+    _count: GRNCountAggregateOutputType | null
+    _avg: GRNAvgAggregateOutputType | null
+    _sum: GRNSumAggregateOutputType | null
+    _min: GRNMinAggregateOutputType | null
+    _max: GRNMaxAggregateOutputType | null
+  }
+
+  type GetGRNGroupByPayload<T extends GRNGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GRNGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GRNGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GRNGroupByOutputType[P]>
+            : GetScalarType<T[P], GRNGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GRNSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnNumber?: boolean
+    purchaseOrderItemId?: boolean
+    date?: boolean
+    itemName?: boolean
+    supplierName?: boolean
+    invoiceQtyBags?: boolean
+    invoiceWeight?: boolean
+    confirmedQtyBags?: boolean
+    confirmedWeight?: boolean
+    weightDifference?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+    bagWeights?: boolean | GRN$bagWeightsArgs<ExtArgs>
+    _count?: boolean | GRNCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRN"]>
+
+  export type GRNSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnNumber?: boolean
+    purchaseOrderItemId?: boolean
+    date?: boolean
+    itemName?: boolean
+    supplierName?: boolean
+    invoiceQtyBags?: boolean
+    invoiceWeight?: boolean
+    confirmedQtyBags?: boolean
+    confirmedWeight?: boolean
+    weightDifference?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRN"]>
+
+  export type GRNSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnNumber?: boolean
+    purchaseOrderItemId?: boolean
+    date?: boolean
+    itemName?: boolean
+    supplierName?: boolean
+    invoiceQtyBags?: boolean
+    invoiceWeight?: boolean
+    confirmedQtyBags?: boolean
+    confirmedWeight?: boolean
+    weightDifference?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRN"]>
+
+  export type GRNSelectScalar = {
+    id?: boolean
+    grnNumber?: boolean
+    purchaseOrderItemId?: boolean
+    date?: boolean
+    itemName?: boolean
+    supplierName?: boolean
+    invoiceQtyBags?: boolean
+    invoiceWeight?: boolean
+    confirmedQtyBags?: boolean
+    confirmedWeight?: boolean
+    weightDifference?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GRNOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "grnNumber" | "purchaseOrderItemId" | "date" | "itemName" | "supplierName" | "invoiceQtyBags" | "invoiceWeight" | "confirmedQtyBags" | "confirmedWeight" | "weightDifference" | "createdAt" | "updatedAt", ExtArgs["result"]["gRN"]>
+  export type GRNInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+    bagWeights?: boolean | GRN$bagWeightsArgs<ExtArgs>
+    _count?: boolean | GRNCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GRNIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+  }
+  export type GRNIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    purchaseOrderItem?: boolean | PurchaseOrderItemDefaultArgs<ExtArgs>
+  }
+
+  export type $GRNPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GRN"
+    objects: {
+      purchaseOrderItem: Prisma.$PurchaseOrderItemPayload<ExtArgs>
+      bagWeights: Prisma.$GRNBagWeightPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      grnNumber: string
+      purchaseOrderItemId: string
+      date: Date
+      itemName: string
+      supplierName: string
+      invoiceQtyBags: number
+      invoiceWeight: number
+      confirmedQtyBags: number
+      confirmedWeight: number
+      weightDifference: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gRN"]>
+    composites: {}
+  }
+
+  type GRNGetPayload<S extends boolean | null | undefined | GRNDefaultArgs> = $Result.GetResult<Prisma.$GRNPayload, S>
+
+  type GRNCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GRNFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GRNCountAggregateInputType | true
+    }
+
+  export interface GRNDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GRN'], meta: { name: 'GRN' } }
+    /**
+     * Find zero or one GRN that matches the filter.
+     * @param {GRNFindUniqueArgs} args - Arguments to find a GRN
+     * @example
+     * // Get one GRN
+     * const gRN = await prisma.gRN.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GRNFindUniqueArgs>(args: SelectSubset<T, GRNFindUniqueArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GRN that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GRNFindUniqueOrThrowArgs} args - Arguments to find a GRN
+     * @example
+     * // Get one GRN
+     * const gRN = await prisma.gRN.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GRNFindUniqueOrThrowArgs>(args: SelectSubset<T, GRNFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GRN that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNFindFirstArgs} args - Arguments to find a GRN
+     * @example
+     * // Get one GRN
+     * const gRN = await prisma.gRN.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GRNFindFirstArgs>(args?: SelectSubset<T, GRNFindFirstArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GRN that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNFindFirstOrThrowArgs} args - Arguments to find a GRN
+     * @example
+     * // Get one GRN
+     * const gRN = await prisma.gRN.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GRNFindFirstOrThrowArgs>(args?: SelectSubset<T, GRNFindFirstOrThrowArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GRNS that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GRNS
+     * const gRNS = await prisma.gRN.findMany()
+     * 
+     * // Get first 10 GRNS
+     * const gRNS = await prisma.gRN.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gRNWithIdOnly = await prisma.gRN.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GRNFindManyArgs>(args?: SelectSubset<T, GRNFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GRN.
+     * @param {GRNCreateArgs} args - Arguments to create a GRN.
+     * @example
+     * // Create one GRN
+     * const GRN = await prisma.gRN.create({
+     *   data: {
+     *     // ... data to create a GRN
+     *   }
+     * })
+     * 
+     */
+    create<T extends GRNCreateArgs>(args: SelectSubset<T, GRNCreateArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GRNS.
+     * @param {GRNCreateManyArgs} args - Arguments to create many GRNS.
+     * @example
+     * // Create many GRNS
+     * const gRN = await prisma.gRN.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GRNCreateManyArgs>(args?: SelectSubset<T, GRNCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GRNS and returns the data saved in the database.
+     * @param {GRNCreateManyAndReturnArgs} args - Arguments to create many GRNS.
+     * @example
+     * // Create many GRNS
+     * const gRN = await prisma.gRN.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GRNS and only return the `id`
+     * const gRNWithIdOnly = await prisma.gRN.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GRNCreateManyAndReturnArgs>(args?: SelectSubset<T, GRNCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GRN.
+     * @param {GRNDeleteArgs} args - Arguments to delete one GRN.
+     * @example
+     * // Delete one GRN
+     * const GRN = await prisma.gRN.delete({
+     *   where: {
+     *     // ... filter to delete one GRN
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GRNDeleteArgs>(args: SelectSubset<T, GRNDeleteArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GRN.
+     * @param {GRNUpdateArgs} args - Arguments to update one GRN.
+     * @example
+     * // Update one GRN
+     * const gRN = await prisma.gRN.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GRNUpdateArgs>(args: SelectSubset<T, GRNUpdateArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GRNS.
+     * @param {GRNDeleteManyArgs} args - Arguments to filter GRNS to delete.
+     * @example
+     * // Delete a few GRNS
+     * const { count } = await prisma.gRN.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GRNDeleteManyArgs>(args?: SelectSubset<T, GRNDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GRNS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GRNS
+     * const gRN = await prisma.gRN.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GRNUpdateManyArgs>(args: SelectSubset<T, GRNUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GRNS and returns the data updated in the database.
+     * @param {GRNUpdateManyAndReturnArgs} args - Arguments to update many GRNS.
+     * @example
+     * // Update many GRNS
+     * const gRN = await prisma.gRN.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GRNS and only return the `id`
+     * const gRNWithIdOnly = await prisma.gRN.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GRNUpdateManyAndReturnArgs>(args: SelectSubset<T, GRNUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GRN.
+     * @param {GRNUpsertArgs} args - Arguments to update or create a GRN.
+     * @example
+     * // Update or create a GRN
+     * const gRN = await prisma.gRN.upsert({
+     *   create: {
+     *     // ... data to create a GRN
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GRN we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GRNUpsertArgs>(args: SelectSubset<T, GRNUpsertArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GRNS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNCountArgs} args - Arguments to filter GRNS to count.
+     * @example
+     * // Count the number of GRNS
+     * const count = await prisma.gRN.count({
+     *   where: {
+     *     // ... the filter for the GRNS we want to count
+     *   }
+     * })
+    **/
+    count<T extends GRNCountArgs>(
+      args?: Subset<T, GRNCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GRNCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GRN.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GRNAggregateArgs>(args: Subset<T, GRNAggregateArgs>): Prisma.PrismaPromise<GetGRNAggregateType<T>>
+
+    /**
+     * Group by GRN.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GRNGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GRNGroupByArgs['orderBy'] }
+        : { orderBy?: GRNGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GRNGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGRNGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GRN model
+   */
+  readonly fields: GRNFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GRN.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GRNClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    purchaseOrderItem<T extends PurchaseOrderItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PurchaseOrderItemDefaultArgs<ExtArgs>>): Prisma__PurchaseOrderItemClient<$Result.GetResult<Prisma.$PurchaseOrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bagWeights<T extends GRN$bagWeightsArgs<ExtArgs> = {}>(args?: Subset<T, GRN$bagWeightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GRN model
+   */
+  interface GRNFieldRefs {
+    readonly id: FieldRef<"GRN", 'String'>
+    readonly grnNumber: FieldRef<"GRN", 'String'>
+    readonly purchaseOrderItemId: FieldRef<"GRN", 'String'>
+    readonly date: FieldRef<"GRN", 'DateTime'>
+    readonly itemName: FieldRef<"GRN", 'String'>
+    readonly supplierName: FieldRef<"GRN", 'String'>
+    readonly invoiceQtyBags: FieldRef<"GRN", 'Float'>
+    readonly invoiceWeight: FieldRef<"GRN", 'Float'>
+    readonly confirmedQtyBags: FieldRef<"GRN", 'Float'>
+    readonly confirmedWeight: FieldRef<"GRN", 'Float'>
+    readonly weightDifference: FieldRef<"GRN", 'Float'>
+    readonly createdAt: FieldRef<"GRN", 'DateTime'>
+    readonly updatedAt: FieldRef<"GRN", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GRN findUnique
+   */
+  export type GRNFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter, which GRN to fetch.
+     */
+    where: GRNWhereUniqueInput
+  }
+
+  /**
+   * GRN findUniqueOrThrow
+   */
+  export type GRNFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter, which GRN to fetch.
+     */
+    where: GRNWhereUniqueInput
+  }
+
+  /**
+   * GRN findFirst
+   */
+  export type GRNFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter, which GRN to fetch.
+     */
+    where?: GRNWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNS to fetch.
+     */
+    orderBy?: GRNOrderByWithRelationInput | GRNOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GRNS.
+     */
+    cursor?: GRNWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GRNS.
+     */
+    distinct?: GRNScalarFieldEnum | GRNScalarFieldEnum[]
+  }
+
+  /**
+   * GRN findFirstOrThrow
+   */
+  export type GRNFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter, which GRN to fetch.
+     */
+    where?: GRNWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNS to fetch.
+     */
+    orderBy?: GRNOrderByWithRelationInput | GRNOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GRNS.
+     */
+    cursor?: GRNWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GRNS.
+     */
+    distinct?: GRNScalarFieldEnum | GRNScalarFieldEnum[]
+  }
+
+  /**
+   * GRN findMany
+   */
+  export type GRNFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNS to fetch.
+     */
+    where?: GRNWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNS to fetch.
+     */
+    orderBy?: GRNOrderByWithRelationInput | GRNOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GRNS.
+     */
+    cursor?: GRNWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNS.
+     */
+    skip?: number
+    distinct?: GRNScalarFieldEnum | GRNScalarFieldEnum[]
+  }
+
+  /**
+   * GRN create
+   */
+  export type GRNCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GRN.
+     */
+    data: XOR<GRNCreateInput, GRNUncheckedCreateInput>
+  }
+
+  /**
+   * GRN createMany
+   */
+  export type GRNCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GRNS.
+     */
+    data: GRNCreateManyInput | GRNCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GRN createManyAndReturn
+   */
+  export type GRNCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * The data used to create many GRNS.
+     */
+    data: GRNCreateManyInput | GRNCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GRN update
+   */
+  export type GRNUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GRN.
+     */
+    data: XOR<GRNUpdateInput, GRNUncheckedUpdateInput>
+    /**
+     * Choose, which GRN to update.
+     */
+    where: GRNWhereUniqueInput
+  }
+
+  /**
+   * GRN updateMany
+   */
+  export type GRNUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GRNS.
+     */
+    data: XOR<GRNUpdateManyMutationInput, GRNUncheckedUpdateManyInput>
+    /**
+     * Filter which GRNS to update
+     */
+    where?: GRNWhereInput
+    /**
+     * Limit how many GRNS to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GRN updateManyAndReturn
+   */
+  export type GRNUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * The data used to update GRNS.
+     */
+    data: XOR<GRNUpdateManyMutationInput, GRNUncheckedUpdateManyInput>
+    /**
+     * Filter which GRNS to update
+     */
+    where?: GRNWhereInput
+    /**
+     * Limit how many GRNS to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GRN upsert
+   */
+  export type GRNUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GRN to update in case it exists.
+     */
+    where: GRNWhereUniqueInput
+    /**
+     * In case the GRN found by the `where` argument doesn't exist, create a new GRN with this data.
+     */
+    create: XOR<GRNCreateInput, GRNUncheckedCreateInput>
+    /**
+     * In case the GRN was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GRNUpdateInput, GRNUncheckedUpdateInput>
+  }
+
+  /**
+   * GRN delete
+   */
+  export type GRNDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+    /**
+     * Filter which GRN to delete.
+     */
+    where: GRNWhereUniqueInput
+  }
+
+  /**
+   * GRN deleteMany
+   */
+  export type GRNDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GRNS to delete
+     */
+    where?: GRNWhereInput
+    /**
+     * Limit how many GRNS to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GRN.bagWeights
+   */
+  export type GRN$bagWeightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    where?: GRNBagWeightWhereInput
+    orderBy?: GRNBagWeightOrderByWithRelationInput | GRNBagWeightOrderByWithRelationInput[]
+    cursor?: GRNBagWeightWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GRNBagWeightScalarFieldEnum | GRNBagWeightScalarFieldEnum[]
+  }
+
+  /**
+   * GRN without action
+   */
+  export type GRNDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRN
+     */
+    select?: GRNSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRN
+     */
+    omit?: GRNOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GRNBagWeight
+   */
+
+  export type AggregateGRNBagWeight = {
+    _count: GRNBagWeightCountAggregateOutputType | null
+    _avg: GRNBagWeightAvgAggregateOutputType | null
+    _sum: GRNBagWeightSumAggregateOutputType | null
+    _min: GRNBagWeightMinAggregateOutputType | null
+    _max: GRNBagWeightMaxAggregateOutputType | null
+  }
+
+  export type GRNBagWeightAvgAggregateOutputType = {
+    bagNumber: number | null
+    weight: number | null
+  }
+
+  export type GRNBagWeightSumAggregateOutputType = {
+    bagNumber: number | null
+    weight: number | null
+  }
+
+  export type GRNBagWeightMinAggregateOutputType = {
+    id: string | null
+    grnId: string | null
+    bagNumber: number | null
+    weight: number | null
+  }
+
+  export type GRNBagWeightMaxAggregateOutputType = {
+    id: string | null
+    grnId: string | null
+    bagNumber: number | null
+    weight: number | null
+  }
+
+  export type GRNBagWeightCountAggregateOutputType = {
+    id: number
+    grnId: number
+    bagNumber: number
+    weight: number
+    _all: number
+  }
+
+
+  export type GRNBagWeightAvgAggregateInputType = {
+    bagNumber?: true
+    weight?: true
+  }
+
+  export type GRNBagWeightSumAggregateInputType = {
+    bagNumber?: true
+    weight?: true
+  }
+
+  export type GRNBagWeightMinAggregateInputType = {
+    id?: true
+    grnId?: true
+    bagNumber?: true
+    weight?: true
+  }
+
+  export type GRNBagWeightMaxAggregateInputType = {
+    id?: true
+    grnId?: true
+    bagNumber?: true
+    weight?: true
+  }
+
+  export type GRNBagWeightCountAggregateInputType = {
+    id?: true
+    grnId?: true
+    bagNumber?: true
+    weight?: true
+    _all?: true
+  }
+
+  export type GRNBagWeightAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GRNBagWeight to aggregate.
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNBagWeights to fetch.
+     */
+    orderBy?: GRNBagWeightOrderByWithRelationInput | GRNBagWeightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GRNBagWeightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNBagWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNBagWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GRNBagWeights
+    **/
+    _count?: true | GRNBagWeightCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GRNBagWeightAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GRNBagWeightSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GRNBagWeightMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GRNBagWeightMaxAggregateInputType
+  }
+
+  export type GetGRNBagWeightAggregateType<T extends GRNBagWeightAggregateArgs> = {
+        [P in keyof T & keyof AggregateGRNBagWeight]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGRNBagWeight[P]>
+      : GetScalarType<T[P], AggregateGRNBagWeight[P]>
+  }
+
+
+
+
+  export type GRNBagWeightGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GRNBagWeightWhereInput
+    orderBy?: GRNBagWeightOrderByWithAggregationInput | GRNBagWeightOrderByWithAggregationInput[]
+    by: GRNBagWeightScalarFieldEnum[] | GRNBagWeightScalarFieldEnum
+    having?: GRNBagWeightScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GRNBagWeightCountAggregateInputType | true
+    _avg?: GRNBagWeightAvgAggregateInputType
+    _sum?: GRNBagWeightSumAggregateInputType
+    _min?: GRNBagWeightMinAggregateInputType
+    _max?: GRNBagWeightMaxAggregateInputType
+  }
+
+  export type GRNBagWeightGroupByOutputType = {
+    id: string
+    grnId: string
+    bagNumber: number
+    weight: number
+    _count: GRNBagWeightCountAggregateOutputType | null
+    _avg: GRNBagWeightAvgAggregateOutputType | null
+    _sum: GRNBagWeightSumAggregateOutputType | null
+    _min: GRNBagWeightMinAggregateOutputType | null
+    _max: GRNBagWeightMaxAggregateOutputType | null
+  }
+
+  type GetGRNBagWeightGroupByPayload<T extends GRNBagWeightGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GRNBagWeightGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GRNBagWeightGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GRNBagWeightGroupByOutputType[P]>
+            : GetScalarType<T[P], GRNBagWeightGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GRNBagWeightSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnId?: boolean
+    bagNumber?: boolean
+    weight?: boolean
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRNBagWeight"]>
+
+  export type GRNBagWeightSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnId?: boolean
+    bagNumber?: boolean
+    weight?: boolean
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRNBagWeight"]>
+
+  export type GRNBagWeightSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    grnId?: boolean
+    bagNumber?: boolean
+    weight?: boolean
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gRNBagWeight"]>
+
+  export type GRNBagWeightSelectScalar = {
+    id?: boolean
+    grnId?: boolean
+    bagNumber?: boolean
+    weight?: boolean
+  }
+
+  export type GRNBagWeightOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "grnId" | "bagNumber" | "weight", ExtArgs["result"]["gRNBagWeight"]>
+  export type GRNBagWeightInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }
+  export type GRNBagWeightIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }
+  export type GRNBagWeightIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    grn?: boolean | GRNDefaultArgs<ExtArgs>
+  }
+
+  export type $GRNBagWeightPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GRNBagWeight"
+    objects: {
+      grn: Prisma.$GRNPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      grnId: string
+      bagNumber: number
+      weight: number
+    }, ExtArgs["result"]["gRNBagWeight"]>
+    composites: {}
+  }
+
+  type GRNBagWeightGetPayload<S extends boolean | null | undefined | GRNBagWeightDefaultArgs> = $Result.GetResult<Prisma.$GRNBagWeightPayload, S>
+
+  type GRNBagWeightCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GRNBagWeightFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GRNBagWeightCountAggregateInputType | true
+    }
+
+  export interface GRNBagWeightDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GRNBagWeight'], meta: { name: 'GRNBagWeight' } }
+    /**
+     * Find zero or one GRNBagWeight that matches the filter.
+     * @param {GRNBagWeightFindUniqueArgs} args - Arguments to find a GRNBagWeight
+     * @example
+     * // Get one GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GRNBagWeightFindUniqueArgs>(args: SelectSubset<T, GRNBagWeightFindUniqueArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GRNBagWeight that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GRNBagWeightFindUniqueOrThrowArgs} args - Arguments to find a GRNBagWeight
+     * @example
+     * // Get one GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GRNBagWeightFindUniqueOrThrowArgs>(args: SelectSubset<T, GRNBagWeightFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GRNBagWeight that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightFindFirstArgs} args - Arguments to find a GRNBagWeight
+     * @example
+     * // Get one GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GRNBagWeightFindFirstArgs>(args?: SelectSubset<T, GRNBagWeightFindFirstArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GRNBagWeight that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightFindFirstOrThrowArgs} args - Arguments to find a GRNBagWeight
+     * @example
+     * // Get one GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GRNBagWeightFindFirstOrThrowArgs>(args?: SelectSubset<T, GRNBagWeightFindFirstOrThrowArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GRNBagWeights that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GRNBagWeights
+     * const gRNBagWeights = await prisma.gRNBagWeight.findMany()
+     * 
+     * // Get first 10 GRNBagWeights
+     * const gRNBagWeights = await prisma.gRNBagWeight.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gRNBagWeightWithIdOnly = await prisma.gRNBagWeight.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GRNBagWeightFindManyArgs>(args?: SelectSubset<T, GRNBagWeightFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GRNBagWeight.
+     * @param {GRNBagWeightCreateArgs} args - Arguments to create a GRNBagWeight.
+     * @example
+     * // Create one GRNBagWeight
+     * const GRNBagWeight = await prisma.gRNBagWeight.create({
+     *   data: {
+     *     // ... data to create a GRNBagWeight
+     *   }
+     * })
+     * 
+     */
+    create<T extends GRNBagWeightCreateArgs>(args: SelectSubset<T, GRNBagWeightCreateArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GRNBagWeights.
+     * @param {GRNBagWeightCreateManyArgs} args - Arguments to create many GRNBagWeights.
+     * @example
+     * // Create many GRNBagWeights
+     * const gRNBagWeight = await prisma.gRNBagWeight.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GRNBagWeightCreateManyArgs>(args?: SelectSubset<T, GRNBagWeightCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GRNBagWeights and returns the data saved in the database.
+     * @param {GRNBagWeightCreateManyAndReturnArgs} args - Arguments to create many GRNBagWeights.
+     * @example
+     * // Create many GRNBagWeights
+     * const gRNBagWeight = await prisma.gRNBagWeight.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GRNBagWeights and only return the `id`
+     * const gRNBagWeightWithIdOnly = await prisma.gRNBagWeight.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GRNBagWeightCreateManyAndReturnArgs>(args?: SelectSubset<T, GRNBagWeightCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GRNBagWeight.
+     * @param {GRNBagWeightDeleteArgs} args - Arguments to delete one GRNBagWeight.
+     * @example
+     * // Delete one GRNBagWeight
+     * const GRNBagWeight = await prisma.gRNBagWeight.delete({
+     *   where: {
+     *     // ... filter to delete one GRNBagWeight
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GRNBagWeightDeleteArgs>(args: SelectSubset<T, GRNBagWeightDeleteArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GRNBagWeight.
+     * @param {GRNBagWeightUpdateArgs} args - Arguments to update one GRNBagWeight.
+     * @example
+     * // Update one GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GRNBagWeightUpdateArgs>(args: SelectSubset<T, GRNBagWeightUpdateArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GRNBagWeights.
+     * @param {GRNBagWeightDeleteManyArgs} args - Arguments to filter GRNBagWeights to delete.
+     * @example
+     * // Delete a few GRNBagWeights
+     * const { count } = await prisma.gRNBagWeight.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GRNBagWeightDeleteManyArgs>(args?: SelectSubset<T, GRNBagWeightDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GRNBagWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GRNBagWeights
+     * const gRNBagWeight = await prisma.gRNBagWeight.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GRNBagWeightUpdateManyArgs>(args: SelectSubset<T, GRNBagWeightUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GRNBagWeights and returns the data updated in the database.
+     * @param {GRNBagWeightUpdateManyAndReturnArgs} args - Arguments to update many GRNBagWeights.
+     * @example
+     * // Update many GRNBagWeights
+     * const gRNBagWeight = await prisma.gRNBagWeight.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GRNBagWeights and only return the `id`
+     * const gRNBagWeightWithIdOnly = await prisma.gRNBagWeight.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GRNBagWeightUpdateManyAndReturnArgs>(args: SelectSubset<T, GRNBagWeightUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GRNBagWeight.
+     * @param {GRNBagWeightUpsertArgs} args - Arguments to update or create a GRNBagWeight.
+     * @example
+     * // Update or create a GRNBagWeight
+     * const gRNBagWeight = await prisma.gRNBagWeight.upsert({
+     *   create: {
+     *     // ... data to create a GRNBagWeight
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GRNBagWeight we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GRNBagWeightUpsertArgs>(args: SelectSubset<T, GRNBagWeightUpsertArgs<ExtArgs>>): Prisma__GRNBagWeightClient<$Result.GetResult<Prisma.$GRNBagWeightPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GRNBagWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightCountArgs} args - Arguments to filter GRNBagWeights to count.
+     * @example
+     * // Count the number of GRNBagWeights
+     * const count = await prisma.gRNBagWeight.count({
+     *   where: {
+     *     // ... the filter for the GRNBagWeights we want to count
+     *   }
+     * })
+    **/
+    count<T extends GRNBagWeightCountArgs>(
+      args?: Subset<T, GRNBagWeightCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GRNBagWeightCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GRNBagWeight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GRNBagWeightAggregateArgs>(args: Subset<T, GRNBagWeightAggregateArgs>): Prisma.PrismaPromise<GetGRNBagWeightAggregateType<T>>
+
+    /**
+     * Group by GRNBagWeight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GRNBagWeightGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GRNBagWeightGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GRNBagWeightGroupByArgs['orderBy'] }
+        : { orderBy?: GRNBagWeightGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GRNBagWeightGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGRNBagWeightGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GRNBagWeight model
+   */
+  readonly fields: GRNBagWeightFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GRNBagWeight.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GRNBagWeightClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    grn<T extends GRNDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GRNDefaultArgs<ExtArgs>>): Prisma__GRNClient<$Result.GetResult<Prisma.$GRNPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GRNBagWeight model
+   */
+  interface GRNBagWeightFieldRefs {
+    readonly id: FieldRef<"GRNBagWeight", 'String'>
+    readonly grnId: FieldRef<"GRNBagWeight", 'String'>
+    readonly bagNumber: FieldRef<"GRNBagWeight", 'Int'>
+    readonly weight: FieldRef<"GRNBagWeight", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GRNBagWeight findUnique
+   */
+  export type GRNBagWeightFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNBagWeight to fetch.
+     */
+    where: GRNBagWeightWhereUniqueInput
+  }
+
+  /**
+   * GRNBagWeight findUniqueOrThrow
+   */
+  export type GRNBagWeightFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNBagWeight to fetch.
+     */
+    where: GRNBagWeightWhereUniqueInput
+  }
+
+  /**
+   * GRNBagWeight findFirst
+   */
+  export type GRNBagWeightFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNBagWeight to fetch.
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNBagWeights to fetch.
+     */
+    orderBy?: GRNBagWeightOrderByWithRelationInput | GRNBagWeightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GRNBagWeights.
+     */
+    cursor?: GRNBagWeightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNBagWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNBagWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GRNBagWeights.
+     */
+    distinct?: GRNBagWeightScalarFieldEnum | GRNBagWeightScalarFieldEnum[]
+  }
+
+  /**
+   * GRNBagWeight findFirstOrThrow
+   */
+  export type GRNBagWeightFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNBagWeight to fetch.
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNBagWeights to fetch.
+     */
+    orderBy?: GRNBagWeightOrderByWithRelationInput | GRNBagWeightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GRNBagWeights.
+     */
+    cursor?: GRNBagWeightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNBagWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNBagWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GRNBagWeights.
+     */
+    distinct?: GRNBagWeightScalarFieldEnum | GRNBagWeightScalarFieldEnum[]
+  }
+
+  /**
+   * GRNBagWeight findMany
+   */
+  export type GRNBagWeightFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter, which GRNBagWeights to fetch.
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GRNBagWeights to fetch.
+     */
+    orderBy?: GRNBagWeightOrderByWithRelationInput | GRNBagWeightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GRNBagWeights.
+     */
+    cursor?: GRNBagWeightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GRNBagWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GRNBagWeights.
+     */
+    skip?: number
+    distinct?: GRNBagWeightScalarFieldEnum | GRNBagWeightScalarFieldEnum[]
+  }
+
+  /**
+   * GRNBagWeight create
+   */
+  export type GRNBagWeightCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GRNBagWeight.
+     */
+    data: XOR<GRNBagWeightCreateInput, GRNBagWeightUncheckedCreateInput>
+  }
+
+  /**
+   * GRNBagWeight createMany
+   */
+  export type GRNBagWeightCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GRNBagWeights.
+     */
+    data: GRNBagWeightCreateManyInput | GRNBagWeightCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GRNBagWeight createManyAndReturn
+   */
+  export type GRNBagWeightCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * The data used to create many GRNBagWeights.
+     */
+    data: GRNBagWeightCreateManyInput | GRNBagWeightCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GRNBagWeight update
+   */
+  export type GRNBagWeightUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GRNBagWeight.
+     */
+    data: XOR<GRNBagWeightUpdateInput, GRNBagWeightUncheckedUpdateInput>
+    /**
+     * Choose, which GRNBagWeight to update.
+     */
+    where: GRNBagWeightWhereUniqueInput
+  }
+
+  /**
+   * GRNBagWeight updateMany
+   */
+  export type GRNBagWeightUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GRNBagWeights.
+     */
+    data: XOR<GRNBagWeightUpdateManyMutationInput, GRNBagWeightUncheckedUpdateManyInput>
+    /**
+     * Filter which GRNBagWeights to update
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * Limit how many GRNBagWeights to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GRNBagWeight updateManyAndReturn
+   */
+  export type GRNBagWeightUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * The data used to update GRNBagWeights.
+     */
+    data: XOR<GRNBagWeightUpdateManyMutationInput, GRNBagWeightUncheckedUpdateManyInput>
+    /**
+     * Filter which GRNBagWeights to update
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * Limit how many GRNBagWeights to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GRNBagWeight upsert
+   */
+  export type GRNBagWeightUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GRNBagWeight to update in case it exists.
+     */
+    where: GRNBagWeightWhereUniqueInput
+    /**
+     * In case the GRNBagWeight found by the `where` argument doesn't exist, create a new GRNBagWeight with this data.
+     */
+    create: XOR<GRNBagWeightCreateInput, GRNBagWeightUncheckedCreateInput>
+    /**
+     * In case the GRNBagWeight was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GRNBagWeightUpdateInput, GRNBagWeightUncheckedUpdateInput>
+  }
+
+  /**
+   * GRNBagWeight delete
+   */
+  export type GRNBagWeightDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
+    /**
+     * Filter which GRNBagWeight to delete.
+     */
+    where: GRNBagWeightWhereUniqueInput
+  }
+
+  /**
+   * GRNBagWeight deleteMany
+   */
+  export type GRNBagWeightDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GRNBagWeights to delete
+     */
+    where?: GRNBagWeightWhereInput
+    /**
+     * Limit how many GRNBagWeights to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GRNBagWeight without action
+   */
+  export type GRNBagWeightDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GRNBagWeight
+     */
+    select?: GRNBagWeightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GRNBagWeight
+     */
+    omit?: GRNBagWeightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GRNBagWeightInclude<ExtArgs> | null
   }
 
 
@@ -78240,6 +80801,35 @@ export namespace Prisma {
   export type PurchaseOrderItemScalarFieldEnum = (typeof PurchaseOrderItemScalarFieldEnum)[keyof typeof PurchaseOrderItemScalarFieldEnum]
 
 
+  export const GRNScalarFieldEnum: {
+    id: 'id',
+    grnNumber: 'grnNumber',
+    purchaseOrderItemId: 'purchaseOrderItemId',
+    date: 'date',
+    itemName: 'itemName',
+    supplierName: 'supplierName',
+    invoiceQtyBags: 'invoiceQtyBags',
+    invoiceWeight: 'invoiceWeight',
+    confirmedQtyBags: 'confirmedQtyBags',
+    confirmedWeight: 'confirmedWeight',
+    weightDifference: 'weightDifference',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GRNScalarFieldEnum = (typeof GRNScalarFieldEnum)[keyof typeof GRNScalarFieldEnum]
+
+
+  export const GRNBagWeightScalarFieldEnum: {
+    id: 'id',
+    grnId: 'grnId',
+    bagNumber: 'bagNumber',
+    weight: 'weight'
+  };
+
+  export type GRNBagWeightScalarFieldEnum = (typeof GRNBagWeightScalarFieldEnum)[keyof typeof GRNBagWeightScalarFieldEnum]
+
+
   export const StockEntryScalarFieldEnum: {
     id: 'id',
     rawMaterialId: 'rawMaterialId',
@@ -82585,6 +85175,7 @@ export namespace Prisma {
     status?: StringFilter<"PurchaseOrderItem"> | string
     purchaseOrder?: XOR<PurchaseOrderScalarRelationFilter, PurchaseOrderWhereInput>
     rawMaterial?: XOR<RawMaterialProductScalarRelationFilter, RawMaterialProductWhereInput>
+    grn?: XOR<GRNNullableScalarRelationFilter, GRNWhereInput> | null
   }
 
   export type PurchaseOrderItemOrderByWithRelationInput = {
@@ -82597,6 +85188,7 @@ export namespace Prisma {
     status?: SortOrder
     purchaseOrder?: PurchaseOrderOrderByWithRelationInput
     rawMaterial?: RawMaterialProductOrderByWithRelationInput
+    grn?: GRNOrderByWithRelationInput
   }
 
   export type PurchaseOrderItemWhereUniqueInput = Prisma.AtLeast<{
@@ -82612,6 +85204,7 @@ export namespace Prisma {
     status?: StringFilter<"PurchaseOrderItem"> | string
     purchaseOrder?: XOR<PurchaseOrderScalarRelationFilter, PurchaseOrderWhereInput>
     rawMaterial?: XOR<RawMaterialProductScalarRelationFilter, RawMaterialProductWhereInput>
+    grn?: XOR<GRNNullableScalarRelationFilter, GRNWhereInput> | null
   }, "id">
 
   export type PurchaseOrderItemOrderByWithAggregationInput = {
@@ -82640,6 +85233,158 @@ export namespace Prisma {
     rate?: FloatWithAggregatesFilter<"PurchaseOrderItem"> | number
     quantityReceived?: FloatWithAggregatesFilter<"PurchaseOrderItem"> | number
     status?: StringWithAggregatesFilter<"PurchaseOrderItem"> | string
+  }
+
+  export type GRNWhereInput = {
+    AND?: GRNWhereInput | GRNWhereInput[]
+    OR?: GRNWhereInput[]
+    NOT?: GRNWhereInput | GRNWhereInput[]
+    id?: StringFilter<"GRN"> | string
+    grnNumber?: StringFilter<"GRN"> | string
+    purchaseOrderItemId?: StringFilter<"GRN"> | string
+    date?: DateTimeFilter<"GRN"> | Date | string
+    itemName?: StringFilter<"GRN"> | string
+    supplierName?: StringFilter<"GRN"> | string
+    invoiceQtyBags?: FloatFilter<"GRN"> | number
+    invoiceWeight?: FloatFilter<"GRN"> | number
+    confirmedQtyBags?: FloatFilter<"GRN"> | number
+    confirmedWeight?: FloatFilter<"GRN"> | number
+    weightDifference?: FloatFilter<"GRN"> | number
+    createdAt?: DateTimeFilter<"GRN"> | Date | string
+    updatedAt?: DateTimeFilter<"GRN"> | Date | string
+    purchaseOrderItem?: XOR<PurchaseOrderItemScalarRelationFilter, PurchaseOrderItemWhereInput>
+    bagWeights?: GRNBagWeightListRelationFilter
+  }
+
+  export type GRNOrderByWithRelationInput = {
+    id?: SortOrder
+    grnNumber?: SortOrder
+    purchaseOrderItemId?: SortOrder
+    date?: SortOrder
+    itemName?: SortOrder
+    supplierName?: SortOrder
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    purchaseOrderItem?: PurchaseOrderItemOrderByWithRelationInput
+    bagWeights?: GRNBagWeightOrderByRelationAggregateInput
+  }
+
+  export type GRNWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    grnNumber?: string
+    purchaseOrderItemId?: string
+    AND?: GRNWhereInput | GRNWhereInput[]
+    OR?: GRNWhereInput[]
+    NOT?: GRNWhereInput | GRNWhereInput[]
+    date?: DateTimeFilter<"GRN"> | Date | string
+    itemName?: StringFilter<"GRN"> | string
+    supplierName?: StringFilter<"GRN"> | string
+    invoiceQtyBags?: FloatFilter<"GRN"> | number
+    invoiceWeight?: FloatFilter<"GRN"> | number
+    confirmedQtyBags?: FloatFilter<"GRN"> | number
+    confirmedWeight?: FloatFilter<"GRN"> | number
+    weightDifference?: FloatFilter<"GRN"> | number
+    createdAt?: DateTimeFilter<"GRN"> | Date | string
+    updatedAt?: DateTimeFilter<"GRN"> | Date | string
+    purchaseOrderItem?: XOR<PurchaseOrderItemScalarRelationFilter, PurchaseOrderItemWhereInput>
+    bagWeights?: GRNBagWeightListRelationFilter
+  }, "id" | "grnNumber" | "purchaseOrderItemId">
+
+  export type GRNOrderByWithAggregationInput = {
+    id?: SortOrder
+    grnNumber?: SortOrder
+    purchaseOrderItemId?: SortOrder
+    date?: SortOrder
+    itemName?: SortOrder
+    supplierName?: SortOrder
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GRNCountOrderByAggregateInput
+    _avg?: GRNAvgOrderByAggregateInput
+    _max?: GRNMaxOrderByAggregateInput
+    _min?: GRNMinOrderByAggregateInput
+    _sum?: GRNSumOrderByAggregateInput
+  }
+
+  export type GRNScalarWhereWithAggregatesInput = {
+    AND?: GRNScalarWhereWithAggregatesInput | GRNScalarWhereWithAggregatesInput[]
+    OR?: GRNScalarWhereWithAggregatesInput[]
+    NOT?: GRNScalarWhereWithAggregatesInput | GRNScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GRN"> | string
+    grnNumber?: StringWithAggregatesFilter<"GRN"> | string
+    purchaseOrderItemId?: StringWithAggregatesFilter<"GRN"> | string
+    date?: DateTimeWithAggregatesFilter<"GRN"> | Date | string
+    itemName?: StringWithAggregatesFilter<"GRN"> | string
+    supplierName?: StringWithAggregatesFilter<"GRN"> | string
+    invoiceQtyBags?: FloatWithAggregatesFilter<"GRN"> | number
+    invoiceWeight?: FloatWithAggregatesFilter<"GRN"> | number
+    confirmedQtyBags?: FloatWithAggregatesFilter<"GRN"> | number
+    confirmedWeight?: FloatWithAggregatesFilter<"GRN"> | number
+    weightDifference?: FloatWithAggregatesFilter<"GRN"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"GRN"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GRN"> | Date | string
+  }
+
+  export type GRNBagWeightWhereInput = {
+    AND?: GRNBagWeightWhereInput | GRNBagWeightWhereInput[]
+    OR?: GRNBagWeightWhereInput[]
+    NOT?: GRNBagWeightWhereInput | GRNBagWeightWhereInput[]
+    id?: StringFilter<"GRNBagWeight"> | string
+    grnId?: StringFilter<"GRNBagWeight"> | string
+    bagNumber?: IntFilter<"GRNBagWeight"> | number
+    weight?: FloatFilter<"GRNBagWeight"> | number
+    grn?: XOR<GRNScalarRelationFilter, GRNWhereInput>
+  }
+
+  export type GRNBagWeightOrderByWithRelationInput = {
+    id?: SortOrder
+    grnId?: SortOrder
+    bagNumber?: SortOrder
+    weight?: SortOrder
+    grn?: GRNOrderByWithRelationInput
+  }
+
+  export type GRNBagWeightWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GRNBagWeightWhereInput | GRNBagWeightWhereInput[]
+    OR?: GRNBagWeightWhereInput[]
+    NOT?: GRNBagWeightWhereInput | GRNBagWeightWhereInput[]
+    grnId?: StringFilter<"GRNBagWeight"> | string
+    bagNumber?: IntFilter<"GRNBagWeight"> | number
+    weight?: FloatFilter<"GRNBagWeight"> | number
+    grn?: XOR<GRNScalarRelationFilter, GRNWhereInput>
+  }, "id">
+
+  export type GRNBagWeightOrderByWithAggregationInput = {
+    id?: SortOrder
+    grnId?: SortOrder
+    bagNumber?: SortOrder
+    weight?: SortOrder
+    _count?: GRNBagWeightCountOrderByAggregateInput
+    _avg?: GRNBagWeightAvgOrderByAggregateInput
+    _max?: GRNBagWeightMaxOrderByAggregateInput
+    _min?: GRNBagWeightMinOrderByAggregateInput
+    _sum?: GRNBagWeightSumOrderByAggregateInput
+  }
+
+  export type GRNBagWeightScalarWhereWithAggregatesInput = {
+    AND?: GRNBagWeightScalarWhereWithAggregatesInput | GRNBagWeightScalarWhereWithAggregatesInput[]
+    OR?: GRNBagWeightScalarWhereWithAggregatesInput[]
+    NOT?: GRNBagWeightScalarWhereWithAggregatesInput | GRNBagWeightScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GRNBagWeight"> | string
+    grnId?: StringWithAggregatesFilter<"GRNBagWeight"> | string
+    bagNumber?: IntWithAggregatesFilter<"GRNBagWeight"> | number
+    weight?: FloatWithAggregatesFilter<"GRNBagWeight"> | number
   }
 
   export type StockEntryWhereInput = {
@@ -87750,6 +90495,7 @@ export namespace Prisma {
     status: string
     purchaseOrder: PurchaseOrderCreateNestedOneWithoutItemsInput
     rawMaterial: RawMaterialProductCreateNestedOneWithoutPurchaseOrderItemsInput
+    grn?: GRNCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemUncheckedCreateInput = {
@@ -87760,6 +90506,7 @@ export namespace Prisma {
     rate: number
     quantityReceived?: number
     status: string
+    grn?: GRNUncheckedCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemUpdateInput = {
@@ -87770,6 +90517,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     purchaseOrder?: PurchaseOrderUpdateOneRequiredWithoutItemsNestedInput
     rawMaterial?: RawMaterialProductUpdateOneRequiredWithoutPurchaseOrderItemsNestedInput
+    grn?: GRNUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemUncheckedUpdateInput = {
@@ -87780,6 +90528,7 @@ export namespace Prisma {
     rate?: FloatFieldUpdateOperationsInput | number
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    grn?: GRNUncheckedUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemCreateManyInput = {
@@ -87808,6 +90557,169 @@ export namespace Prisma {
     rate?: FloatFieldUpdateOperationsInput | number
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GRNCreateInput = {
+    id?: string
+    grnNumber: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    purchaseOrderItem: PurchaseOrderItemCreateNestedOneWithoutGrnInput
+    bagWeights?: GRNBagWeightCreateNestedManyWithoutGrnInput
+  }
+
+  export type GRNUncheckedCreateInput = {
+    id?: string
+    grnNumber: string
+    purchaseOrderItemId: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bagWeights?: GRNBagWeightUncheckedCreateNestedManyWithoutGrnInput
+  }
+
+  export type GRNUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseOrderItem?: PurchaseOrderItemUpdateOneRequiredWithoutGrnNestedInput
+    bagWeights?: GRNBagWeightUpdateManyWithoutGrnNestedInput
+  }
+
+  export type GRNUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    purchaseOrderItemId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bagWeights?: GRNBagWeightUncheckedUpdateManyWithoutGrnNestedInput
+  }
+
+  export type GRNCreateManyInput = {
+    id?: string
+    grnNumber: string
+    purchaseOrderItemId: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GRNUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GRNUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    purchaseOrderItemId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GRNBagWeightCreateInput = {
+    id?: string
+    bagNumber: number
+    weight: number
+    grn: GRNCreateNestedOneWithoutBagWeightsInput
+  }
+
+  export type GRNBagWeightUncheckedCreateInput = {
+    id?: string
+    grnId: string
+    bagNumber: number
+    weight: number
+  }
+
+  export type GRNBagWeightUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
+    grn?: GRNUpdateOneRequiredWithoutBagWeightsNestedInput
+  }
+
+  export type GRNBagWeightUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnId?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type GRNBagWeightCreateManyInput = {
+    id?: string
+    grnId: string
+    bagNumber: number
+    weight: number
+  }
+
+  export type GRNBagWeightUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type GRNBagWeightUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnId?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
   }
 
   export type StockEntryCreateInput = {
@@ -91635,6 +94547,11 @@ export namespace Prisma {
     isNot?: RawMaterialProductWhereInput
   }
 
+  export type GRNNullableScalarRelationFilter = {
+    is?: GRNWhereInput | null
+    isNot?: GRNWhereInput | null
+  }
+
   export type PurchaseOrderItemCountOrderByAggregateInput = {
     id?: SortOrder
     purchaseOrderId?: SortOrder
@@ -91691,6 +94608,121 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type PurchaseOrderItemScalarRelationFilter = {
+    is?: PurchaseOrderItemWhereInput
+    isNot?: PurchaseOrderItemWhereInput
+  }
+
+  export type GRNBagWeightListRelationFilter = {
+    every?: GRNBagWeightWhereInput
+    some?: GRNBagWeightWhereInput
+    none?: GRNBagWeightWhereInput
+  }
+
+  export type GRNBagWeightOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GRNCountOrderByAggregateInput = {
+    id?: SortOrder
+    grnNumber?: SortOrder
+    purchaseOrderItemId?: SortOrder
+    date?: SortOrder
+    itemName?: SortOrder
+    supplierName?: SortOrder
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GRNAvgOrderByAggregateInput = {
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+  }
+
+  export type GRNMaxOrderByAggregateInput = {
+    id?: SortOrder
+    grnNumber?: SortOrder
+    purchaseOrderItemId?: SortOrder
+    date?: SortOrder
+    itemName?: SortOrder
+    supplierName?: SortOrder
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GRNMinOrderByAggregateInput = {
+    id?: SortOrder
+    grnNumber?: SortOrder
+    purchaseOrderItemId?: SortOrder
+    date?: SortOrder
+    itemName?: SortOrder
+    supplierName?: SortOrder
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GRNSumOrderByAggregateInput = {
+    invoiceQtyBags?: SortOrder
+    invoiceWeight?: SortOrder
+    confirmedQtyBags?: SortOrder
+    confirmedWeight?: SortOrder
+    weightDifference?: SortOrder
+  }
+
+  export type GRNScalarRelationFilter = {
+    is?: GRNWhereInput
+    isNot?: GRNWhereInput
+  }
+
+  export type GRNBagWeightCountOrderByAggregateInput = {
+    id?: SortOrder
+    grnId?: SortOrder
+    bagNumber?: SortOrder
+    weight?: SortOrder
+  }
+
+  export type GRNBagWeightAvgOrderByAggregateInput = {
+    bagNumber?: SortOrder
+    weight?: SortOrder
+  }
+
+  export type GRNBagWeightMaxOrderByAggregateInput = {
+    id?: SortOrder
+    grnId?: SortOrder
+    bagNumber?: SortOrder
+    weight?: SortOrder
+  }
+
+  export type GRNBagWeightMinOrderByAggregateInput = {
+    id?: SortOrder
+    grnId?: SortOrder
+    bagNumber?: SortOrder
+    weight?: SortOrder
+  }
+
+  export type GRNBagWeightSumOrderByAggregateInput = {
+    bagNumber?: SortOrder
+    weight?: SortOrder
   }
 
   export type WarehouseScalarRelationFilter = {
@@ -97688,6 +100720,18 @@ export namespace Prisma {
     connect?: RawMaterialProductWhereUniqueInput
   }
 
+  export type GRNCreateNestedOneWithoutPurchaseOrderItemInput = {
+    create?: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutPurchaseOrderItemInput
+    connect?: GRNWhereUniqueInput
+  }
+
+  export type GRNUncheckedCreateNestedOneWithoutPurchaseOrderItemInput = {
+    create?: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutPurchaseOrderItemInput
+    connect?: GRNWhereUniqueInput
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -97710,6 +100754,96 @@ export namespace Prisma {
     upsert?: RawMaterialProductUpsertWithoutPurchaseOrderItemsInput
     connect?: RawMaterialProductWhereUniqueInput
     update?: XOR<XOR<RawMaterialProductUpdateToOneWithWhereWithoutPurchaseOrderItemsInput, RawMaterialProductUpdateWithoutPurchaseOrderItemsInput>, RawMaterialProductUncheckedUpdateWithoutPurchaseOrderItemsInput>
+  }
+
+  export type GRNUpdateOneWithoutPurchaseOrderItemNestedInput = {
+    create?: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutPurchaseOrderItemInput
+    upsert?: GRNUpsertWithoutPurchaseOrderItemInput
+    disconnect?: GRNWhereInput | boolean
+    delete?: GRNWhereInput | boolean
+    connect?: GRNWhereUniqueInput
+    update?: XOR<XOR<GRNUpdateToOneWithWhereWithoutPurchaseOrderItemInput, GRNUpdateWithoutPurchaseOrderItemInput>, GRNUncheckedUpdateWithoutPurchaseOrderItemInput>
+  }
+
+  export type GRNUncheckedUpdateOneWithoutPurchaseOrderItemNestedInput = {
+    create?: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutPurchaseOrderItemInput
+    upsert?: GRNUpsertWithoutPurchaseOrderItemInput
+    disconnect?: GRNWhereInput | boolean
+    delete?: GRNWhereInput | boolean
+    connect?: GRNWhereUniqueInput
+    update?: XOR<XOR<GRNUpdateToOneWithWhereWithoutPurchaseOrderItemInput, GRNUpdateWithoutPurchaseOrderItemInput>, GRNUncheckedUpdateWithoutPurchaseOrderItemInput>
+  }
+
+  export type PurchaseOrderItemCreateNestedOneWithoutGrnInput = {
+    create?: XOR<PurchaseOrderItemCreateWithoutGrnInput, PurchaseOrderItemUncheckedCreateWithoutGrnInput>
+    connectOrCreate?: PurchaseOrderItemCreateOrConnectWithoutGrnInput
+    connect?: PurchaseOrderItemWhereUniqueInput
+  }
+
+  export type GRNBagWeightCreateNestedManyWithoutGrnInput = {
+    create?: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput> | GRNBagWeightCreateWithoutGrnInput[] | GRNBagWeightUncheckedCreateWithoutGrnInput[]
+    connectOrCreate?: GRNBagWeightCreateOrConnectWithoutGrnInput | GRNBagWeightCreateOrConnectWithoutGrnInput[]
+    createMany?: GRNBagWeightCreateManyGrnInputEnvelope
+    connect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+  }
+
+  export type GRNBagWeightUncheckedCreateNestedManyWithoutGrnInput = {
+    create?: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput> | GRNBagWeightCreateWithoutGrnInput[] | GRNBagWeightUncheckedCreateWithoutGrnInput[]
+    connectOrCreate?: GRNBagWeightCreateOrConnectWithoutGrnInput | GRNBagWeightCreateOrConnectWithoutGrnInput[]
+    createMany?: GRNBagWeightCreateManyGrnInputEnvelope
+    connect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+  }
+
+  export type PurchaseOrderItemUpdateOneRequiredWithoutGrnNestedInput = {
+    create?: XOR<PurchaseOrderItemCreateWithoutGrnInput, PurchaseOrderItemUncheckedCreateWithoutGrnInput>
+    connectOrCreate?: PurchaseOrderItemCreateOrConnectWithoutGrnInput
+    upsert?: PurchaseOrderItemUpsertWithoutGrnInput
+    connect?: PurchaseOrderItemWhereUniqueInput
+    update?: XOR<XOR<PurchaseOrderItemUpdateToOneWithWhereWithoutGrnInput, PurchaseOrderItemUpdateWithoutGrnInput>, PurchaseOrderItemUncheckedUpdateWithoutGrnInput>
+  }
+
+  export type GRNBagWeightUpdateManyWithoutGrnNestedInput = {
+    create?: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput> | GRNBagWeightCreateWithoutGrnInput[] | GRNBagWeightUncheckedCreateWithoutGrnInput[]
+    connectOrCreate?: GRNBagWeightCreateOrConnectWithoutGrnInput | GRNBagWeightCreateOrConnectWithoutGrnInput[]
+    upsert?: GRNBagWeightUpsertWithWhereUniqueWithoutGrnInput | GRNBagWeightUpsertWithWhereUniqueWithoutGrnInput[]
+    createMany?: GRNBagWeightCreateManyGrnInputEnvelope
+    set?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    disconnect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    delete?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    connect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    update?: GRNBagWeightUpdateWithWhereUniqueWithoutGrnInput | GRNBagWeightUpdateWithWhereUniqueWithoutGrnInput[]
+    updateMany?: GRNBagWeightUpdateManyWithWhereWithoutGrnInput | GRNBagWeightUpdateManyWithWhereWithoutGrnInput[]
+    deleteMany?: GRNBagWeightScalarWhereInput | GRNBagWeightScalarWhereInput[]
+  }
+
+  export type GRNBagWeightUncheckedUpdateManyWithoutGrnNestedInput = {
+    create?: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput> | GRNBagWeightCreateWithoutGrnInput[] | GRNBagWeightUncheckedCreateWithoutGrnInput[]
+    connectOrCreate?: GRNBagWeightCreateOrConnectWithoutGrnInput | GRNBagWeightCreateOrConnectWithoutGrnInput[]
+    upsert?: GRNBagWeightUpsertWithWhereUniqueWithoutGrnInput | GRNBagWeightUpsertWithWhereUniqueWithoutGrnInput[]
+    createMany?: GRNBagWeightCreateManyGrnInputEnvelope
+    set?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    disconnect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    delete?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    connect?: GRNBagWeightWhereUniqueInput | GRNBagWeightWhereUniqueInput[]
+    update?: GRNBagWeightUpdateWithWhereUniqueWithoutGrnInput | GRNBagWeightUpdateWithWhereUniqueWithoutGrnInput[]
+    updateMany?: GRNBagWeightUpdateManyWithWhereWithoutGrnInput | GRNBagWeightUpdateManyWithWhereWithoutGrnInput[]
+    deleteMany?: GRNBagWeightScalarWhereInput | GRNBagWeightScalarWhereInput[]
+  }
+
+  export type GRNCreateNestedOneWithoutBagWeightsInput = {
+    create?: XOR<GRNCreateWithoutBagWeightsInput, GRNUncheckedCreateWithoutBagWeightsInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutBagWeightsInput
+    connect?: GRNWhereUniqueInput
+  }
+
+  export type GRNUpdateOneRequiredWithoutBagWeightsNestedInput = {
+    create?: XOR<GRNCreateWithoutBagWeightsInput, GRNUncheckedCreateWithoutBagWeightsInput>
+    connectOrCreate?: GRNCreateOrConnectWithoutBagWeightsInput
+    upsert?: GRNUpsertWithoutBagWeightsInput
+    connect?: GRNWhereUniqueInput
+    update?: XOR<XOR<GRNUpdateToOneWithWhereWithoutBagWeightsInput, GRNUpdateWithoutBagWeightsInput>, GRNUncheckedUpdateWithoutBagWeightsInput>
   }
 
   export type RawMaterialProductCreateNestedOneWithoutStockEntriesInput = {
@@ -114781,6 +117915,7 @@ export namespace Prisma {
     quantityReceived?: number
     status: string
     purchaseOrder: PurchaseOrderCreateNestedOneWithoutItemsInput
+    grn?: GRNCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemUncheckedCreateWithoutRawMaterialInput = {
@@ -114790,6 +117925,7 @@ export namespace Prisma {
     rate: number
     quantityReceived?: number
     status: string
+    grn?: GRNUncheckedCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemCreateOrConnectWithoutRawMaterialInput = {
@@ -115064,6 +118200,7 @@ export namespace Prisma {
     quantityReceived?: number
     status: string
     rawMaterial: RawMaterialProductCreateNestedOneWithoutPurchaseOrderItemsInput
+    grn?: GRNCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemUncheckedCreateWithoutPurchaseOrderInput = {
@@ -115073,6 +118210,7 @@ export namespace Prisma {
     rate: number
     quantityReceived?: number
     status: string
+    grn?: GRNUncheckedCreateNestedOneWithoutPurchaseOrderItemInput
   }
 
   export type PurchaseOrderItemCreateOrConnectWithoutPurchaseOrderInput = {
@@ -115210,6 +118348,43 @@ export namespace Prisma {
     create: XOR<RawMaterialProductCreateWithoutPurchaseOrderItemsInput, RawMaterialProductUncheckedCreateWithoutPurchaseOrderItemsInput>
   }
 
+  export type GRNCreateWithoutPurchaseOrderItemInput = {
+    id?: string
+    grnNumber: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bagWeights?: GRNBagWeightCreateNestedManyWithoutGrnInput
+  }
+
+  export type GRNUncheckedCreateWithoutPurchaseOrderItemInput = {
+    id?: string
+    grnNumber: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bagWeights?: GRNBagWeightUncheckedCreateNestedManyWithoutGrnInput
+  }
+
+  export type GRNCreateOrConnectWithoutPurchaseOrderItemInput = {
+    where: GRNWhereUniqueInput
+    create: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+  }
+
   export type PurchaseOrderUpsertWithoutItemsInput = {
     update: XOR<PurchaseOrderUpdateWithoutItemsInput, PurchaseOrderUncheckedUpdateWithoutItemsInput>
     create: XOR<PurchaseOrderCreateWithoutItemsInput, PurchaseOrderUncheckedCreateWithoutItemsInput>
@@ -115284,6 +118459,233 @@ export namespace Prisma {
     cleaningJobs?: CleaningJobUncheckedUpdateManyWithoutRawMaterialNestedInput
     processingJobs?: ProcessingJobUncheckedUpdateManyWithoutInputRawMaterialNestedInput
     currentStocks?: CurrentStockUncheckedUpdateManyWithoutRawMaterialNestedInput
+  }
+
+  export type GRNUpsertWithoutPurchaseOrderItemInput = {
+    update: XOR<GRNUpdateWithoutPurchaseOrderItemInput, GRNUncheckedUpdateWithoutPurchaseOrderItemInput>
+    create: XOR<GRNCreateWithoutPurchaseOrderItemInput, GRNUncheckedCreateWithoutPurchaseOrderItemInput>
+    where?: GRNWhereInput
+  }
+
+  export type GRNUpdateToOneWithWhereWithoutPurchaseOrderItemInput = {
+    where?: GRNWhereInput
+    data: XOR<GRNUpdateWithoutPurchaseOrderItemInput, GRNUncheckedUpdateWithoutPurchaseOrderItemInput>
+  }
+
+  export type GRNUpdateWithoutPurchaseOrderItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bagWeights?: GRNBagWeightUpdateManyWithoutGrnNestedInput
+  }
+
+  export type GRNUncheckedUpdateWithoutPurchaseOrderItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bagWeights?: GRNBagWeightUncheckedUpdateManyWithoutGrnNestedInput
+  }
+
+  export type PurchaseOrderItemCreateWithoutGrnInput = {
+    id?: string
+    quantityOrdered: number
+    rate: number
+    quantityReceived?: number
+    status: string
+    purchaseOrder: PurchaseOrderCreateNestedOneWithoutItemsInput
+    rawMaterial: RawMaterialProductCreateNestedOneWithoutPurchaseOrderItemsInput
+  }
+
+  export type PurchaseOrderItemUncheckedCreateWithoutGrnInput = {
+    id?: string
+    purchaseOrderId: string
+    rawMaterialId: string
+    quantityOrdered: number
+    rate: number
+    quantityReceived?: number
+    status: string
+  }
+
+  export type PurchaseOrderItemCreateOrConnectWithoutGrnInput = {
+    where: PurchaseOrderItemWhereUniqueInput
+    create: XOR<PurchaseOrderItemCreateWithoutGrnInput, PurchaseOrderItemUncheckedCreateWithoutGrnInput>
+  }
+
+  export type GRNBagWeightCreateWithoutGrnInput = {
+    id?: string
+    bagNumber: number
+    weight: number
+  }
+
+  export type GRNBagWeightUncheckedCreateWithoutGrnInput = {
+    id?: string
+    bagNumber: number
+    weight: number
+  }
+
+  export type GRNBagWeightCreateOrConnectWithoutGrnInput = {
+    where: GRNBagWeightWhereUniqueInput
+    create: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput>
+  }
+
+  export type GRNBagWeightCreateManyGrnInputEnvelope = {
+    data: GRNBagWeightCreateManyGrnInput | GRNBagWeightCreateManyGrnInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PurchaseOrderItemUpsertWithoutGrnInput = {
+    update: XOR<PurchaseOrderItemUpdateWithoutGrnInput, PurchaseOrderItemUncheckedUpdateWithoutGrnInput>
+    create: XOR<PurchaseOrderItemCreateWithoutGrnInput, PurchaseOrderItemUncheckedCreateWithoutGrnInput>
+    where?: PurchaseOrderItemWhereInput
+  }
+
+  export type PurchaseOrderItemUpdateToOneWithWhereWithoutGrnInput = {
+    where?: PurchaseOrderItemWhereInput
+    data: XOR<PurchaseOrderItemUpdateWithoutGrnInput, PurchaseOrderItemUncheckedUpdateWithoutGrnInput>
+  }
+
+  export type PurchaseOrderItemUpdateWithoutGrnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantityOrdered?: FloatFieldUpdateOperationsInput | number
+    rate?: FloatFieldUpdateOperationsInput | number
+    quantityReceived?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    purchaseOrder?: PurchaseOrderUpdateOneRequiredWithoutItemsNestedInput
+    rawMaterial?: RawMaterialProductUpdateOneRequiredWithoutPurchaseOrderItemsNestedInput
+  }
+
+  export type PurchaseOrderItemUncheckedUpdateWithoutGrnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchaseOrderId?: StringFieldUpdateOperationsInput | string
+    rawMaterialId?: StringFieldUpdateOperationsInput | string
+    quantityOrdered?: FloatFieldUpdateOperationsInput | number
+    rate?: FloatFieldUpdateOperationsInput | number
+    quantityReceived?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GRNBagWeightUpsertWithWhereUniqueWithoutGrnInput = {
+    where: GRNBagWeightWhereUniqueInput
+    update: XOR<GRNBagWeightUpdateWithoutGrnInput, GRNBagWeightUncheckedUpdateWithoutGrnInput>
+    create: XOR<GRNBagWeightCreateWithoutGrnInput, GRNBagWeightUncheckedCreateWithoutGrnInput>
+  }
+
+  export type GRNBagWeightUpdateWithWhereUniqueWithoutGrnInput = {
+    where: GRNBagWeightWhereUniqueInput
+    data: XOR<GRNBagWeightUpdateWithoutGrnInput, GRNBagWeightUncheckedUpdateWithoutGrnInput>
+  }
+
+  export type GRNBagWeightUpdateManyWithWhereWithoutGrnInput = {
+    where: GRNBagWeightScalarWhereInput
+    data: XOR<GRNBagWeightUpdateManyMutationInput, GRNBagWeightUncheckedUpdateManyWithoutGrnInput>
+  }
+
+  export type GRNBagWeightScalarWhereInput = {
+    AND?: GRNBagWeightScalarWhereInput | GRNBagWeightScalarWhereInput[]
+    OR?: GRNBagWeightScalarWhereInput[]
+    NOT?: GRNBagWeightScalarWhereInput | GRNBagWeightScalarWhereInput[]
+    id?: StringFilter<"GRNBagWeight"> | string
+    grnId?: StringFilter<"GRNBagWeight"> | string
+    bagNumber?: IntFilter<"GRNBagWeight"> | number
+    weight?: FloatFilter<"GRNBagWeight"> | number
+  }
+
+  export type GRNCreateWithoutBagWeightsInput = {
+    id?: string
+    grnNumber: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    purchaseOrderItem: PurchaseOrderItemCreateNestedOneWithoutGrnInput
+  }
+
+  export type GRNUncheckedCreateWithoutBagWeightsInput = {
+    id?: string
+    grnNumber: string
+    purchaseOrderItemId: string
+    date?: Date | string
+    itemName: string
+    supplierName: string
+    invoiceQtyBags: number
+    invoiceWeight: number
+    confirmedQtyBags: number
+    confirmedWeight: number
+    weightDifference: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GRNCreateOrConnectWithoutBagWeightsInput = {
+    where: GRNWhereUniqueInput
+    create: XOR<GRNCreateWithoutBagWeightsInput, GRNUncheckedCreateWithoutBagWeightsInput>
+  }
+
+  export type GRNUpsertWithoutBagWeightsInput = {
+    update: XOR<GRNUpdateWithoutBagWeightsInput, GRNUncheckedUpdateWithoutBagWeightsInput>
+    create: XOR<GRNCreateWithoutBagWeightsInput, GRNUncheckedCreateWithoutBagWeightsInput>
+    where?: GRNWhereInput
+  }
+
+  export type GRNUpdateToOneWithWhereWithoutBagWeightsInput = {
+    where?: GRNWhereInput
+    data: XOR<GRNUpdateWithoutBagWeightsInput, GRNUncheckedUpdateWithoutBagWeightsInput>
+  }
+
+  export type GRNUpdateWithoutBagWeightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseOrderItem?: PurchaseOrderItemUpdateOneRequiredWithoutGrnNestedInput
+  }
+
+  export type GRNUncheckedUpdateWithoutBagWeightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    grnNumber?: StringFieldUpdateOperationsInput | string
+    purchaseOrderItemId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemName?: StringFieldUpdateOperationsInput | string
+    supplierName?: StringFieldUpdateOperationsInput | string
+    invoiceQtyBags?: FloatFieldUpdateOperationsInput | number
+    invoiceWeight?: FloatFieldUpdateOperationsInput | number
+    confirmedQtyBags?: FloatFieldUpdateOperationsInput | number
+    confirmedWeight?: FloatFieldUpdateOperationsInput | number
+    weightDifference?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RawMaterialProductCreateWithoutStockEntriesInput = {
@@ -122774,6 +126176,7 @@ export namespace Prisma {
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     purchaseOrder?: PurchaseOrderUpdateOneRequiredWithoutItemsNestedInput
+    grn?: GRNUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemUncheckedUpdateWithoutRawMaterialInput = {
@@ -122783,6 +126186,7 @@ export namespace Prisma {
     rate?: FloatFieldUpdateOperationsInput | number
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    grn?: GRNUncheckedUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemUncheckedUpdateManyWithoutRawMaterialInput = {
@@ -122831,6 +126235,7 @@ export namespace Prisma {
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     rawMaterial?: RawMaterialProductUpdateOneRequiredWithoutPurchaseOrderItemsNestedInput
+    grn?: GRNUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemUncheckedUpdateWithoutPurchaseOrderInput = {
@@ -122840,6 +126245,7 @@ export namespace Prisma {
     rate?: FloatFieldUpdateOperationsInput | number
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    grn?: GRNUncheckedUpdateOneWithoutPurchaseOrderItemNestedInput
   }
 
   export type PurchaseOrderItemUncheckedUpdateManyWithoutPurchaseOrderInput = {
@@ -122849,6 +126255,30 @@ export namespace Prisma {
     rate?: FloatFieldUpdateOperationsInput | number
     quantityReceived?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GRNBagWeightCreateManyGrnInput = {
+    id?: string
+    bagNumber: number
+    weight: number
+  }
+
+  export type GRNBagWeightUpdateWithoutGrnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type GRNBagWeightUncheckedUpdateWithoutGrnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type GRNBagWeightUncheckedUpdateManyWithoutGrnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bagNumber?: IntFieldUpdateOperationsInput | number
+    weight?: FloatFieldUpdateOperationsInput | number
   }
 
   export type StockEntryCreateManyWarehouseInput = {

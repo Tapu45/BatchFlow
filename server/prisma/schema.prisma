@@ -11,6 +11,9 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+// generator erd {
+//   provider = "prisma-erd-generator"
+// }
 
 // Models and enums from schema.prisma
 model ActivityLog {
@@ -882,6 +885,31 @@ model PurchaseOrderItem {
   rate             Float
   quantityReceived Float @default(0)
   status           String // e.g., Pending, Received, Rejected
+  grn              GRN?   // One-to-one relation with GRN
+}
+model GRN {
+  id                  String   @id @default(uuid())
+  grnNumber           String   @unique
+  purchaseOrderItemId String   @unique
+  purchaseOrderItem   PurchaseOrderItem @relation(fields: [purchaseOrderItemId], references: [id])
+  date                DateTime @default(now())
+  itemName            String
+  supplierName        String
+  invoiceQtyBags      Float
+  invoiceWeight       Float
+  confirmedQtyBags    Float
+  confirmedWeight     Float
+  weightDifference    Float
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  bagWeights          GRNBagWeight[]
+}
+model GRNBagWeight {
+  id        String @id @default(uuid())
+  grnId     String
+  grn       GRN    @relation(fields: [grnId], references: [id], onDelete: Cascade)
+  bagNumber Int
+  weight    Float
 }
 model StockEntry {
   id                String   @id @default(uuid())

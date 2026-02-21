@@ -55,12 +55,20 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, onSave }) => {
       onChange={(e) => setCurrentValue(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
-      className="border border-gray-300 rounded px-2 py-1 w-full"
+      className="rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+      style={{
+        background: 'var(--card)',
+        color: 'var(--foreground)',
+        border: '1px solid var(--border)'
+      }}
     />
   ) : (
     <div
       onDoubleClick={() => setIsEditing(true)}
-      className="cursor-pointer hover:bg-gray-100 px-2 py-1"
+      className="cursor-pointer px-2 py-1 rounded transition-colors"
+      style={{ color: 'var(--foreground)' }}
+      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--muted)'}
+      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
     >
       {value || "N/A"}
     </div>

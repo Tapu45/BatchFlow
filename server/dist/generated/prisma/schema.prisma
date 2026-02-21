@@ -1,0 +1,1157 @@
+// Auto-generated schema - DO NOT EDIT DIRECTLY
+// Generated on: Tue 11 Nov 2025 12:20:18 PM IST
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+// }
+
+// Models and enums from schema.prisma
+model ActivityLog {
+  id        String   @id
+  userId    String
+  batchId   String?
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+  Batch     Batch?   @relation(fields: [batchId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Batch {
+  id                         String                @id
+  batchNumber                String                @unique
+  batchCode                  String?
+  productId                  String
+  grnNumber                  String?
+  dateOfProduction           DateTime
+  bestBeforeDate             DateTime
+  sampleAnalysisStarted      DateTime?
+  sampleAnalysisCompleted    DateTime?
+  sampleAnalysisStatus       SampleAnalysisStatus  @default(PENDING)
+  makerId                    String
+  checkerId                  String?
+  status                     BatchStatus           @default(DRAFT)
+  rejectionRemarks           String?
+  createdAt                  DateTime              @default(now())
+  updatedAt                  DateTime
+  ActivityLog                ActivityLog[]
+  User_Batch_checkerIdToUser User?                 @relation("Batch_checkerIdToUser", fields: [checkerId], references: [id])
+  User_Batch_makerIdToUser   User                  @relation("Batch_makerIdToUser", fields: [makerId], references: [id])
+  Product                    Product               @relation(fields: [productId], references: [id])
+  Notification               Notification[]
+  standards                  Standard[]
+  methodologies              Methodology[]
+  unitOfMeasurements         UnitOfMeasurement[]
+  parameterValues            BatchParameterValue[]
+}
+
+model ExportLog {
+  id         String   @id
+  fileName   String
+  exportType String
+  exportedBy String
+  exportedAt DateTime @default(now())
+}
+
+model Methodology {
+  id                   String                @id
+  name                 String                @unique
+  description          String
+  procedure            String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime
+  Standards            Standard[]            @relation("StandardMethodologies")
+  batches              Batch[]
+  batchParameterValues BatchParameterValue[]
+  standardDefinitions  StandardDefinition[]
+}
+
+model Notification {
+  id        String           @id
+  userId    String
+  batchId   String?
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  Batch     Batch?           @relation(fields: [batchId], references: [id])
+  User      User             @relation(fields: [userId], references: [id])
+}
+
+model Permission {
+  id        String   @id
+  action    String
+  resource  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  Role      Role[]
+
+  @@unique([action, resource])
+}
+
+model Product {
+  id                 String                    @id
+  name               String                    @unique
+  code               String?                   @unique
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime
+  Batch              Batch[]
+  standardCategories ProductStandardCategory[]
+  parameters         ProductParameter[]
+}
+
+model ProductParameter {
+  id          String   @id @default(uuid())
+  productId   String
+  parameterId String
+  isRequired  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product   Product           @relation(fields: [productId], references: [id])
+  parameter StandardParameter @relation(fields: [parameterId], references: [id])
+
+  @@unique([productId, parameterId])
+}
+
+model Role {
+  id          String       @id
+  name        String       @unique
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime
+  User        User[]
+  Permission  Permission[]
+}
+
+model UnitOfMeasurement {
+  id                   String                @id
+  name                 String                @unique
+  symbol               String
+  description          String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime
+  Standards            Standard[]            @relation("StandardUnits")
+  batchParameterValues BatchParameterValue[]
+  standardParameters   StandardParameter[]
+  standardDefinitions  StandardDefinition[]
+  batches              Batch[]
+}
+
+model User {
+  id                          String               @id
+  email                       String               @unique
+  name                        String
+  password                    String
+  roleId                      String
+  createdAt                   DateTime             @default(now())
+  updatedAt                   DateTime
+  ActivityLog                 ActivityLog[]
+  Batch_Batch_checkerIdToUser Batch[]              @relation("Batch_checkerIdToUser")
+  Batch_Batch_makerIdToUser   Batch[]              @relation("Batch_makerIdToUser")
+  BatchDrafts                 BatchDraft[]         @relation("BatchDraftMaker")
+  Notification                Notification[]
+  Role                        Role                 @relation(fields: [roleId], references: [id])
+  StandardsCreated            Standard[]           @relation("StandardCreatedBy")
+  StandardsModified           Standard[]           @relation("StandardModifiedBy")
+  standardDefinitionsCreated  StandardDefinition[] @relation("StandardDefinitionsCreated")
+  standardDefinitionsModified StandardDefinition[] @relation("StandardDefinitionsModified")
+
+  // Training relations
+  trainerTrainings             Training[]              @relation("TrainerTrainings")
+  createdTrainings             Training[]              @relation("CreatedTrainings")
+  uploadedDocuments            TrainingDocument[]
+  uploadedPhotos               TrainingPhoto[]
+  assignedFollowups            TrainingFollowup[]      @relation("AssignedFollowups")
+  createdFollowups             TrainingFollowup[]      @relation("CreatedFollowups")
+  trainingNotifications        TrainingNotification[]
+  auditorProfile               Auditor?                @relation("UserAuditor")
+  auditeeAudits                Audit[]                 @relation("AuditeeAudits")
+  createdAudits                Audit[]                 @relation("CreatedAudits")
+  assignedFindings             Finding[]               @relation("AssignedFindings")
+  assignedActions              CorrectiveAction[]      @relation("AssignedActions")
+  verifiedActions              CorrectiveAction[]      @relation("VerifiedActions")
+  uploadedAuditDocuments       AuditDocument[]
+  createdReminders             AuditReminder[]         @relation("CreatedReminders")
+  receivedReminders            AuditReminder[]         @relation("ReceivedReminders")
+  auditNotifications           AuditNotification[]     @relation("AuditNotifications")
+  responsibleForChecklistItems PreAuditChecklistItem[] @relation("ResponsibleForChecklistItems")
+  createdChecklistItems        PreAuditChecklistItem[] @relation("CreatedChecklistItems")
+  inspectedItems               AuditInspectionItem[]   @relation("InspectedItems")
+  uploadedFeedbackForms        FeedbackForm[]
+  transactionLogs              TransactionLog[]
+  uploadedSessionPhotos        TrainingSessionPhoto[]  @relation("UploadedSessionPhotos")
+  rmQualityReports             RMQualityReport[]
+}
+
+model BatchDraft {
+  id                      String                @id @default(uuid())
+  batchNumber             String?               @unique
+  batchCode               String? // Add this field
+  productId               String?
+  grnNumber               String?
+  dateOfProduction        DateTime?
+  bestBeforeDate          DateTime?
+  sampleAnalysisStarted   DateTime?
+  sampleAnalysisCompleted DateTime?
+  sampleAnalysisStatus    SampleAnalysisStatus? @default(PENDING)
+  makerId                 String
+  status                  BatchStatus           @default(DRAFT)
+  newProductName          String?
+  parameterValues         Json? // Store as JSON for flexibility
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+
+  // Relations
+  maker User @relation("BatchDraftMaker", fields: [makerId], references: [id])
+}
+
+enum BatchStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  BATCH_SUBMITTED
+  BATCH_APPROVED
+  BATCH_REJECTED
+  SYSTEM
+}
+
+enum SampleAnalysisStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+model Standard {
+  id           String           @id
+  name         String           @unique
+  code         String           @unique
+  description  String
+  categoryId   String
+  createdById  String
+  modifiedById String?
+  status       StandardStatus   @default(ACTIVE)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime
+  Category     StandardCategory @relation(fields: [categoryId], references: [id])
+  CreatedBy    User             @relation("StandardCreatedBy", fields: [createdById], references: [id])
+  ModifiedBy   User?            @relation("StandardModifiedBy", fields: [modifiedById], references: [id])
+  batches      Batch[]
+
+  methodologies Methodology[]       @relation("StandardMethodologies") // Opposite relation for Methodology
+  units         UnitOfMeasurement[] @relation("StandardUnits") // Opposite relation for UnitOfMeasurement
+}
+
+model StandardCategory {
+  id          String                    @id
+  name        String                    @unique
+  description String?
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime
+  parameters  StandardParameter[]
+  Standards   Standard[]
+  products    ProductStandardCategory[]
+}
+
+model ProductStandardCategory {
+  id         String   @id @default(uuid())
+  productId  String
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  product  Product          @relation(fields: [productId], references: [id])
+  category StandardCategory @relation(fields: [categoryId], references: [id])
+
+  @@unique([productId, categoryId])
+}
+
+enum StandardStatus {
+  ACTIVE
+  INACTIVE
+  DEPRECATED
+}
+
+model StandardParameter {
+  id            String            @id
+  name          String // "Appearance", "Texture", "Moisture %Max", etc.
+  categoryId    String
+  unitId        String?
+  productType   String?
+  description   String?
+  dataType      ParameterDataType // Type of data this parameter stores
+  standardValue String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime
+
+  // Relations
+  category    StandardCategory      @relation(fields: [categoryId], references: [id])
+  batchValues BatchParameterValue[]
+  unit        UnitOfMeasurement?    @relation(fields: [unitId], references: [id]) // Add this relation
+  standards   StandardDefinition[]
+  products    ProductParameter[]
+
+  @@unique([name, categoryId, productType])
+}
+
+model StandardDefinition {
+  id            String         @id
+  parameterId   String
+  standardValue String // The expected/standard value
+  unitId        String?
+  methodologyId String?
+  createdById   String
+  modifiedById  String?
+  status        StandardStatus @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime
+
+  // Relations
+  parameter   StandardParameter  @relation(fields: [parameterId], references: [id])
+  unit        UnitOfMeasurement? @relation(fields: [unitId], references: [id])
+  methodology Methodology?       @relation(fields: [methodologyId], references: [id])
+  CreatedBy   User               @relation("StandardDefinitionsCreated", fields: [createdById], references: [id])
+  ModifiedBy  User?              @relation("StandardDefinitionsModified", fields: [modifiedById], references: [id])
+
+  // Many-to-many with Standard
+}
+
+enum ParameterDataType {
+  TEXT
+  FLOAT
+  INTEGER
+  BOOLEAN
+  PERCENTAGE
+  DATE
+}
+
+model BatchParameterValue {
+  id                 String    @id
+  batchId            String
+  parameterId        String
+  value              String
+  standardValue      String? // ADD THIS - to store the standard/expected value
+  remark             String?
+  unitId             String?
+  methodologyId      String?
+  verificationResult String?
+  verificationRemark String?
+  verifiedById       String?
+  verifiedAt         DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime
+
+  // Relations
+  batch       Batch              @relation(fields: [batchId], references: [id])
+  parameter   StandardParameter  @relation(fields: [parameterId], references: [id])
+  unit        UnitOfMeasurement? @relation(fields: [unitId], references: [id])
+  methodology Methodology?       @relation(fields: [methodologyId], references: [id])
+
+  @@unique([batchId, parameterId])
+}
+
+// Models and enums from training.prisma
+enum TrainingType {
+  TECHNICAL
+  SAFETY
+  COMPLIANCE
+  ONBOARDING
+  PROFESSIONAL_DEVELOPMENT
+  WORKSHOP
+  SEMINAR
+}
+
+enum TrainingStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  POSTPONED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum DocumentType {
+  COURSE_MATERIAL
+  PRESENTATION
+  AGENDA
+  GUIDELINE
+  CERTIFICATE
+  ASSESSMENT
+  FEEDBACK_FORM
+  OTHER
+}
+
+model TrainingCalendar {
+  id          String     @id @default(uuid())
+  month       Int
+  year        Int
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  trainings   Training[]
+
+  @@unique([month, year])
+}
+
+model Training {
+  id              String         @id @default(uuid())
+  title           String
+  description     String?
+  trainingType    TrainingType
+  status          TrainingStatus @default(SCHEDULED)
+  startDate       DateTime
+  endDate         DateTime
+  location        String
+  maxParticipants Int?
+  trainerId       String
+  calendarId      String
+  createdById     String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  trainer   User             @relation("TrainerTrainings", fields: [trainerId], references: [id])
+  calendar  TrainingCalendar @relation(fields: [calendarId], references: [id])
+  createdBy User             @relation("CreatedTrainings", fields: [createdById], references: [id])
+
+  sessions      TrainingSession[]
+  documents     TrainingDocument[]
+  attendance    Attendance[]
+  participants  TrainingParticipant[]
+  photos        TrainingPhoto[]
+  feedback      TrainingFeedback[]
+  followups     TrainingFollowup[]
+  notifications TrainingNotification[]
+  inviteTokens  TrainingInviteToken[]
+  feedbackForms FeedbackForm[]
+}
+
+model TrainingSession {
+  id          String         @id @default(uuid())
+  trainingId  String
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  venue       String
+  status      TrainingStatus @default(SCHEDULED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  training      Training               @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  attendance    Attendance[]
+  feedbackForms FeedbackForm[]
+  photos        TrainingSessionPhoto[]
+}
+
+model TrainingDocument {
+  id           String       @id @default(uuid())
+  trainingId   String
+  sessionId    String?
+  title        String
+  description  String?
+  fileUrl      String
+  filePath     String?
+  documentType DocumentType
+  uploadedById String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  uploadedBy User     @relation(fields: [uploadedById], references: [id])
+}
+
+model Participant {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  organization String?
+  position     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  trainings     TrainingParticipant[]
+  attendances   Attendance[]
+  feedbacks     TrainingFeedback[]
+  inviteTokens  TrainingInviteToken[]
+  feedbackForms FeedbackForm[]
+}
+
+enum ParticipantType {
+  INTERNAL
+  EXTERNAL
+}
+
+model TrainingParticipant {
+  id             String    @id @default(uuid())
+  trainingId     String
+  participantId  String
+  inviteSent     Boolean   @default(false)
+  inviteSentAt   DateTime?
+  inviteAccepted Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  training    Training    @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  participant Participant @relation(fields: [participantId], references: [id])
+
+  @@unique([trainingId, participantId])
+}
+
+model Attendance {
+  id            String           @id @default(uuid())
+  trainingId    String
+  sessionId     String
+  participantId String
+  status        AttendanceStatus
+  remarks       String?
+  signatureUrl  String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  training    Training        @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  session     TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  participant Participant     @relation(fields: [participantId], references: [id])
+
+  @@unique([sessionId, participantId])
+}
+
+model TrainingPhoto {
+  id           String   @id @default(uuid())
+  trainingId   String
+  photoUrl     String
+  caption      String?
+  uploadedById String
+  createdAt    DateTime @default(now())
+
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  uploadedBy User     @relation(fields: [uploadedById], references: [id])
+}
+
+model TrainingFeedback {
+  id                    String   @id @default(uuid())
+  trainingId            String
+  participantId         String
+  contentRating         Int
+  trainerRating         Int
+  materialRating        Int
+  venueRating           Int
+  overallRating         Int
+  comments              String?
+  suggestedImprovements String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  training    Training    @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  participant Participant @relation(fields: [participantId], references: [id]) // Changed from user to participant
+
+  @@unique([trainingId, participantId])
+}
+
+model FeedbackForm {
+  id            String   @id @default(uuid())
+  trainingId    String
+  sessionId     String
+  participantId String
+  fileUrl       String
+  filePath      String?
+  submittedAt   DateTime @default(now())
+  uploadedById  String // Trainer who uploaded it
+
+  training    Training        @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  session     TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  participant Participant     @relation(fields: [participantId], references: [id])
+  uploadedBy  User            @relation(fields: [uploadedById], references: [id])
+
+  @@unique([sessionId, participantId]) // One form per participant per session
+}
+
+model TrainingFollowup {
+  id           String    @id @default(uuid())
+  trainingId   String
+  title        String
+  description  String
+  dueDate      DateTime?
+  isCompleted  Boolean   @default(false)
+  assignedToId String
+  createdById  String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  completedAt  DateTime?
+
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  assignedTo User     @relation("AssignedFollowups", fields: [assignedToId], references: [id])
+  createdBy  User     @relation("CreatedFollowups", fields: [createdById], references: [id])
+}
+
+model TrainingNotification {
+  id         String    @id @default(uuid())
+  trainingId String
+  userId     String
+  title      String
+  message    String
+  isRead     Boolean   @default(false)
+  sentAt     DateTime  @default(now())
+  readAt     DateTime?
+
+  training Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model TrainingInviteToken {
+  id            String   @id @default(uuid())
+  token         String   @unique
+  action        String // "ACCEPT" or "DECLINE"
+  trainingId    String
+  participantId String? // Optional, can link to a specific participant
+  email         String
+  expiresAt     DateTime
+  used          Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  training    Training     @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  participant Participant? @relation(fields: [participantId], references: [id]) // Make this optional with ?
+
+  @@index([token])
+}
+
+model TrainingSessionPhoto {
+  id           String   @id @default(uuid())
+  sessionId    String
+  photoUrl     String
+  caption      String?
+  uploadedById String
+  createdAt    DateTime @default(now())
+
+  session    TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  uploadedBy User            @relation("UploadedSessionPhotos", fields: [uploadedById], references: [id])
+}
+
+// Models and enums from audit.prisma
+enum AuditType {
+  INTERNAL
+  EXTERNAL
+}
+
+enum AuditStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DELAYED
+}
+
+enum FindingType {
+  OBSERVATION
+  NON_CONFORMITY
+  MAJOR_NON_CONFORMITY
+  OPPORTUNITY_FOR_IMPROVEMENT
+}
+
+enum FindingStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  VERIFIED
+  CLOSED
+}
+
+enum AuditDocumentType {
+  CHECKLIST
+  PROCEDURE
+  CERTIFICATE
+  EVIDENCE
+  REPORT
+  OTHER
+}
+
+model Auditor {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  userId     String?  @unique
+  isExternal Boolean  @default(false)
+  firmName   String? // Only for external auditors
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User?    @relation("UserAuditor", fields: [userId], references: [id])
+  audits     Audit[]
+}
+
+model Audit {
+  id           String      @id @default(uuid())
+  name         String
+  auditType    AuditType
+  status       AuditStatus @default(PLANNED)
+  startDate    DateTime
+  endDate      DateTime?
+  auditorId    String
+  auditeeId    String?
+  firmName     String?
+  departmentId String?
+  objectives   String?
+  scope        String?
+  summary      String?
+  createdById  String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  // Relations
+  auditor    Auditor     @relation(fields: [auditorId], references: [id])
+  auditee    User?       @relation("AuditeeAudits", fields: [auditeeId], references: [id])
+  department Department? @relation(fields: [departmentId], references: [id])
+  createdBy  User        @relation("CreatedAudits", fields: [createdById], references: [id])
+
+  findings        Finding[]
+  documents       AuditDocument[]
+  actions         CorrectiveAction[]
+  reminders       AuditReminder[]
+  notifications   AuditNotification[]
+  checklistItems  PreAuditChecklistItem[]
+  inspectionItems AuditInspectionItem[]
+}
+
+model AuditInspectionItem {
+  id                String   @id @default(uuid())
+  auditId           String
+  areaName          String // Storage, Cleaning, Training, Lab, etc.
+  itemName          String
+  description       String?
+  standardReference String? // Reference to relevant standard
+  isCompliant       Boolean?
+  comments          String?
+  evidence          String? // URL to photo or document
+  inspectedById     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  audit       Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  inspectedBy User? @relation("InspectedItems", fields: [inspectedById], references: [id])
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  audits Audit[]
+}
+
+model Finding {
+  id           String        @id @default(uuid())
+  auditId      String
+  title        String
+  description  String
+  findingType  FindingType
+  status       FindingStatus @default(OPEN)
+  priority     Priority?     @default(MEDIUM)
+  dueDate      DateTime?
+  assignedToId String?
+  evidence     String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  closedAt     DateTime?
+
+  // Relations
+  audit      Audit              @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  assignedTo User?              @relation("AssignedFindings", fields: [assignedToId], references: [id])
+  actions    CorrectiveAction[]
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model CorrectiveAction {
+  id           String    @id @default(uuid())
+  auditId      String
+  findingId    String?
+  title        String
+  description  String
+  actionType   String // CORRECTIVE, PREVENTIVE
+  assignedToId String
+  dueDate      DateTime
+  status       String // OPEN, IN_PROGRESS, COMPLETED, VERIFIED
+  completedAt  DateTime?
+  verifiedAt   DateTime?
+  verifiedById String?
+  evidence     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  audit      Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  finding    Finding? @relation(fields: [findingId], references: [id])
+  assignedTo User     @relation("AssignedActions", fields: [assignedToId], references: [id])
+  verifiedBy User?    @relation("VerifiedActions", fields: [verifiedById], references: [id])
+}
+
+model AuditDocument {
+  id           String            @id @default(uuid())
+  auditId      String
+  title        String
+  description  String?
+  documentType AuditDocumentType
+  fileUrl      String
+  filePath     String?
+  uploadedById String
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  // Relations
+  audit      Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  uploadedBy User  @relation(fields: [uploadedById], references: [id])
+}
+
+model PreAuditChecklistItem {
+  id            String    @id @default(uuid())
+  auditId       String
+  description   String
+  isCompleted   Boolean   @default(false)
+  comments      String?
+  responsibleId String
+  dueDate       DateTime?
+  completedAt   DateTime?
+  createdById   String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  audit       Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  responsible User  @relation("ResponsibleForChecklistItems", fields: [responsibleId], references: [id])
+  createdBy   User  @relation("CreatedChecklistItems", fields: [createdById], references: [id])
+}
+
+model AuditReminder {
+  id          String    @id @default(uuid())
+  auditId     String
+  title       String
+  message     String
+  dueDate     DateTime
+  status      String // PENDING, SENT, DISMISSED
+  recipientId String
+  createdById String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  sentAt      DateTime?
+
+  // Relations
+  audit     Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  recipient User  @relation("ReceivedReminders", fields: [recipientId], references: [id])
+  createdBy User  @relation("CreatedReminders", fields: [createdById], references: [id])
+}
+
+model AuditNotification {
+  id      String    @id @default(uuid())
+  auditId String
+  userId  String
+  title   String
+  message String
+  isRead  Boolean   @default(false)
+  sentAt  DateTime  @default(now())
+  readAt  DateTime?
+
+  // Relations
+  audit Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  user  User  @relation("AuditNotifications", fields: [userId], references: [id])
+}
+// Models and enums from raw.prisma
+model Vendor {
+  id             String               @id @default(uuid())
+  vendorCode     String               @unique
+  name           String
+  address        String
+  contactPerson  String
+  contactNumber  String
+  email          String
+  bankName       String?
+  accountHolder  String?
+  accountNo      String?
+  enabled        Boolean              @default(true)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  purchaseOrders PurchaseOrder[]
+  rawMaterials   RawMaterialProduct[]
+}
+
+model RawMaterialProduct {
+  id                 String              @id @default(uuid())
+  skuCode            String              @unique
+  name               String
+  category           String
+  unitOfMeasurement  String
+  minReorderLevel    Int
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  vendorId           String?
+  vendor             Vendor?             @relation(fields: [vendorId], references: [id])
+  stockEntries       StockEntry[]
+  cleaningJobs       CleaningJob[]
+  processingJobs     ProcessingJob[]
+  purchaseOrderItems PurchaseOrderItem[]
+  currentStocks      CurrentStock[]
+}
+
+model PurchaseOrder {
+  id           String              @id @default(uuid())
+  poNumber     String              @unique
+  vendorId     String
+  vendor       Vendor              @relation(fields: [vendorId], references: [id])
+  orderDate    DateTime
+  expectedDate DateTime
+  status       String // e.g., Created, Approved, Received, Cancelled
+  items        PurchaseOrderItem[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model PurchaseOrderItem {
+  id               String             @id @default(uuid())
+  purchaseOrderId  String
+  purchaseOrder    PurchaseOrder      @relation(fields: [purchaseOrderId], references: [id])
+  rawMaterialId    String
+  rawMaterial      RawMaterialProduct @relation(fields: [rawMaterialId], references: [id])
+  quantityOrdered  Float
+  rate             Float
+  quantityReceived Float              @default(0)
+  status           String // e.g., Pending, Received, Rejected
+  grn              GRN? // One-to-one relation with GRN
+}
+
+model GRN {
+  id                  String            @id @default(uuid())
+  grnNumber           String            @unique
+  purchaseOrderItemId String            @unique
+  purchaseOrderItem   PurchaseOrderItem @relation(fields: [purchaseOrderItemId], references: [id])
+  date                DateTime          @default(now())
+  itemName            String
+  supplierName        String
+  invoiceQtyBags      Float
+  invoiceWeight       Float
+  confirmedQtyBags    Float
+  confirmedWeight     Float
+  weightDifference    Float
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  bagWeights          GRNBagWeight[]
+}
+
+model GRNBagWeight {
+  id        String @id @default(uuid())
+  grnId     String
+  grn       GRN    @relation(fields: [grnId], references: [id], onDelete: Cascade)
+  bagNumber Int
+  weight    Float
+}
+
+model StockEntry {
+  id            String             @id @default(uuid())
+  rawMaterialId String
+  rawMaterial   RawMaterialProduct @relation(fields: [rawMaterialId], references: [id])
+  warehouseId   String
+  warehouse     Warehouse          @relation(fields: [warehouseId], references: [id])
+  batchNumber   String?
+  expiryDate    DateTime?
+  quantity      Float
+  entryType     String // IN, OUT, CLEANING, PROCESSING, REJECTED, etc.
+  referenceId   String? // Link to PO, CleaningJob, ProcessingJob, etc.
+  status        String
+  reasonCode    String?
+  createdAt     DateTime           @default(now())
+}
+
+model Warehouse {
+  id               String            @id @default(uuid())
+  name             String
+  location         String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  stockEntries     StockEntry[]
+  cleaningJobsFrom CleaningJob[]     @relation("CleaningFromWarehouse")
+  cleaningJobsTo   CleaningJob[]     @relation("CleaningToWarehouse")
+  unfinishedStocks UnfinishedStock[]
+  currentStocks    CurrentStock[]
+  byProducts       ByProduct[]
+  // Add these two lines for CleaningLog relations:
+  cleaningLogsFrom CleaningLog[]     @relation("CleaningFromWarehouse")
+  cleaningLogsTo   CleaningLog[]     @relation("CleaningToWarehouse")
+  finishedGoods    FinishedGood[]
+  reusableStocks   ReusableStock[]
+}
+
+model CleaningJob {
+  id              String             @id
+  rawMaterialId   String
+  rawMaterial     RawMaterialProduct @relation(fields: [rawMaterialId], references: [id])
+  fromWarehouseId String
+  fromWarehouse   Warehouse          @relation("CleaningFromWarehouse", fields: [fromWarehouseId], references: [id])
+  toWarehouseId   String
+  toWarehouse     Warehouse          @relation("CleaningToWarehouse", fields: [toWarehouseId], references: [id])
+  quantity        Float
+  status          String // Sent, In-Progress, Cleaned, etc.
+  startedAt       DateTime
+  finishedAt      DateTime?
+  cleaningLogs    CleaningLog[]
+}
+
+model CleaningLog {
+  id            String      @id @default(uuid())
+  cleaningJobId String
+  cleaningJob   CleaningJob @relation(fields: [cleaningJobId], references: [id])
+  from          String
+  to            String
+  dateTime      DateTime
+  quantity      Float
+  status        String
+
+  fromWarehouseId String
+  fromWarehouse   Warehouse @relation("CleaningFromWarehouse", fields: [fromWarehouseId], references: [id])
+  toWarehouseId   String
+  toWarehouse     Warehouse @relation("CleaningToWarehouse", fields: [toWarehouseId], references: [id])
+}
+
+model UnfinishedStock {
+  id              String    @id @default(uuid())
+  cleaningJobId   String?
+  processingJobId String?
+  skuCode         String
+  quantity        Float
+  reasonCode      String // e.g., moisture, damage, breakage
+  warehouseId     String
+  warehouse       Warehouse @relation(fields: [warehouseId], references: [id])
+  createdAt       DateTime  @default(now())
+}
+
+model ProcessingJob {
+  id                 String             @id
+  inputRawMaterialId String
+  inputRawMaterial   RawMaterialProduct @relation(fields: [inputRawMaterialId], references: [id])
+  quantityInput      Float
+  startedAt          DateTime
+  finishedAt         DateTime?
+  status             String // In-Progress, Completed, etc.
+  byProducts         ByProduct[]
+  finishedGoods      FinishedGood[]
+}
+
+model FinishedGood {
+  id                String         @id @default(uuid())
+  skuCode           String         @unique
+  name              String
+  category          String
+  unitOfMeasurement String
+  quantity          Float // <-- Add this
+  warehouseId       String // <-- Add this
+  warehouse         Warehouse      @relation(fields: [warehouseId], references: [id])
+  processingJobId   String? // <-- Optional: link to processing job
+  processingJob     ProcessingJob? @relation(fields: [processingJobId], references: [id])
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+}
+
+model ByProduct {
+  id              String        @id @default(uuid())
+  processingJobId String
+  processingJob   ProcessingJob @relation(fields: [processingJobId], references: [id])
+  skuCode         String
+  quantity        Float
+  warehouseId     String
+  warehouse       Warehouse     @relation(fields: [warehouseId], references: [id])
+  tag             String // e.g., Processing_Waste, Semi_Finished
+  reason          String?
+  createdAt       DateTime      @default(now())
+}
+
+model CurrentStock {
+  id              String             @id @default(uuid())
+  rawMaterialId   String
+  rawMaterial     RawMaterialProduct @relation(fields: [rawMaterialId], references: [id])
+  warehouseId     String
+  warehouse       Warehouse          @relation(fields: [warehouseId], references: [id])
+  currentQuantity Float
+  lastUpdated     DateTime           @updatedAt
+
+  @@unique([rawMaterialId, warehouseId])
+}
+
+model TransactionLog {
+  id          String   @id @default(uuid())
+  type        String
+  entity      String
+  entityId    String
+  userId      String
+  description String
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model ReusableStock {
+  id              String    @id @default(uuid())
+  cleaningJobId   String?
+  processingJobId String?
+  skuCode         String
+  quantity        Float
+  warehouseId     String
+  warehouse       Warehouse @relation(fields: [warehouseId], references: [id])
+  createdAt       DateTime  @default(now())
+}
+
+model RMQualityReport {
+  id              String   @id @default(uuid())
+  rawMaterialName String
+  variety         String
+  supplier        String
+  dateOfReport    DateTime @default(now())
+  grn             String
+  createdById     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  createdBy  User                 @relation(fields: [createdById], references: [id])
+  parameters RMQualityParameter[]
+}
+
+model RMQualityParameter {
+  id        String   @id @default(uuid())
+  reportId  String
+  parameter String
+  standard  String
+  result    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  report RMQualityReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}

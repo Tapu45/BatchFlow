@@ -23,27 +23,27 @@ import { exportToCertificateOfAnalysis } from '../../../utils/export';
 // Status configuration using theme colors
 const statusConfig = {
   DRAFT: {
-    bg: 'bg-[var(--color-muted)]',
-    text: 'text-[var(--color-muted-foreground)]',
-    border: 'border-[var(--color-border)]',
+    bg: 'bg-[var(--muted)]',
+    text: 'text-[var(--muted-foreground)]',
+    border: 'border-[var(--border)]',
     icon: Clock,
   },
   SUBMITTED: {
-    bg: 'bg-[var(--color-accent)]',
-    text: 'text-[var(--color-accent-foreground)]',
-    border: 'border-[var(--color-accent)]',
+    bg: 'bg-[var(--accent)]',
+    text: 'text-[var(--accent-foreground)]',
+    border: 'border-[var(--accent)]',
     icon: FileText,
   },
   APPROVED: {
-    bg: 'bg-[var(--color-chart-3)]',
+    bg: 'bg-[var(--chart-3)]',
     text: 'text-white',
-    border: 'border-[var(--color-chart-3)]',
+    border: 'border-[var(--chart-3)]',
     icon: CheckCircle,
   },
   REJECTED: {
-    bg: 'bg-[var(--color-destructive)]',
-    text: 'text-[var(--color-destructive-foreground)]',
-    border: 'border-[var(--color-destructive)]',
+    bg: 'bg-[var(--destructive)]',
+    text: 'text-[var(--destructive-foreground)]',
+    border: 'border-[var(--destructive)]',
     icon: AlertTriangle,
   },
 };
@@ -72,26 +72,26 @@ const SectionCard: React.FC<{
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden"
+    className="bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden"
   >
-    <div className="bg-[var(--color-muted)] p-4 border-b border-[var(--color-border)]">
+    <div className="bg-[var(--muted)] p-4 border-b border-[var(--border)]">
       <div className="flex items-center gap-3">
-        <div className="p-2 bg-[var(--color-primary)]/10 rounded-lg">
-          <Icon size={18} className="text-[var(--color-primary)]" />
+        <div className="p-2 bg-[var(--primary)]/10 rounded-lg">
+          <Icon size={18} className="text-[var(--primary)]" />
         </div>
         <div>
-          <h2 className="text-lg font-bold text-[var(--color-foreground)]">
+          <h2 className="text-lg font-bold text-[var(--foreground)]">
             {title}
           </h2>
           {description && (
-            <p className="text-sm text-[var(--color-muted-foreground)]">
+            <p className="text-sm text-[var(--muted-foreground)]">
               {description}
             </p>
           )}
         </div>
       </div>
     </div>
-    <div className="p-6">{children}</div>
+    <div className="p-6 bg-[var(--card)]">{children}</div>
   </motion.div>
 );
 
@@ -103,7 +103,7 @@ const formatDate = (dateString: string) => {
 const getCategoryIcon = (categoryName: string) => {
   const Icon =
     categoryIcons[categoryName.toLowerCase()] || categoryIcons.default;
-  return <Icon size={18} className="text-[var(--color-primary)]" />;
+  return <Icon size={18} className="text-[var(--primary)]" />;
 };
 
 const BatchDetails = ({
@@ -182,23 +182,23 @@ const BatchDetails = ({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen bg-[var(--color-background)]"
+      className="min-h-screen bg-[var(--background)]"
     >
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden"
+          className="bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden"
         >
-          <div className="relative bg-[var(--color-muted)] p-6 border-b border-[var(--color-border)]">
+          <div className="relative bg-[var(--muted)] p-6 border-b border-[var(--border)]">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
               <div className="flex items-center gap-3 flex-wrap">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={onBack}
-                  className="flex items-center gap-2 px-4 py-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg hover:bg-[var(--color-muted)] transition-all font-medium text-sm text-[var(--color-foreground)]"
+                  className="flex items-center gap-2 px-4 py-2 bg-[var(--card)] border border-[var(--border)] rounded-lg hover:bg-[var(--muted)] transition-all font-medium text-sm text-[var(--foreground)]"
                 >
                   <ArrowLeft size={16} />
                   <span>Back</span>
@@ -211,8 +211,8 @@ const BatchDetails = ({
                   disabled={!isVerified}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium text-sm ${
                     isVerified
-                      ? 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:opacity-90'
-                      : 'bg-[var(--color-muted)] text-[var(--color-muted-foreground)] cursor-not-allowed'
+                      ? 'bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90'
+                      : 'bg-[var(--muted)] text-[var(--muted-foreground)] cursor-not-allowed'
                   }`}
                 >
                   <Download size={16} />
@@ -229,23 +229,23 @@ const BatchDetails = ({
             </div>
 
             <div className="mt-6 flex flex-col lg:flex-row items-start lg:items-center gap-4">
-              <div className="p-3 bg-[var(--color-primary)]/10 rounded-xl">
-                <Package className="text-[var(--color-primary)]" size={24} />
+              <div className="p-3 bg-[var(--primary)]/10 rounded-xl">
+                <Package className="text-[var(--primary)]" size={24} />
               </div>
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-[var(--color-foreground)] mb-2">
+                <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">
                   Batch #{batch.batchNumber}
                 </h1>
                 <div className="flex flex-wrap items-center gap-2 text-sm">
-                  <span className="flex items-center gap-2 bg-[var(--color-card)] px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-muted-foreground)]">
+                  <span className="flex items-center gap-2 bg-[var(--card)] px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted-foreground)]">
                     <Package size={14} />
                     {batch.productName}
                   </span>
-                  <span className="flex items-center gap-2 bg-[var(--color-card)] px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-muted-foreground)]">
+                  <span className="flex items-center gap-2 bg-[var(--card)] px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted-foreground)]">
                     <Calendar size={14} />
                     {formatDate(batch.dateOfProduction)}
                   </span>
-                  <span className="flex items-center gap-2 bg-[var(--color-card)] px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-muted-foreground)]">
+                  <span className="flex items-center gap-2 bg-[var(--card)] px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted-foreground)]">
                     <Clock size={14} />
                     {formatDate(batch.bestBeforeDate)}
                   </span>
@@ -263,54 +263,54 @@ const BatchDetails = ({
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <div className="bg-[var(--color-muted)] rounded-lg p-4 border border-[var(--color-border)]">
+              <div className="bg-[var(--muted)] rounded-lg p-4 border border-[var(--border)]">
                 <div className="flex items-center gap-2 mb-3">
-                  <Package size={16} className="text-[var(--color-primary)]" />
-                  <h3 className="text-sm font-semibold text-[var(--color-foreground)]">
+                  <Package size={16} className="text-[var(--primary)]" />
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">
                     Product Details
                   </h3>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Product Name:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {batch.productName}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Analysis Status:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
-                      {batch.sampleAnalysisStatus || 'N/A'}
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
+                      {batch.sampleAnalysisStatus || 'PENDING'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-[var(--color-muted)] rounded-lg p-4 border border-[var(--color-border)]">
+              <div className="bg-[var(--muted)] rounded-lg p-4 border border-[var(--border)]">
                 <div className="flex items-center gap-2 mb-3">
-                  <Calendar size={16} className="text-[var(--color-primary)]" />
-                  <h3 className="text-sm font-semibold text-[var(--color-foreground)]">
+                  <Calendar size={16} className="text-[var(--primary)]" />
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">
                     Production Timeline
                   </h3>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Production Date:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {formatDate(batch.dateOfProduction)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Best Before:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {formatDate(batch.bestBeforeDate)}
                     </span>
                   </div>
@@ -319,54 +319,54 @@ const BatchDetails = ({
             </div>
 
             <div className="space-y-3">
-              <div className="bg-[var(--color-muted)] rounded-lg p-4 border border-[var(--color-border)]">
+              <div className="bg-[var(--muted)] rounded-lg p-4 border border-[var(--border)]">
                 <div className="flex items-center gap-2 mb-3">
-                  <Users size={16} className="text-[var(--color-primary)]" />
-                  <h3 className="text-sm font-semibold text-[var(--color-foreground)]">
+                  <Users size={16} className="text-[var(--primary)]" />
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">
                     Personnel Information
                   </h3>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Created By:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {batch.maker?.name || 'N/A'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Checked By:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {batch.checker?.name || 'Not checked yet'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-[var(--color-muted)] rounded-lg p-4 border border-[var(--color-border)]">
+              <div className="bg-[var(--muted)] rounded-lg p-4 border border-[var(--border)]">
                 <div className="flex items-center gap-2 mb-3">
-                  <Clock size={16} className="text-[var(--color-primary)]" />
-                  <h3 className="text-sm font-semibold text-[var(--color-foreground)]">
+                  <Clock size={16} className="text-[var(--primary)]" />
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">
                     System Information
                   </h3>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Created Date:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {formatDate(batch.createdAt)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-muted-foreground)]">
+                    <span className="text-sm text-[var(--muted-foreground)]">
                       Last Updated:
                     </span>
-                    <span className="text-sm font-semibold text-[var(--color-foreground)]">
+                    <span className="text-sm font-semibold text-[var(--foreground)]">
                       {formatDate(batch.updatedAt)}
                     </span>
                   </div>
@@ -381,10 +381,10 @@ const BatchDetails = ({
           Object.keys(batch.parameterValuesByCategory).length > 0 && (
             <div className="space-y-6">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-[var(--color-foreground)] mb-2">
+                <h2 className="text-xl font-bold text-[var(--foreground)] mb-2">
                   Quality Parameters Analysis
                 </h2>
-                <p className="text-sm text-[var(--color-muted-foreground)] max-w-2xl mx-auto">
+                <p className="text-sm text-[var(--muted-foreground)] max-w-2xl mx-auto">
                   Comprehensive testing results and verification status for all
                   quality parameters
                 </p>
@@ -398,19 +398,19 @@ const BatchDetails = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden"
+                  className="bg-[var(--card)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden"
                 >
-                  <div className="bg-[var(--color-muted)] p-4 border-b border-[var(--color-border)]">
+                  <div className="bg-[var(--muted)] p-4 border-b border-[var(--border)]">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-[var(--color-card)] rounded-lg">
+                        <div className="p-2 bg-[var(--card)] rounded-lg">
                           {getCategoryIcon(categoryName)}
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-[var(--color-foreground)] mb-1">
+                          <h3 className="text-lg font-bold text-[var(--foreground)] mb-1">
                             {categoryName} Parameters
                           </h3>
-                          <p className="text-sm text-[var(--color-muted-foreground)]">
+                          <p className="text-sm text-[var(--muted-foreground)]">
                             {parameters.length} parameter
                             {parameters.length !== 1 ? 's' : ''} tested
                             {isVerified
@@ -423,8 +423,8 @@ const BatchDetails = ({
                       <div
                         className={`px-4 py-2 rounded-lg border font-semibold text-sm ${
                           isVerified
-                            ? 'bg-[var(--color-chart-3)]/10 text-[var(--color-chart-3)] border-[var(--color-chart-3)]/20'
-                            : 'bg-[var(--color-muted)] text-[var(--color-muted-foreground)] border-[var(--color-border)]'
+                            ? 'bg-[var(--chart-3)]/10 text-[var(--chart-3)] border-[var(--chart-3)]/20'
+                            : 'bg-[var(--muted)] text-[var(--muted-foreground)] border-[var(--border)]'
                         }`}
                       >
                         <div className="flex items-center gap-2">
@@ -442,7 +442,7 @@ const BatchDetails = ({
                     </div>
                   </div>
 
-                  <div className="p-4">
+                  <div className="p-4 bg-[var(--card)]">
                     <ParameterDetailsTable
                       parameters={parameters}
                       isVerified={isVerified}

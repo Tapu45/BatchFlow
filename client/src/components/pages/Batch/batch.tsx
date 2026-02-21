@@ -3,12 +3,10 @@ import ViewBatches from "../../ui/batch/ViewBatches";
 
 
 const BatchPage: React.FC = () => {
- 
-
   return (
-    // Remove the outer flex wrapper with bg-gray-50 that adds the white background
-    // Remove the shadow-sm and rounded-lg wrapper div that creates another white layer
-    <ViewBatches />
+    <div style={{ background: 'var(--background)', color: 'var(--foreground)' }} className="min-h-screen p-6">
+      <ViewBatches />
+    </div>
   );
 };
 

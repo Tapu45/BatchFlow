@@ -3,7 +3,7 @@ import { PrismaClient } from '../../generated/prisma';
 const prisma = new PrismaClient();
 
 export class DashboardController {
-  // 📦 Total Raw Material Stock (kg/litre) - Return all stock details
+  // 📦 Total Raw Material Stock (kg) - Return all stock details
   static async getTotalRawMaterialStock(req: Request, res: Response) {
     try {
       const stocks = await prisma.currentStock.findMany({

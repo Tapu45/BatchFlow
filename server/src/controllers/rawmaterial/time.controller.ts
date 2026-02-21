@@ -39,7 +39,7 @@ export const getPurchaseOrdersByProduct = async (req: Request, res: Response): P
       poMap[po.id].totalQuantity += item.quantityOrdered;
       poMap[po.id].receivedQuantity += item.quantityReceived;
     });
-
+    
     res.json(Object.values(poMap));
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch purchase orders' });

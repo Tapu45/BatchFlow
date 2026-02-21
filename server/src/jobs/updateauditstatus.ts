@@ -4,6 +4,32 @@ import { createActivityLog } from '../utils/handler/activityLogger';
 const prisma = new PrismaClient();
 
 /**
+ * Helper function to retry database operations with exponential backoff
+ */
+const retryWithBackoff = async <T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  initialDelay: number = 1000
+): Promise<T> => {
+  let lastError: Error | undefined;
+  
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error as Error;
+      if (i < maxRetries - 1) {
+        const delay = initialDelay * Math.pow(2, i);
+        console.log(`Database operation failed, retrying in ${delay}ms... (attempt ${i + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  
+  throw lastError;
+};
+
+/**
  * Updates audit statuses based on date criteria:
  * - PLANNED to IN_PROGRESS when current date >= startDate
  * - IN_PROGRESS to COMPLETED when current date > endDate
@@ -16,30 +42,30 @@ export const updateAuditStatuses = async () => {
     // First, find or create a system user for logging
     let systemUser;
     try {
-      // Try to find an existing admin/system user
-      systemUser = await prisma.user.findFirst({
+      // Try to find an existing admin/system user with retry logic
+      systemUser = await retryWithBackoff(() => prisma.user.findFirst({
         where: {
           OR: [
             { email: 'system@example.com' },
             { email: 'admin@example.com' }
           ],
         }
-      });
+      }));
       
       if (!systemUser) {
         // Find any user who has admin privileges
-        systemUser = await prisma.user.findFirst({
+        systemUser = await retryWithBackoff(() => prisma.user.findFirst({
           where: {
             Role: {
               name: 'Admin'
             }
           }
-        });
+        }));
       }
       
       // If still no suitable user, use the first user in the system
       if (!systemUser) {
-        systemUser = await prisma.user.findFirst();
+        systemUser = await retryWithBackoff(() => prisma.user.findFirst());
       }
       
       if (!systemUser) {
@@ -55,7 +81,7 @@ export const updateAuditStatuses = async () => {
     const batchSize = 50;
     
     // 1. Update PLANNED audits to IN_PROGRESS
-    const plannedAudits = await prisma.audit.findMany({
+    const plannedAudits = await retryWithBackoff(() => prisma.audit.findMany({
       where: {
         status: 'PLANNED',
         startDate: {
@@ -63,7 +89,7 @@ export const updateAuditStatuses = async () => {
         }
       },
       take: batchSize,
-    });
+    }));
     
     if (plannedAudits.length > 0) {
       console.log(`Found ${plannedAudits.length} PLANNED audits to update to IN_PROGRESS`);
@@ -93,7 +119,7 @@ export const updateAuditStatuses = async () => {
     }
     
     // 2. Update IN_PROGRESS audits to COMPLETED
-    const inProgressAudits = await prisma.audit.findMany({
+    const inProgressAudits = await retryWithBackoff(() => prisma.audit.findMany({
       where: {
         status: 'IN_PROGRESS',
         endDate: {
@@ -101,7 +127,7 @@ export const updateAuditStatuses = async () => {
         }
       },
       take: batchSize,
-    });
+    }));
     
     if (inProgressAudits.length > 0) {
       console.log(`Found ${inProgressAudits.length} IN_PROGRESS audits to update to COMPLETED`);

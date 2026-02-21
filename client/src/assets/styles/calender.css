@@ -1,15 +1,23 @@
-/* Custom Calendar Styling */
+/* Custom Calendar Styling - Dark Mode Support */
+
+/* Calendar wrapper for scoped theming */
+.training-calendar-wrapper {
+  /* Light mode inherits from parent */
+}
+
+/* Custom Calendar Header */
 .custom-calendar .ant-picker-calendar-header {
   padding: 12px;
-  background-color: #f9fafb;
+  background-color: var(--card);
   border-radius: 8px;
   margin-bottom: 16px;
-  border-bottom: 1px solid #e0e7ff;
+  border-bottom: 1px solid var(--border);
 }
 
 .custom-calendar .ant-picker-panel {
   border-radius: 8px;
   overflow: hidden;
+  background-color: var(--card);
 }
 
 .custom-calendar .ant-picker-cell {
@@ -25,17 +33,17 @@
 }
 
 .custom-calendar .selected-date {
-  background-color: rgba(59, 130, 246, 0.1);
-  border: 1px solid #2563eb;
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+  border: 1px solid var(--primary);
   transform: scale(1.02);
 }
 
 .custom-calendar .weekend-date {
-  background-color: #f9fafb;
+  background-color: var(--muted);
 }
 
 .custom-calendar .current-date {
-  background-color: rgba(37, 99, 235, 0.05);
+  background-color: color-mix(in srgb, var(--primary) 5%, transparent);
   position: relative;
 }
 
@@ -50,6 +58,7 @@
   display: block;
   font-size: 11px;
   white-space: nowrap;
+  color: var(--foreground);
 }
 
 /* Cell hover animation */
@@ -61,26 +70,47 @@
 /* Day drawer styles */
 .day-details-drawer .ant-drawer-body {
   padding: 16px;
-  background-color: #fafafa;
+  background-color: var(--background);
 }
 
 .day-details-drawer .ant-drawer-header {
-  background-color: #f0f7ff;
-  border-bottom: 1px solid #bfdbfe;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.day-details-drawer .ant-drawer-title {
+  color: var(--foreground);
+}
+
+.day-details-drawer .ant-drawer-close {
+  color: var(--foreground);
 }
 
 /* Calendar description modal */
 .calendar-description-modal .ant-modal-header {
-  background-color: #f0f7ff;
-  border-bottom: 1px solid #bfdbfe;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-description-modal .ant-modal-title {
+  color: var(--foreground);
 }
 
 .calendar-description-modal .ant-modal-content {
   border-radius: 8px;
   overflow: hidden;
+  background-color: var(--card);
 }
 
-/* Training status colors */
+.calendar-description-modal .ant-modal-body {
+  color: var(--foreground);
+}
+
+.calendar-description-modal .ant-modal-close {
+  color: var(--muted-foreground);
+}
+
+/* Training status colors - Light mode */
 .status-tag-SCHEDULED {
   color: #1890ff;
   background: #e6f7ff;
@@ -111,13 +141,44 @@
   border-color: #d3adf7;
 }
 
+/* Training status colors - Dark mode */
+.dark .status-tag-SCHEDULED {
+  color: #69c0ff;
+  background: rgba(24, 144, 255, 0.2);
+  border-color: rgba(24, 144, 255, 0.4);
+}
+
+.dark .status-tag-IN_PROGRESS {
+  color: #ffc53d;
+  background: rgba(250, 173, 20, 0.2);
+  border-color: rgba(250, 173, 20, 0.4);
+}
+
+.dark .status-tag-COMPLETED {
+  color: #95de64;
+  background: rgba(82, 196, 26, 0.2);
+  border-color: rgba(82, 196, 26, 0.4);
+}
+
+.dark .status-tag-CANCELLED {
+  color: #ff7875;
+  background: rgba(245, 34, 45, 0.2);
+  border-color: rgba(245, 34, 45, 0.4);
+}
+
+.dark .status-tag-POSTPONED {
+  color: #b37feb;
+  background: rgba(114, 46, 209, 0.2);
+  border-color: rgba(114, 46, 209, 0.4);
+}
+
 /* Select dropdown custom styling */
 .select-dropdown-custom .ant-select-item-option-selected {
-  background-color: #f0f7ff;
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .select-dropdown-custom .ant-select-item-option-active {
-  background-color: #f0f7ff;
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 /* Animation improvements */
@@ -130,6 +191,7 @@
     opacity: 0;
     transform: translate3d(0, 20px, 0);
   }
+
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -142,4 +204,262 @@
 
 .ant-badge:hover .ant-badge-status-dot {
   transform: scale(1.2);
+}
+
+/* Training calendar wrapper specific styles */
+.training-calendar-wrapper select {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.training-calendar-wrapper select option {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+.training-calendar-wrapper input {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.training-calendar-wrapper input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.training-calendar-wrapper textarea {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.training-calendar-wrapper textarea::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Dark mode shadow adjustments */
+.dark .training-calendar-wrapper .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .training-calendar-wrapper .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .training-calendar-wrapper .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Hover states in dark mode */
+.dark .training-calendar-wrapper .hover\:shadow-lg:hover {
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 10px -2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .training-calendar-wrapper .hover\:shadow-md:hover {
+  box-shadow: 0 6px 12px -1px rgba(0, 0, 0, 0.35), 0 3px 6px -1px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* =====================================================
+   AUDIT CALENDAR - FULLCALENDAR DARK MODE SUPPORT
+   ===================================================== */
+
+/* Audit Calendar Wrapper */
+.audit-calendar-wrapper {
+  background-color: var(--card);
+}
+
+/* FullCalendar Base Styles */
+.audit-calendar-wrapper .fc {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* FullCalendar Table */
+.audit-calendar-wrapper .fc-scrollgrid {
+  border-color: var(--border) !important;
+}
+
+.audit-calendar-wrapper .fc-scrollgrid td,
+.audit-calendar-wrapper .fc-scrollgrid th {
+  border-color: var(--border) !important;
+}
+
+/* Day Grid Month View */
+.audit-calendar-wrapper .fc-daygrid-day {
+  background-color: var(--card);
+}
+
+.audit-calendar-wrapper .fc-daygrid-day:hover {
+  background-color: var(--muted);
+}
+
+.audit-calendar-wrapper .fc-daygrid-day-number {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.audit-calendar-wrapper .fc-daygrid-day-top {
+  padding: 4px 8px;
+}
+
+/* Today Highlight */
+.audit-calendar-wrapper .fc-day-today {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent) !important;
+}
+
+.audit-calendar-wrapper .fc-day-today .fc-daygrid-day-number {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Weekend Days */
+.audit-calendar-wrapper .fc-day-sat,
+.audit-calendar-wrapper .fc-day-sun {
+  background-color: var(--muted);
+}
+
+/* Column Headers (Day Names) */
+.audit-calendar-wrapper .fc-col-header-cell {
+  background-color: var(--muted);
+  border-color: var(--border) !important;
+}
+
+.audit-calendar-wrapper .fc-col-header-cell-cushion {
+  color: var(--foreground);
+  font-weight: 600;
+  padding: 12px 8px;
+}
+
+/* Time Grid View (Week/Day) */
+.audit-calendar-wrapper .fc-timegrid-slot {
+  border-color: var(--border) !important;
+}
+
+.audit-calendar-wrapper .fc-timegrid-slot-label-cushion {
+  color: var(--muted-foreground);
+}
+
+.audit-calendar-wrapper .fc-timegrid-axis-cushion {
+  color: var(--muted-foreground);
+}
+
+.audit-calendar-wrapper .fc-timegrid-now-indicator-line {
+  border-color: var(--primary) !important;
+}
+
+.audit-calendar-wrapper .fc-timegrid-now-indicator-arrow {
+  border-color: var(--primary) !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+/* List View */
+.audit-calendar-wrapper .fc-list {
+  border-color: var(--border) !important;
+}
+
+.audit-calendar-wrapper .fc-list-sticky .fc-list-day>* {
+  background-color: var(--muted) !important;
+}
+
+.audit-calendar-wrapper .fc-list-day-cushion {
+  background-color: var(--muted) !important;
+  color: var(--foreground);
+}
+
+.audit-calendar-wrapper .fc-list-event {
+  background-color: var(--card);
+}
+
+.audit-calendar-wrapper .fc-list-event:hover td {
+  background-color: var(--muted) !important;
+}
+
+.audit-calendar-wrapper .fc-list-event-time,
+.audit-calendar-wrapper .fc-list-event-title {
+  color: var(--foreground);
+}
+
+/* Buttons (if any default toolbar is shown) */
+.audit-calendar-wrapper .fc-button {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.audit-calendar-wrapper .fc-button:hover {
+  background-color: var(--muted) !important;
+}
+
+.audit-calendar-wrapper .fc-button-active {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* More Events Popover */
+.audit-calendar-wrapper .fc-more-popover {
+  background-color: var(--card);
+  border-color: var(--border);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.3);
+}
+
+.audit-calendar-wrapper .fc-more-popover .fc-popover-header {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.audit-calendar-wrapper .fc-more-popover .fc-popover-body {
+  background-color: var(--card);
+}
+
+/* Other/Past Days */
+.audit-calendar-wrapper .fc-day-other .fc-daygrid-day-number {
+  color: var(--muted-foreground);
+}
+
+/* Events */
+.audit-calendar-wrapper .fc-event {
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+.audit-calendar-wrapper .fc-daygrid-event {
+  border-radius: 4px;
+}
+
+.audit-calendar-wrapper .fc-daygrid-more-link {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Dark mode specific overrides */
+.dark .audit-calendar-wrapper .fc-scrollgrid {
+  border-color: var(--border) !important;
+}
+
+.dark .audit-calendar-wrapper .fc-scrollgrid td,
+.dark .audit-calendar-wrapper .fc-scrollgrid th {
+  border-color: var(--border) !important;
+}
+
+.dark .audit-calendar-wrapper .fc-daygrid-day {
+  background-color: var(--card);
+}
+
+.dark .audit-calendar-wrapper .fc-col-header-cell {
+  background-color: var(--muted);
+}
+
+.dark .audit-calendar-wrapper .fc-list-day-cushion {
+  background-color: var(--muted) !important;
+}
+
+.dark .audit-calendar-wrapper .fc-more-popover {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark .audit-calendar-wrapper .fc-more-popover .fc-popover-header {
+  background-color: var(--muted);
 }

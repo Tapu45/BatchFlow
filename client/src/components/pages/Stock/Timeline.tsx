@@ -15,7 +15,7 @@ import {
   AlertCircle,
 } from "lucide-react"
 import api, { API_ROUTES } from "../../../utils/api"
-import { Modal } from "antd";
+
 
 type PurchaseOrder = {
   id: string
@@ -139,101 +139,101 @@ const ProductPurchaseOrdersView: React.FC<Props> = ({ onClose, rawMaterialId, ra
   }
 
   const TimelineComponent = React.memo(({ events }: { events: TimelineEvent[] }) => {
-  const handleMouseEnter = useCallback((index: number) => {
-    setHoveredEvent(index)
-  }, [])
+    const handleMouseEnter = useCallback((index: number) => {
+      setHoveredEvent(index)
+    }, [])
 
-  const handleMouseLeave = useCallback(() => {
-    setHoveredEvent(null)
-  }, [])
+    const handleMouseLeave = useCallback(() => {
+      setHoveredEvent(null)
+    }, [])
 
-  if (!events.length) {
+    if (!events.length) {
+      return (
+        <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+          <AlertCircle className="h-12 w-12 mb-4" />
+          <h4 className="text-lg font-semibold mb-2">No Timeline Events</h4>
+          <p className="text-sm">No events found for this purchase order.</p>
+        </div>
+      )
+    }
+
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-gray-500">
-        <AlertCircle className="h-12 w-12 mb-4" />
-        <h4 className="text-lg font-semibold mb-2">No Timeline Events</h4>
-        <p className="text-sm">No events found for this purchase order.</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="w-full py-8 px-4 flex justify-center">
-      <div className="relative flex flex-col items-center">
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 via-blue-500 to-blue-200 z-0" style={{ minHeight: "100%" }} />
-        <div className="relative z-10 flex flex-col items-center gap-12">
-          {events.map((event, index) => {
-            const config = getEventConfig(event.type)
-            return (
-              <div key={index} className="flex flex-col items-center relative group">
-                <motion.div
-                  className={`relative w-12 h-12 ${config.color} rounded-full flex items-center justify-center shadow-lg cursor-pointer z-20 transition-all duration-200`}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{
-                    delay: index * 0.1,
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 300,
-                  }}
-                  whileHover={{
-                    scale: 1.15,
-                    y: -3,
-                    transition: { duration: 0.2 },
-                  }}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${config.label} - ${new Date(event.date).toLocaleDateString()}`}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      handleMouseEnter(index)
-                    }
-                  }}
-                >
-                  <MapPin className="h-6 w-6 text-white" />
-                  <div className="absolute inset-0 flex items-center justify-center text-xs">{config.icon}</div>
-                </motion.div>
-                <motion.div
-                  className="mt-3 text-center"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.2 }}
-                >
-                  <div className="text-xs font-semibold text-gray-800 mb-1 leading-tight">{config.label}</div>
-                  <div className="text-xs text-gray-600">{new Date(event.date).toLocaleDateString()}</div>
-                </motion.div>
-                <AnimatePresence>
-                  {hoveredEvent === index && (
-                    <motion.div
-                      className="absolute left-full ml-6 top-1/2 -translate-y-1/2 bg-gray-900 text-white p-4 rounded-lg shadow-2xl z-50 min-w-80 max-w-96"
-                      initial={{ opacity: 0, x: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      style={{
-                        pointerEvents: "none",
-                      }}
-                    >
-                      <div className="text-sm font-bold mb-2 text-blue-300">{config.label}</div>
-                      <div className="text-xs text-gray-300 mb-3">{new Date(event.date).toLocaleString()}</div>
-                      <div className="text-sm leading-relaxed">{event.details}</div>
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
-                    </motion.div>
+      <div className="w-full py-8 px-4 flex justify-center">
+        <div className="relative flex flex-col items-center">
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 via-blue-500 to-blue-200 z-0" style={{ minHeight: "100%" }} />
+          <div className="relative z-10 flex flex-col items-center gap-12">
+            {events.map((event, index) => {
+              const config = getEventConfig(event.type)
+              return (
+                <div key={index} className="flex flex-col items-center relative group">
+                  <motion.div
+                    className={`relative w-12 h-12 ${config.color} rounded-full flex items-center justify-center shadow-lg cursor-pointer z-20 transition-all duration-200`}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{
+                      delay: index * 0.1,
+                      duration: 0.4,
+                      type: "spring",
+                      stiffness: 300,
+                    }}
+                    whileHover={{
+                      scale: 1.15,
+                      y: -3,
+                      transition: { duration: 0.2 },
+                    }}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${config.label} - ${new Date(event.date).toLocaleDateString()}`}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        handleMouseEnter(index)
+                      }
+                    }}
+                  >
+                    <MapPin className="h-6 w-6 text-white" />
+                    <div className="absolute inset-0 flex items-center justify-center text-xs">{config.icon}</div>
+                  </motion.div>
+                  <motion.div
+                    className="mt-3 text-center"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 + 0.2 }}
+                  >
+                    <div className="text-xs font-semibold text-gray-800 mb-1 leading-tight">{config.label}</div>
+                    <div className="text-xs text-gray-600">{new Date(event.date).toLocaleDateString()}</div>
+                  </motion.div>
+                  <AnimatePresence>
+                    {hoveredEvent === index && (
+                      <motion.div
+                        className="absolute left-full ml-6 top-1/2 -translate-y-1/2 bg-gray-900 text-white p-4 rounded-lg shadow-2xl z-50 min-w-80 max-w-96"
+                        initial={{ opacity: 0, x: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        style={{
+                          pointerEvents: "none",
+                        }}
+                      >
+                        <div className="text-sm font-bold mb-2 text-blue-300">{config.label}</div>
+                        <div className="text-xs text-gray-300 mb-3">{new Date(event.date).toLocaleString()}</div>
+                        <div className="text-sm leading-relaxed">{event.details}</div>
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {index < events.length - 1 && (
+                    <div className="w-1 h-12 bg-blue-300 mx-auto" />
                   )}
-                </AnimatePresence>
-                {index < events.length - 1 && (
-                  <div className="w-1 h-12 bg-blue-300 mx-auto" />
-                )}
-              </div>
-            )
-          })}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  )
-})
+    )
+  })
 
   TimelineComponent.displayName = "TimelineComponent"
 
@@ -271,25 +271,35 @@ const ProductPurchaseOrdersView: React.FC<Props> = ({ onClose, rawMaterialId, ra
   )
 
   return (
-      <Modal
-      open={true}
-      onCancel={onClose}
-      footer={null}
-      width={900}
-      title={
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-lg">
-            {selectedOrder
-              ? `Timeline: ${selectedOrder.orderNumber}`
-              : `Purchase Orders for ${rawMaterialName}`}
-          </span>
-        </div>
-      }
-      bodyStyle={{ padding: 0, background: "#f9fafb" }}
-      destroyOnClose
-      centered
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.3)' }}
     >
-      <div className="p-6 max-w-7xl mx-auto">
+      <div
+        className="rounded-lg shadow-lg w-full max-w-5xl relative"
+        style={{ background: 'var(--card)', color: 'var(--foreground)', maxHeight: '80vh', overflowY: 'auto', padding: '2rem' }}
+      >
+        {/* Close button and header */}
+        <button
+          className="absolute top-4 right-4 text-xl"
+          onClick={onClose}
+          style={{ color: 'var(--foreground)' }}
+        >
+          &times;
+        </button>
+        <div className="flex items-center mb-4">
+          <button
+            className="px-3 py-1 rounded font-semibold mr-3"
+            style={{ background: 'var(--secondary)', color: 'var(--secondary-foreground)', fontSize: '1rem' }}
+            onClick={onClose}
+          >
+            &larr; Back to Dashboard
+          </button>
+          <h2 className="text-xl font-bold" style={{ color: 'var(--foreground)' }}>
+            Purchase Orders for {rawMaterialName}
+          </h2>
+        </div>
+
         {/* Header */}
         <motion.div
           className="mb-8 flex items-center justify-between"
@@ -378,11 +388,10 @@ const ProductPurchaseOrdersView: React.FC<Props> = ({ onClose, rawMaterialId, ra
                           <Truck className="h-5 w-5 text-blue-600" />
                         </div>
                         <span
-                          className={`px-2 py-1 text-xs font-medium rounded-full ${
-                            order.status === "Received"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-orange-100 text-orange-800"
-                          }`}
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${order.status === "Received"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-orange-100 text-orange-800"
+                            }`}
                         >
                           {order.status}
                         </span>
@@ -449,7 +458,7 @@ const ProductPurchaseOrdersView: React.FC<Props> = ({ onClose, rawMaterialId, ra
           )}
         </AnimatePresence>
       </div>
-    </Modal>
+    </div>
   )
 }
 

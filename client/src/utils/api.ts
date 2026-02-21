@@ -16,6 +16,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// ...existing code...
+
+export const mailFilteredRMQualityReports = async (filters: any) => {
+  return api.post('/raw/quality-report/mail/filtered', filters);
+};
+
+export const exportFilteredRMQualityReports = async (filters: any) => {
+  return api.post('/raw/quality-report/export/filtered', filters, { responseType: 'blob' });
+};
+
 export default api;
 // Define the base URL for all APIs
 const BASE_URL = import.meta.env.VITE_API_URL as string;
@@ -49,6 +59,8 @@ export const API_ROUTES = {
     APPROVE_BATCH: (id: string) => `${BASE_URL}/batch/batches/${id}/approve`,
     REJECT_BATCH: (id: string) => `${BASE_URL}/batch/batches/${id}/reject`,
     EXPORT_BATCHES: `${BASE_URL}/batch/batches/export`,
+    MAIL_ALL_BATCHES: `${BASE_URL}/batch/batches/mail/all`,
+    MAIL_FILTERED_BATCHES: `${BASE_URL}/batch/batches/mail/filtered`,
     GET_ACTIVITY_LOGS: `${BASE_URL}/batch/logs`,
     GENERATE_CERTIFICATE: (id: string) => `${BASE_URL}/batch/batches/${id}/certificate`,
 
@@ -253,6 +265,7 @@ export const API_ROUTES = {
     // Purchase Orders
     CREATE_PURCHASE_ORDER: `${BASE_URL}/raw/purchase`,
     GET_PURCHASE_ORDERS: `${BASE_URL}/raw/purchase`,
+    SEND_PRODUCT_MAIL: `${BASE_URL}/raw/purchase/send-mail`,
     GET_PURCHASE_ORDER_BY_ID: (id: string) => `${BASE_URL}/raw/purchase/${id}`,
     UPDATE_PURCHASE_ORDER: (id: string) => `${BASE_URL}/raw/purchase/${id}`,
     GET_RECEIVED_RAW_MATERIALS: `${BASE_URL}/raw/purchase/received/raw-materials`,
@@ -316,6 +329,7 @@ export const API_ROUTES = {
     DELETE_QUALITY_REPORT: (id: string) => `${BASE_URL}/raw/quality-report/${id}`,
     EXPORT_QUALITY_REPORT: (id: string) => `${BASE_URL}/raw/quality-report/${id}/export`,
     EXPORT_ALL_QUALITY_REPORTS: `${BASE_URL}/raw/quality-report/export/all`,
+    MAIL_ALL_QUALITY_REPORTS: `${BASE_URL}/raw/quality-report/mail/all`,
   },
 
   DRAFT: {
@@ -325,7 +339,7 @@ export const API_ROUTES = {
     DELETE_BATCH: (id: string) => `${BASE_URL}/draft/batch/${id}`,
   },
 
-  
+
 
 };
 
