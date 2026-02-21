@@ -14,7 +14,7 @@ export class RMQualityController {
             const userId = req.user?.id;
 
             if (!userId) {
-                 res.status(401).json({ error: 'User not authenticated' });
+                res.status(401).json({ error: 'User not authenticated' });
                 return;
             }
 
@@ -135,7 +135,7 @@ export class RMQualityController {
             });
 
             if (!report) {
-                 res.status(404).json({
+                res.status(404).json({
                     success: false,
                     error: 'RM Quality Report not found',
                 });
@@ -373,7 +373,7 @@ export class RMQualityController {
             });
         }
     }
-    
+
     // Export all RM Quality Reports as single Excel file
     static async exportAllQualityReports(req: Request, res: Response): Promise<void> {
         try {
@@ -536,12 +536,15 @@ export class RMQualityController {
                 });
             });
 
+            // Generate Excel file buffer
+            const excelBuffer = await workbook.xlsx.writeBuffer();
+
             // Set content type and attachment header
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             res.setHeader('Content-Disposition', `attachment; filename=RM_Quality_Reports_${new Date().toISOString().split('T')[0]}.xlsx`);
 
             // Write to response stream
-            await workbook.xlsx.write(res);
+            res.write(excelBuffer);
             res.end();
         } catch (error) {
             console.error('Error exporting all RM Quality Reports:', error);
@@ -551,5 +554,5 @@ export class RMQualityController {
             });
         }
     }
-    
+
 }

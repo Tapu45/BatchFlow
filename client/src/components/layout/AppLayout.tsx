@@ -157,13 +157,13 @@ const AppLayout = () => {
         }}
       />
 
-      {/* Sidebar */}
-      <Sidebar onToggle={handleSidebarToggle} pageTitle={pageTitle} />
-
       {/* Fixed position header - static, no animations */}
-      <header className="fixed top-0 right-0 left-0 z-40">
+      <header className="fixed top-0 right-0 left-0 z-50">
         <HeaderBar activeNavStack={navStack} />
       </header>
+
+      {/* Sidebar */}
+      <Sidebar onToggle={handleSidebarToggle} pageTitle={pageTitle} />
 
       {/* Main Content */}
       <motion.div
@@ -171,21 +171,20 @@ const AppLayout = () => {
         style={{
           willChange: 'margin-left',
           overflow: 'hidden',
+          marginTop: '64px',
         }}
         animate={{
           marginLeft: isSidebarExpanded ? '260px' : '80px',
         }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       >
-        {/* Content area with padding (below header) */}
-        <div className="pt-20">
+        {/* Content area - no top padding, use margin instead */}
+        <div className="p-0">
           {/* Main Content Container */}
           <motion.div
-            className="rounded-xl p-6 m-6"
+            className="rounded-none p-6"
             style={{
-              backgroundColor: 'var(--card)', // Use CSS variable for card background
-              // Optionally, you can keep the blur if you want:
-              // backdropFilter: "blur(10px)"
+              backgroundColor: 'transparent',
             }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

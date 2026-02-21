@@ -55,21 +55,17 @@ const Auditmanage: React.FC = () => {
   // Only render tabs if we're on the main audit management pages
   const shouldShowTabs = path === '/audits' || path === '/audits/' || path === '/audits/new';
 
-  // Tab definitions with beautiful icons and styling
+  // Tab definitions with theme-aware styling
   const tabs = [
     {
       id: 'list',
       label: 'Audit List',
       icon: <List size={20} />,
-      gradient: 'from-blue-600 to-purple-600',
-      shadow: 'shadow-blue-500/25',
     },
     {
       id: 'create',
       label: 'Create Audit',
       icon: <Plus size={20} />,
-      gradient: 'from-emerald-600 to-teal-600',
-      shadow: 'shadow-emerald-500/25',
     },
   ];
 
@@ -90,11 +86,11 @@ const Auditmanage: React.FC = () => {
   }
 
   return (
-    <div className=" min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Beautiful Tab Navigation */}
       <div className="container mx-auto px-6 pt-4 pb-2">
         <div className="flex justify-center">
-          <div className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-2 shadow-xl border border-white/30">
+          <div className="relative bg-card/60 backdrop-blur-sm rounded-2xl p-2 shadow-xl border border-border">
             <div className="flex space-x-1">
               {tabs.map((tab, index) => (
                 <motion.button
@@ -111,14 +107,14 @@ const Auditmanage: React.FC = () => {
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="activeTabBackground"
-                      className={`absolute inset-0 bg-gradient-to-r ${tab.gradient} rounded-xl ${tab.shadow} shadow-xl`}
+                      className="absolute inset-0 bg-primary rounded-xl shadow-xl"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
                   
                   {/* Hover effect */}
                   <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${tab.gradient} rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                    className="absolute inset-0 bg-primary rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"
                   />
                   
                   {/* Tab content */}
@@ -126,8 +122,8 @@ const Auditmanage: React.FC = () => {
                     <motion.div
                       className={`transition-all duration-300 ${
                         activeTab === tab.id 
-                          ? 'text-white drop-shadow-sm' 
-                          : 'text-gray-600 group-hover:text-gray-800'
+                          ? 'text-primary-foreground drop-shadow-sm' 
+                          : 'text-muted-foreground group-hover:text-foreground'
                       }`}
                       animate={{ 
                         rotate: activeTab === tab.id ? [0, 10, 0] : 0,
@@ -140,8 +136,8 @@ const Auditmanage: React.FC = () => {
                     <span
                       className={`font-medium text-sm transition-all duration-300 ${
                         activeTab === tab.id 
-                          ? 'text-white drop-shadow-sm' 
-                          : 'text-gray-700 group-hover:text-gray-900'
+                          ? 'text-primary-foreground drop-shadow-sm' 
+                          : 'text-foreground group-hover:text-foreground'
                       }`}
                     >
                       {tab.label}
@@ -156,7 +152,7 @@ const Auditmanage: React.FC = () => {
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <div className="w-2 h-2 bg-white rounded-full shadow-lg"></div>
+                      <div className="w-2 h-2 bg-primary-foreground rounded-full shadow-lg"></div>
                     </motion.div>
                   )}
                 </motion.button>

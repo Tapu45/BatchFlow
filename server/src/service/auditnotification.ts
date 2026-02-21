@@ -1,14 +1,5 @@
-import nodemailer from 'nodemailer';
+import { sendTransactionalEmail } from './brevomail';
 import { User, Audit, Finding, CorrectiveAction } from '../generated/prisma';
-
-// Create nodemailer transporter using environment variables
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
 
 // Template types for different notification scenarios
 export enum NotificationType {
@@ -33,9 +24,9 @@ interface BaseNotificationData {
 
 // Templates for different notification types
 interface AuditNotificationData extends BaseNotificationData {
-  audit: Audit & { 
-    auditor?: { name: string; email: string; }; 
-    auditee?: { name: string; email: string; }; 
+  audit: Audit & {
+    auditor?: { name: string; email: string; };
+    auditee?: { name: string; email: string; };
   };
   newStatus?: string;
   message?: string;
@@ -66,7 +57,7 @@ interface CustomNotificationData extends BaseNotificationData {
 
 // Function to generate email content based on notification type
 const generateEmailContent = (
-  type: NotificationType, 
+  type: NotificationType,
   data: AuditNotificationData | FindingNotificationData | ActionNotificationData | CustomNotificationData
 ): { subject: string; html: string } => {
   let subject = '';
@@ -106,12 +97,11 @@ const generateEmailContent = (
           <p>The status of an audit has been updated in the system.</p>
           <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0;">
             <p><strong>Audit Name:</strong> ${statusData.audit.name}</p>
-            <p><strong>New Status:</strong> <span style="color: ${
-              statusData.newStatus === 'COMPLETED' ? 'green' : 
-              statusData.newStatus === 'IN_PROGRESS' ? 'blue' : 
-              statusData.newStatus === 'DELAYED' ? 'orange' : 
+            <p><strong>New Status:</strong> <span style="color: ${statusData.newStatus === 'COMPLETED' ? 'green' :
+          statusData.newStatus === 'IN_PROGRESS' ? 'blue' :
+            statusData.newStatus === 'DELAYED' ? 'orange' :
               statusData.newStatus === 'CANCELLED' ? 'red' : 'black'
-            };">${statusData.newStatus}</span></p>
+        };">${statusData.newStatus}</span></p>
           </div>
           <p>${statusData.message || ''}</p>
           <div style="margin-top: 20px;">
@@ -236,18 +226,35 @@ export const sendEmailNotification = async (
 
     const { subject, html } = generateEmailContent(type, data);
 
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || `"Audit System" <${process.env.EMAIL_USER}>`,
-      to: data.recipients.join(', '),
-      cc: data.cc?.join(', '),
-      bcc: data.bcc?.join(', '),
-      subject,
-      html
-    };
+    // Convert recipients to Brevo format
+    const toRecipients = data.recipients.map(email => ({ email }));
+    const ccRecipients = data.cc?.map(email => ({ email }));
+    const bccRecipients = data.bcc?.map(email => ({ email }));
 
-    const result = await transporter.sendMail(mailOptions);
-    console.log(`Email sent: ${result.messageId}`);
-    return true;
+    // Combine all recipients for Brevo (it handles cc/bcc in the to field)
+    const allRecipients = [
+      ...toRecipients,
+      ...(ccRecipients || []),
+      ...(bccRecipients || [])
+    ];
+
+    const result = await sendTransactionalEmail({
+      to: allRecipients,
+      subject,
+      htmlContent: html,
+      sender: {
+        name: 'TGAF Audit System',
+        email: process.env.EMAIL_USER || 'training@tgaf.com'
+      }
+    });
+
+    if (result.success) {
+      console.log('Email notification sent successfully');
+      return true;
+    } else {
+      console.error('Failed to send email notification:', result.error);
+      return false;
+    }
   } catch (error) {
     console.error('Error sending email notification:', error);
     return false;

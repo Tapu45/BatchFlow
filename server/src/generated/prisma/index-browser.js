@@ -675,6 +675,29 @@ exports.Prisma.PurchaseOrderItemScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.GRNScalarFieldEnum = {
+  id: 'id',
+  grnNumber: 'grnNumber',
+  purchaseOrderItemId: 'purchaseOrderItemId',
+  date: 'date',
+  itemName: 'itemName',
+  supplierName: 'supplierName',
+  invoiceQtyBags: 'invoiceQtyBags',
+  invoiceWeight: 'invoiceWeight',
+  confirmedQtyBags: 'confirmedQtyBags',
+  confirmedWeight: 'confirmedWeight',
+  weightDifference: 'weightDifference',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GRNBagWeightScalarFieldEnum = {
+  id: 'id',
+  grnId: 'grnId',
+  bagNumber: 'bagNumber',
+  weight: 'weight'
+};
+
 exports.Prisma.StockEntryScalarFieldEnum = {
   id: 'id',
   rawMaterialId: 'rawMaterialId',
@@ -1002,6 +1025,8 @@ exports.Prisma.ModelName = {
   RawMaterialProduct: 'RawMaterialProduct',
   PurchaseOrder: 'PurchaseOrder',
   PurchaseOrderItem: 'PurchaseOrderItem',
+  GRN: 'GRN',
+  GRNBagWeight: 'GRNBagWeight',
   StockEntry: 'StockEntry',
   Warehouse: 'Warehouse',
   CleaningJob: 'CleaningJob',

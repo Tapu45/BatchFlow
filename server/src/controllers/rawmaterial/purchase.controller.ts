@@ -107,79 +107,130 @@ export class PurchaseOrderController {
   static async updatePurchaseOrderItem(req: Request, res: Response) {
     try {
       const { itemId } = req.params;
-      const { quantityReceived, status, warehouseId } = req.body;
+      const { quantityReceived, status, warehouseId, grnData } = req.body;
 
-      // 1. Update the PO item
-      const item = await prisma.purchaseOrderItem.update({
-        where: { id: itemId },
-        data: {
-          quantityReceived,
-          status,
-        },
-        include: { rawMaterial: true, purchaseOrder: true },
-      });
+      console.log('=== updatePurchaseOrderItem called ===');
+      console.log('itemId:', itemId);
+      console.log('quantityReceived:', quantityReceived);
+      console.log('status:', status);
+      console.log('warehouseId:', warehouseId);
+      console.log('grnData:', grnData ? JSON.stringify(grnData, null, 2) : 'null');
 
-      // 2. Only update stock if item is marked as 'Received'
-      if (status === 'Received' && quantityReceived > 0 && warehouseId) {
-        // Find if a CurrentStock record exists
-        const currentStock = await prisma.currentStock.findUnique({
-          where: {
-            rawMaterialId_warehouseId: {
-              rawMaterialId: item.rawMaterialId,
-              warehouseId: warehouseId,
-            },
+      // Use a transaction to ensure all operations succeed or fail together
+      const result = await prisma.$transaction(async (tx) => {
+        // 1. Update the PO item
+        const item = await tx.purchaseOrderItem.update({
+          where: { id: itemId },
+          data: {
+            quantityReceived,
+            status,
           },
+          include: { rawMaterial: true, purchaseOrder: true },
         });
 
-        if (currentStock) {
-          // Update existing stock
-          await prisma.currentStock.update({
+        // 2. Create GRN record if grnData is provided
+        if (grnData && status === 'Received') {
+          console.log('Creating GRN with data:', JSON.stringify(grnData, null, 2));
+
+          // Parse the date string from frontend (e.g., "2/13/2026") into a valid Date
+          let grnDate: Date;
+          if (grnData.date) {
+            const parsed = new Date(grnData.date);
+            grnDate = isNaN(parsed.getTime()) ? new Date() : parsed;
+          } else {
+            grnDate = new Date();
+          }
+
+          const grn = await tx.gRN.create({
+            data: {
+              grnNumber: grnData.grnNumber,
+              purchaseOrderItemId: itemId,
+              date: grnDate,
+              itemName: grnData.itemName,
+              supplierName: grnData.supplierName,
+              invoiceQtyBags: grnData.invoiceQtyBags ?? 0,
+              invoiceWeight: grnData.invoiceWeight ?? 0,
+              confirmedQtyBags: grnData.confirmedQtyBags ?? 0,
+              confirmedWeight: grnData.confirmedWeight ?? 0,
+              weightDifference: grnData.weightDifference ?? 0,
+              bagWeights: {
+                create: (grnData.bagWeights || []).map((bag: { bagNumber: number; weight: number }) => ({
+                  bagNumber: bag.bagNumber,
+                  weight: bag.weight,
+                })),
+              },
+            },
+          });
+          console.log('GRN created successfully:', grn.id);
+        } else {
+          console.log('GRN not created - grnData:', !!grnData, 'status:', status);
+        }
+
+        // 3. Only update stock if item is marked as 'Received'
+        if (status === 'Received' && quantityReceived > 0 && warehouseId) {
+          // Find if a CurrentStock record exists
+          const currentStock = await tx.currentStock.findUnique({
             where: {
               rawMaterialId_warehouseId: {
                 rawMaterialId: item.rawMaterialId,
                 warehouseId: warehouseId,
               },
             },
-            data: {
-              currentQuantity: { increment: quantityReceived },
-            },
           });
-        } else {
-          // Create new stock record
-          await prisma.currentStock.create({
+
+          if (currentStock) {
+            // Update existing stock
+            await tx.currentStock.update({
+              where: {
+                rawMaterialId_warehouseId: {
+                  rawMaterialId: item.rawMaterialId,
+                  warehouseId: warehouseId,
+                },
+              },
+              data: {
+                currentQuantity: { increment: quantityReceived },
+              },
+            });
+          } else {
+            // Create new stock record
+            await tx.currentStock.create({
+              data: {
+                rawMaterialId: item.rawMaterialId,
+                warehouseId: warehouseId,
+                currentQuantity: quantityReceived,
+              },
+            });
+          }
+
+          // Create a StockEntry record for traceability
+          await tx.stockEntry.create({
             data: {
               rawMaterialId: item.rawMaterialId,
               warehouseId: warehouseId,
-              currentQuantity: quantityReceived,
+              quantity: quantityReceived,
+              entryType: 'IN',
+              referenceId: itemId,
+              status: 'Received',
             },
           });
         }
 
-        // Optionally, create a StockEntry record for traceability
-        await prisma.stockEntry.create({
+        await tx.transactionLog.create({
           data: {
-            rawMaterialId: item.rawMaterialId,
-            warehouseId: warehouseId,
-            quantity: quantityReceived,
-            entryType: 'IN',
-            referenceId: itemId,
-            status: 'Received',
+            type: 'UPDATE',
+            entity: 'PurchaseOrderItem',
+            entityId: item.id,
+            userId: req.user?.id || 'system',
+            description: `Updated purchase order item for PO: ${item.purchaseOrder.poNumber}\nItem Details: ${JSON.stringify(item, null, 2)}${grnData ? `\nGRN: ${grnData.grnNumber}` : ''}`,
           },
         });
-      }
 
-      await prisma.transactionLog.create({
-        data: {
-          type: 'UPDATE',
-          entity: 'PurchaseOrderItem',
-          entityId: item.id,
-          userId: req.user?.id || 'system',
-          description: `Updated purchase order item for PO: ${item.purchaseOrder.poNumber}\nItem Details: ${JSON.stringify(item, null, 2)}`,
-        },
+        return item;
       });
 
-      res.json(item);
+      res.json(result);
     } catch (error) {
+      console.error('Failed to update purchase order item:', error);
       res.status(500).json({ error: 'Failed to update purchase order item', details: error });
     }
   }

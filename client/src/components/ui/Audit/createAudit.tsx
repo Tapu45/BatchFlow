@@ -22,7 +22,7 @@ import { API_ROUTES } from '../../../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
-// Enhanced Field component with better styling
+// Enhanced Field component with better styling - theme aware
 type FormFieldProps = {
   label: string;
   id: string;
@@ -39,12 +39,12 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, error, children, requi
       animate={{ opacity: 1, y: 0 }}
       className="mb-6"
     >
-      <label htmlFor={id} className="block text-sm font-semibold text-gray-800 mb-2">
+      <label htmlFor={id} className="block text-sm font-semibold text-foreground mb-2">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-destructive ml-1">*</span>}
       </label>
       {description && (
-        <p className="text-xs text-gray-500 mb-2 flex items-center">
+        <p className="text-xs text-muted-foreground mb-2 flex items-center">
           <Info size={12} className="mr-1" />
           {description}
         </p>
@@ -56,7 +56,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, error, children, requi
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-2 text-sm text-red-600 flex items-center bg-red-50 p-2 rounded-md border-l-4 border-red-400"
+            className="mt-2 text-sm text-destructive flex items-center bg-destructive/10 p-2 rounded-md border-l-4 border-destructive"
           >
             <AlertCircle size={14} className="mr-2 flex-shrink-0" />
             {error}
@@ -67,17 +67,17 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, error, children, requi
   );
 };
 
-// Progress indicator component
+// Progress indicator component - theme aware
 const ProgressIndicator = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-700">Form Progress</span>
-        <span className="text-sm text-gray-500">{currentStep}/{totalSteps} sections</span>
+        <span className="text-sm font-medium text-foreground">Form Progress</span>
+        <span className="text-sm text-muted-foreground">{currentStep}/{totalSteps} sections</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="w-full bg-muted rounded-full h-2">
         <motion.div 
-          className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
+          className="bg-primary h-2 rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
           transition={{ duration: 0.5, ease: "easeOut" }}
@@ -87,7 +87,7 @@ const ProgressIndicator = ({ currentStep, totalSteps }: { currentStep: number; t
   );
 };
 
-// Section wrapper component
+// Section wrapper component - theme aware
 const FormSection = ({ title, description, children, icon }: {
   title: string;
   description: string;
@@ -98,16 +98,16 @@ const FormSection = ({ title, description, children, icon }: {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6"
+      className="bg-card rounded-xl shadow-sm border border-border overflow-hidden mb-6"
     >
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-100">
+      <div className="bg-muted/50 px-6 py-4 border-b border-border">
         <div className="flex items-center">
-          <div className="p-2 bg-blue-100 rounded-lg mr-3">
+          <div className="p-2 bg-primary/10 rounded-lg mr-3">
             {icon}
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-            <p className="text-sm text-gray-600">{description}</p>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+            <p className="text-sm text-muted-foreground">{description}</p>
           </div>
         </div>
       </div>
@@ -365,7 +365,7 @@ const CreateAudit = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50"
+      className="min-h-screen bg-background"
     >
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -376,20 +376,20 @@ const CreateAudit = () => {
         >
           <Link 
             to="/audits" 
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 font-medium transition-colors"
+            className="inline-flex items-center text-primary hover:opacity-80 mb-4 font-medium transition-colors"
           >
             <ArrowLeft size={18} className="mr-2" />
             Back to Audits
           </Link>
           
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center mb-4">
-              <div className="p-3 bg-blue-100 rounded-xl mr-4">
-                <Plus size={24} className="text-blue-600" />
+              <div className="p-3 bg-primary/10 rounded-xl mr-4">
+                <Plus size={24} className="text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">Create New Audit</h1>
-                <p className="text-gray-600 mt-1">
+                <h1 className="text-3xl font-bold text-foreground">Create New Audit</h1>
+                <p className="text-muted-foreground mt-1">
                   Set up a comprehensive audit to ensure quality and compliance standards
                 </p>
               </div>
@@ -406,13 +406,13 @@ const CreateAudit = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700"
+              className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-xl text-destructive"
             >
               <div className="flex items-center">
-                <AlertCircle size={20} className="mr-3 text-red-500" />
+                <AlertCircle size={20} className="mr-3" />
                 <div>
                   <p className="font-medium">Error creating audit</p>
-                  <p className="text-sm">{errors.form}</p>
+                  <p className="text-sm opacity-80">{errors.form}</p>
                 </div>
               </div>
             </motion.div>
@@ -424,7 +424,7 @@ const CreateAudit = () => {
           <FormSection
             title="Basic Information"
             description="Essential details about the audit"
-            icon={<FileText size={20} className="text-blue-600" />}
+            icon={<FileText size={20} className="text-primary" />}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField 
@@ -435,7 +435,7 @@ const CreateAudit = () => {
                 description="A descriptive name for this audit"
               >
                 <div className="relative">
-                  <FileText size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <FileText size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
                     id="name"
@@ -443,7 +443,7 @@ const CreateAudit = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g., Q1 Financial Audit 2024"
-                    className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
               </FormField>
@@ -456,13 +456,13 @@ const CreateAudit = () => {
                 description="Select whether this is an internal or external audit"
               >
                 <div className="relative">
-                  <ClipboardList size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <ClipboardList size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                   <select
                     id="auditType"
                     name="auditType"
                     value={formData.auditType}
                     onChange={handleChange}
-                    className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                    className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all appearance-none bg-card text-foreground"
                   >
                     <option value="">Select Audit Type</option>
                     <option value="INTERNAL">Internal Audit</option>
@@ -477,7 +477,7 @@ const CreateAudit = () => {
           <FormSection
             title="Schedule"
             description="Define the audit timeline"
-            icon={<Calendar size={20} className="text-blue-600" />}
+            icon={<Calendar size={20} className="text-primary" />}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField 
@@ -488,7 +488,7 @@ const CreateAudit = () => {
                 description="When should the audit begin?"
               >
                 <div className="relative">
-                  <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="date"
                     id="startDate"
@@ -496,7 +496,7 @@ const CreateAudit = () => {
                     value={formData.startDate}
                     onChange={handleChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground"
                   />
                 </div>
               </FormField>
@@ -508,7 +508,7 @@ const CreateAudit = () => {
                 description="Optional: When should the audit be completed?"
               >
                 <div className="relative">
-                  <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="date"
                     id="endDate"
@@ -516,7 +516,7 @@ const CreateAudit = () => {
                     value={formData.endDate}
                     onChange={handleChange}
                     min={formData.startDate || new Date().toISOString().split('T')[0]}
-                    className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground"
                   />
                 </div>
               </FormField>
@@ -534,7 +534,7 @@ const CreateAudit = () => {
                 <FormSection
                   title="Auditor Information"
                   description={`Configure ${formData.auditType.toLowerCase()} auditor details`}
-                  icon={<Users size={20} className="text-blue-600" />}
+                  icon={<Users size={20} className="text-primary" />}
                 >
                   {formData.auditType === 'INTERNAL' ? (
                     <FormField 
@@ -545,13 +545,13 @@ const CreateAudit = () => {
                       description="Select from your organization's team members"
                     >
                       <div className="relative">
-                        <Users size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <Users size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                         <select
                           id="auditorUserId"
                           name="auditorUserId"
                           value={formData.auditorUserId}
                           onChange={handleChange}
-                          className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                          className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all appearance-none bg-card text-foreground"
                         >
                           <option value="">Select Internal Auditor</option>
                           {isLoadingUsers ? (
@@ -576,7 +576,7 @@ const CreateAudit = () => {
                         description="Full name of the external auditor"
                       >
                         <div className="relative">
-                          <Users size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <Users size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                           <input
                             type="text"
                             id="auditorName"
@@ -584,7 +584,7 @@ const CreateAudit = () => {
                             value={formData.auditorName}
                             onChange={handleChange}
                             placeholder="e.g., John Smith"
-                            className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground placeholder:text-muted-foreground"
                           />
                         </div>
                       </FormField>
@@ -597,7 +597,7 @@ const CreateAudit = () => {
                         description="Professional email address"
                       >
                         <div className="relative">
-                          <Mail size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <Mail size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                           <input
                             type="email"
                             id="auditorEmail"
@@ -605,7 +605,7 @@ const CreateAudit = () => {
                             value={formData.auditorEmail}
                             onChange={handleChange}
                             placeholder="auditor@firm.com"
-                            className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground placeholder:text-muted-foreground"
                           />
                         </div>
                       </FormField>
@@ -618,7 +618,7 @@ const CreateAudit = () => {
                         description="Name of the auditing company"
                       >
                         <div className="relative">
-                          <Building size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <Building size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                           <input
                             type="text"
                             id="firmName"
@@ -626,7 +626,7 @@ const CreateAudit = () => {
                             value={formData.firmName}
                             onChange={handleChange}
                             placeholder="e.g., ABC Audit Services"
-                            className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground placeholder:text-muted-foreground"
                           />
                         </div>
                       </FormField>
@@ -641,7 +641,7 @@ const CreateAudit = () => {
           <FormSection
             title="Department & Scope"
             description="Define what will be audited and where"
-            icon={<Building size={20} className="text-blue-600" />}
+            icon={<Building size={20} className="text-primary" />}
           >
             <div className="space-y-6">
               <FormField 
@@ -652,13 +652,13 @@ const CreateAudit = () => {
                 description="Which department will be audited?"
               >
                 <div className="relative">
-                  <Building size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Building size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                   <select
                     id="departmentId"
                     name="departmentId"
                     value={formData.departmentId}
                     onChange={handleChange}
-                    className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                    className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all appearance-none bg-card text-foreground"
                   >
                     <option value="">Select Department</option>
                     {isLoadingDepartments ? (
@@ -685,7 +685,7 @@ const CreateAudit = () => {
                   description="What are the main goals of this audit?"
                 >
                   <div className="relative">
-                    <Target size={18} className="absolute left-3 top-3 text-gray-400" />
+                    <Target size={18} className="absolute left-3 top-3 text-muted-foreground" />
                     <textarea
                       id="objectives"
                       name="objectives"
@@ -693,7 +693,7 @@ const CreateAudit = () => {
                       onChange={handleChange}
                       placeholder="e.g., Evaluate financial controls, assess compliance with regulations, identify process improvements..."
                       rows={4}
-                      className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                      className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all resize-none bg-card text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </FormField>
@@ -706,7 +706,7 @@ const CreateAudit = () => {
                   description="What specific areas, processes, or systems will be examined?"
                 >
                   <div className="relative">
-                    <Scope size={18} className="absolute left-3 top-3 text-gray-400" />
+                    <Scope size={18} className="absolute left-3 top-3 text-muted-foreground" />
                     <textarea
                       id="scope"
                       name="scope"
@@ -714,7 +714,7 @@ const CreateAudit = () => {
                       onChange={handleChange}
                       placeholder="e.g., Financial transactions from Q1-Q3, inventory management processes, IT security protocols..."
                       rows={4}
-                      className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                      className="pl-10 w-full p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all resize-none bg-card text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </FormField>
@@ -726,7 +726,7 @@ const CreateAudit = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
+            className="bg-card rounded-xl shadow-sm border border-border p-6"
           >
             <div className="flex flex-col sm:flex-row justify-end items-center gap-4">
               <motion.button
@@ -734,7 +734,7 @@ const CreateAudit = () => {
                 onClick={handleReset}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 flex items-center justify-center transition-all duration-200 font-medium"
+                className="w-full sm:w-auto px-6 py-3 border border-border rounded-lg text-foreground hover:bg-muted flex items-center justify-center transition-all duration-200 font-medium bg-card"
               >
                 <Trash2 size={18} className="mr-2" />
                 Reset Form
@@ -745,14 +745,14 @@ const CreateAudit = () => {
                 disabled={createAuditMutation.isPending}
                 whileHover={{ scale: createAuditMutation.isPending ? 1 : 1.02 }}
                 whileTap={{ scale: createAuditMutation.isPending ? 1 : 0.98 }}
-                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                className="w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
                 {createAuditMutation.isPending ? (
                   <>
                     <motion.div 
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-3"
+                      className="inline-block h-5 w-5 border-2 border-primary-foreground border-t-transparent rounded-full mr-3"
                     />
                     Creating Audit...
                   </>

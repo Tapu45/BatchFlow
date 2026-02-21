@@ -130,11 +130,9 @@ const AuditCalendar: React.FC = () => {
     let start: Date, end: Date;
     
     if (filters.month !== null) {
-      // Month view - show specific month
       start = startOfMonth(new Date(filters.year, filters.month));
       end = endOfMonth(new Date(filters.year, filters.month));
     } else {
-      // Year view - show entire year
       start = startOfYear(new Date(filters.year, 0));
       end = endOfYear(new Date(filters.year, 11));
     }
@@ -260,16 +258,16 @@ const AuditCalendar: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-1 sm:px-2 lg:px-3 py-2">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="bg-white rounded-2xl shadow-xl overflow-hidden border border-white/20"
+          className="bg-card rounded-2xl shadow-xl overflow-hidden border border-border"
         >
           {/* Enhanced Header Section */}
-          <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 relative overflow-hidden">
+          <div className="bg-primary relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0" style={{
@@ -288,16 +286,16 @@ const AuditCalendar: React.FC = () => {
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="bg-white bg-opacity-20 backdrop-blur-sm p-3 rounded-xl mr-4 border border-white/30"
+                    className="bg-white/20 backdrop-blur-sm p-3 rounded-xl mr-4 border border-white/30"
                   >
-                    <CalendarIcon size={32} className="text-blue drop-shadow-lg" />
+                    <CalendarIcon size={32} className="text-primary-foreground drop-shadow-lg" />
                   </motion.div>
                   <div>
                     <motion.h1 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
-                      className="text-3xl font-bold text-white drop-shadow-lg"
+                      className="text-3xl font-bold text-primary-foreground drop-shadow-lg"
                     >
                       Audit Calendar
                     </motion.h1>
@@ -305,7 +303,7 @@ const AuditCalendar: React.FC = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.5 }}
-                      className="text-blue-100 text-lg mt-1 flex items-center"
+                      className="text-primary-foreground/80 text-lg mt-1 flex items-center"
                     >
                       <Sparkles size={16} className="mr-2" />
                       {filters.month !== null
@@ -324,15 +322,15 @@ const AuditCalendar: React.FC = () => {
                     <select
                       value={filters.year}
                       onChange={(e) => handleFilterChange('year', parseInt(e.target.value))}
-                      className="appearance-none bg-white/20 backdrop-blur-sm text-white rounded-xl pl-4 pr-10 py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-white/30 transition-all font-medium shadow-lg"
+                      className="appearance-none bg-white/20 backdrop-blur-sm text-primary-foreground rounded-xl pl-4 pr-10 py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-white/30 transition-all font-medium shadow-lg"
                     >
                       {years.map(year => (
-                        <option key={year} value={year} className="text-gray-700 bg-white">
+                        <option key={year} value={year} className="text-foreground bg-card">
                           {year}
                         </option>
                       ))}
                     </select>
-                    <ChevronRight size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
+                    <ChevronRight size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-primary-foreground/70 pointer-events-none" />
                   </div>
                   
                   {/* Month Filter */}
@@ -340,16 +338,16 @@ const AuditCalendar: React.FC = () => {
                     <select
                       value={filters.month !== null ? filters.month : ''}
                       onChange={(e) => handleFilterChange('month', e.target.value ? parseInt(e.target.value) : null)}
-                      className="appearance-none bg-white/20 backdrop-blur-sm text-white rounded-xl pl-4 pr-10 py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-white/30 transition-all font-medium shadow-lg"
+                      className="appearance-none bg-white/20 backdrop-blur-sm text-primary-foreground rounded-xl pl-4 pr-10 py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-white/30 transition-all font-medium shadow-lg"
                     >
-                      <option value="" className="text-gray-700 bg-white">All Months</option>
+                      <option value="" className="text-foreground bg-card">All Months</option>
                       {Array.from({ length: 12 }, (_, i) => (
-                        <option key={i} value={i} className="text-gray-700 bg-white">
+                        <option key={i} value={i} className="text-foreground bg-card">
                           {format(new Date(2000, i), 'MMMM')}
                         </option>
                       ))}
                     </select>
-                    <ChevronRight size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
+                    <ChevronRight size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-primary-foreground/70 pointer-events-none" />
                   </div>
                   
                   {/* Filter Button */}
@@ -359,8 +357,8 @@ const AuditCalendar: React.FC = () => {
                     onClick={() => setShowFilters(!showFilters)}
                     className={`flex items-center gap-2 rounded-xl px-5 py-3 border font-medium shadow-lg transition-all ${
                       showFilters || (filters.auditType || filters.status || filters.departmentId)
-                        ? 'bg-white text-blue-600 border-transparent shadow-xl'
-                        : 'bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30'
+                        ? 'bg-card text-primary border-transparent shadow-xl'
+                        : 'bg-white/20 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/30'
                     }`}
                   >
                     <Filter size={18} />
@@ -369,7 +367,7 @@ const AuditCalendar: React.FC = () => {
                       <motion.span 
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="bg-blue-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold"
+                        className="bg-primary text-primary-foreground text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold"
                       >
                         {[filters.auditType, filters.status, filters.departmentId].filter(Boolean).length}
                       </motion.span>
@@ -383,8 +381,8 @@ const AuditCalendar: React.FC = () => {
                       onClick={() => setViewMode('calendar')}
                       className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${
                         viewMode === 'calendar' 
-                          ? 'bg-white text-blue-600 shadow-lg' 
-                          : 'text-white'
+                          ? 'bg-card text-primary shadow-lg' 
+                          : 'text-primary-foreground'
                       }`}
                     >
                       <Calendar size={18} />
@@ -395,8 +393,8 @@ const AuditCalendar: React.FC = () => {
                       onClick={() => setViewMode('list')}
                       className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${
                         viewMode === 'list' 
-                          ? 'bg-white text-blue-600 shadow-lg' 
-                          : 'text-white'
+                          ? 'bg-card text-primary shadow-lg' 
+                          : 'text-primary-foreground'
                       }`}
                     >
                       <List size={18} />
@@ -416,16 +414,16 @@ const AuditCalendar: React.FC = () => {
                 animate={{ height: 'auto', opacity: 1, y: 0 }}
                 exit={{ height: 0, opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200 overflow-hidden"
+                className="bg-muted/50 border-b border-border overflow-hidden"
               >
                 <div className="p-8">
                   <div className="flex items-center justify-between mb-6">
                     <motion.h2 
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="text-xl font-bold text-gray-800 flex items-center"
+                      className="text-xl font-bold text-foreground flex items-center"
                     >
-                      <Filter size={20} className="mr-2 text-blue-600" />
+                      <Filter size={20} className="mr-2 text-primary" />
                       Advanced Filters
                     </motion.h2>
                     
@@ -435,7 +433,7 @@ const AuditCalendar: React.FC = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={resetFilters}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-muted text-foreground rounded-lg hover:bg-muted/80 transition-all font-medium"
                     >
                       <RotateCcw size={16} />
                       Reset All
@@ -450,14 +448,14 @@ const AuditCalendar: React.FC = () => {
                       transition={{ delay: 0.1 }}
                       className="space-y-2"
                     >
-                      <label className="block text-sm font-semibold text-gray-700 items-center">
-                        <Layers size={16} className="mr-2 text-blue-600" />
+                      <label className="block text-sm font-semibold text-foreground items-center">
+                        <Layers size={16} className="mr-2 text-primary" />
                         Audit Type
                       </label>
                       <select
                         value={filters.auditType || ''}
                         onChange={(e) => handleFilterChange('auditType', e.target.value || null)}
-                        className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white shadow-sm hover:shadow-md"
+                        className="w-full border border-border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground shadow-sm hover:shadow-md"
                       >
                         <option value="">All Types</option>
                         <option value="INTERNAL">Internal</option>
@@ -478,14 +476,14 @@ const AuditCalendar: React.FC = () => {
                       transition={{ delay: 0.2 }}
                       className="space-y-2"
                     >
-                      <label className="block text-sm font-semibold text-gray-700 flex items-center">
-                        <AlertCircle size={16} className="mr-2 text-green-600" />
+                      <label className=" text-sm font-semibold text-foreground flex items-center">
+                        <AlertCircle size={16} className="mr-2 text-emerald-600 dark:text-emerald-400" />
                         Status
                       </label>
                       <select
                         value={filters.status || ''}
                         onChange={(e) => handleFilterChange('status', e.target.value || null)}
-                        className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white shadow-sm hover:shadow-md"
+                        className="w-full border border-border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground shadow-sm hover:shadow-md"
                       >
                         <option value="">All Statuses</option>
                         <option value="PLANNED">Planned</option>
@@ -503,14 +501,14 @@ const AuditCalendar: React.FC = () => {
                       transition={{ delay: 0.3 }}
                       className="space-y-2"
                     >
-                      <label className="block text-sm font-semibold text-gray-700 flex items-center">
-                        <Building size={16} className="mr-2 text-purple-600" />
+                      <label className=" text-sm font-semibold text-foreground flex items-center">
+                        <Building size={16} className="mr-2 text-secondary" />
                         Department
                       </label>
                       <select
                         value={filters.departmentId || ''}
                         onChange={(e) => handleFilterChange('departmentId', e.target.value || null)}
-                        className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white shadow-sm hover:shadow-md"
+                        className="w-full border border-border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all bg-card text-foreground shadow-sm hover:shadow-md"
                       >
                         <option value="">All Departments</option>
                         {departments?.map((dept) => (
@@ -532,7 +530,7 @@ const AuditCalendar: React.FC = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setShowFilters(false)}
-                      className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-medium shadow-lg hover:shadow-xl"
+                      className="px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl"
                     >
                       Apply Filters
                     </motion.button>
@@ -547,7 +545,7 @@ const AuditCalendar: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex border-b border-gray-200 bg-gradient-to-r from-white to-gray-50 p-4 gap-2"
+              className="flex border-b border-border bg-card p-4 gap-2"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -555,8 +553,8 @@ const AuditCalendar: React.FC = () => {
                 onClick={() => handleViewChange('dayGridMonth')}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   filters.view === 'month' 
-                    ? 'bg-blue-600 text-white shadow-lg' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-primary text-primary-foreground shadow-lg' 
+                    : 'text-muted-foreground hover:bg-muted'
                 }`}
               >
                 <Grid size={16} className="inline-block mr-2" />
@@ -568,8 +566,8 @@ const AuditCalendar: React.FC = () => {
                 onClick={() => handleViewChange('timeGridWeek')}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   filters.view === 'week' 
-                    ? 'bg-blue-600 text-white shadow-lg' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-primary text-primary-foreground shadow-lg' 
+                    : 'text-muted-foreground hover:bg-muted'
                 }`}
               >
                 <Layers size={16} className="inline-block mr-2" />
@@ -581,8 +579,8 @@ const AuditCalendar: React.FC = () => {
                 onClick={() => handleViewChange('listMonth')}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   filters.view === 'list' 
-                    ? 'bg-blue-600 text-white shadow-lg' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-primary text-primary-foreground shadow-lg' 
+                    : 'text-muted-foreground hover:bg-muted'
                 }`}
               >
                 <List size={16} className="inline-block mr-2" />
@@ -595,7 +593,7 @@ const AuditCalendar: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={handlePrevious}
-                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+                  className="p-2 rounded-lg hover:bg-muted text-muted-foreground"
                 >
                   <ArrowLeft size={18} />
                 </motion.button>
@@ -603,7 +601,7 @@ const AuditCalendar: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleToday}
-                  className="px-3 py-2 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 font-medium"
+                  className="px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 font-medium"
                 >
                   Today
                 </motion.button>
@@ -611,7 +609,7 @@ const AuditCalendar: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={handleNext}
-                  className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+                  className="p-2 rounded-lg hover:bg-muted text-muted-foreground"
                 >
                   <ArrowRight size={18} />
                 </motion.button>
@@ -630,24 +628,24 @@ const AuditCalendar: React.FC = () => {
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mb-4"
+                  className="rounded-full h-16 w-16 border-4 border-muted border-t-primary mb-4"
                 />
-                <p className="text-gray-600 font-medium">Loading calendar events...</p>
+                <p className="text-muted-foreground font-medium">Loading calendar events...</p>
               </motion.div>
             ) : isError ? (
               <motion.div 
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="flex flex-col items-center justify-center h-96 bg-red-50 rounded-xl border border-red-200"
+                className="flex flex-col items-center justify-center h-96 bg-destructive/10 rounded-xl border border-destructive/30"
               >
-                <AlertCircle size={64} className="text-red-500 mb-4" />
-                <h3 className="text-xl font-bold text-red-800 mb-2">Failed to load calendar data</h3>
-                <p className="text-red-600 mb-4">Please try again later or contact support.</p>
+                <AlertCircle size={64} className="text-destructive mb-4" />
+                <h3 className="text-xl font-bold text-destructive mb-2">Failed to load calendar data</h3>
+                <p className="text-destructive/80 mb-4">Please try again later or contact support.</p>
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => refetch()} 
-                  className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium shadow-lg"
+                  className="px-6 py-3 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 font-medium shadow-lg"
                 >
                   Retry
                 </motion.button>
@@ -656,16 +654,16 @@ const AuditCalendar: React.FC = () => {
               <motion.div 
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="flex flex-col items-center justify-center h-96 bg-blue-50 rounded-xl border border-blue-200"
+                className="flex flex-col items-center justify-center h-96 bg-primary/5 rounded-xl border border-primary/20"
               >
-                <Calendar size={64} className="text-blue-400 mb-4" />
-                <h3 className="text-xl font-bold text-blue-800 mb-2">No audits scheduled</h3>
-                <p className="text-blue-600 mb-4">Try adjusting your filters or create a new audit.</p>
+                <Calendar size={64} className="text-primary/60 mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">No audits scheduled</h3>
+                <p className="text-muted-foreground mb-4">Try adjusting your filters or create a new audit.</p>
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate('/audits/new')} 
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-lg"
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 font-medium shadow-lg"
                 >
                   Create Audit
                 </motion.button>
@@ -675,7 +673,7 @@ const AuditCalendar: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: isTransitioning ? 0.5 : 1, scale: isTransitioning ? 0.95 : 1 }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden rounded-xl border border-gray-200 shadow-lg"
+                className="overflow-hidden rounded-xl border border-border shadow-lg audit-calendar-wrapper"
               >
                 {viewMode === 'calendar' ? (
                   <FullCalendar
@@ -698,7 +696,6 @@ const AuditCalendar: React.FC = () => {
                     }}
                     eventClassNames="cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
                     eventContent={(arg: { event: any; view: { type: string; }; }) => {
-                      // Custom event rendering with enhanced styling
                       const event = arg.event;
                       const status = event.extendedProps.status as 'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'DELAYED';
                       const type = event.extendedProps.auditType;
@@ -749,38 +746,38 @@ const AuditCalendar: React.FC = () => {
                     }}
                   />
                 ) : (
-                  <div className="overflow-x-auto bg-white">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gradient-to-r from-gray-50 to-blue-50">
+                  <div className="overflow-x-auto bg-card">
+                    <table className="min-w-full divide-y divide-border">
+                      <thead className="bg-muted">
                         <tr>
-                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-foreground uppercase tracking-wider">
                             Name & Type
                           </th>
-                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-foreground uppercase tracking-wider">
                             Status
                           </th>
-                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-foreground uppercase tracking-wider">
                             Date
                           </th>
-                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-foreground uppercase tracking-wider">
                             Auditor
                           </th>
-                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-foreground uppercase tracking-wider">
                             Department
                           </th>
-                          <th scope="col" className="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-4 text-right text-xs font-bold text-foreground uppercase tracking-wider">
                             Action
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-100">
+                      <tbody className="bg-card divide-y divide-border">
                         {calendarData.events.map((event: AuditEvent, index: number) => (
                           <motion.tr 
                             key={event.id} 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            className="hover:bg-blue-50 transition-all duration-200"
+                            className="hover:bg-muted/50 transition-all duration-200"
                           >
                             <td className="px-6 py-5 whitespace-nowrap">
                               <div className="flex items-start">
@@ -788,27 +785,27 @@ const AuditCalendar: React.FC = () => {
                                   event.auditType === 'INTERNAL' ? 'bg-gradient-to-b from-blue-400 to-blue-600' : 'bg-gradient-to-b from-red-400 to-red-600'
                                 }`}></div>
                                 <div>
-                                  <div className="text-sm font-semibold text-gray-900">{event.title}</div>
-                                  <div className="text-xs text-gray-500 font-medium">{event.auditType}</div>
+                                  <div className="text-sm font-semibold text-foreground">{event.title}</div>
+                                  <div className="text-xs text-muted-foreground font-medium">{event.auditType}</div>
                                 </div>
                               </div>
                             </td>
                             <td className="px-6 py-5 whitespace-nowrap">
                               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
-                                event.status === 'PLANNED' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
-                                event.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                                event.status === 'COMPLETED' ? 'bg-green-100 text-green-800 border border-green-200' :
-                                event.status === 'CANCELLED' ? 'bg-red-100 text-red-800 border border-red-200' :
-                                'bg-purple-100 text-purple-800 border border-purple-200'
+                                event.status === 'PLANNED' ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800' :
+                                event.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800' :
+                                event.status === 'COMPLETED' ? 'bg-green-100 text-green-800 border border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800' :
+                                event.status === 'CANCELLED' ? 'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800' :
+                                'bg-purple-100 text-purple-800 border border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800'
                               }`}>
                                 {event.status}
                               </span>
                             </td>
                             <td className="px-6 py-5 whitespace-nowrap">
-                              <div className="text-sm font-medium text-gray-900">
+                              <div className="text-sm font-medium text-foreground">
                                 {format(new Date(event.start), 'MMM d, yyyy')}
                               </div>
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-muted-foreground">
                                 {format(new Date(event.start), 'HH:mm')} - 
                                 {event.end ? 
                                   format(new Date(event.end), ' HH:mm') : 
@@ -817,14 +814,14 @@ const AuditCalendar: React.FC = () => {
                             </td>
                             <td className="px-6 py-5 whitespace-nowrap">
                               <div className="flex items-center">
-                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-600 mr-3 shadow-sm">
+                                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground mr-3 shadow-sm">
                                   <User size={16} />
                                 </div>
                                 <div>
-                                  <div className="text-sm font-medium text-gray-900">
+                                  <div className="text-sm font-medium text-foreground">
                                     {event.auditor.name}
                                   </div>
-                                  <div className="text-xs text-gray-500 font-medium">
+                                  <div className="text-xs text-muted-foreground font-medium">
                                     {event.auditor.isExternal ? 'External' : 'Internal'}
                                   </div>
                                 </div>
@@ -833,11 +830,11 @@ const AuditCalendar: React.FC = () => {
                             <td className="px-6 py-5 whitespace-nowrap">
                               {event.department ? (
                                 <div className="flex items-center">
-                                  <Building size={16} className="text-blue-500 mr-2" />
-                                  <span className="text-sm text-gray-700 font-medium">{event.department}</span>
+                                  <Building size={16} className="text-secondary mr-2" />
+                                  <span className="text-sm text-foreground font-medium">{event.department}</span>
                                 </div>
                               ) : (
-                                <span className="text-sm text-gray-400">Not specified</span>
+                                <span className="text-sm text-muted-foreground">Not specified</span>
                               )}
                             </td>
                             <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
@@ -846,7 +843,7 @@ const AuditCalendar: React.FC = () => {
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   onClick={() => setSelectedEvent(event)}
-                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-lg hover:bg-blue-100 transition-all"
+                                  className="text-primary hover:opacity-80 p-2 rounded-lg hover:bg-primary/10 transition-all"
                                 >
                                   View
                                 </motion.button>
@@ -854,7 +851,7 @@ const AuditCalendar: React.FC = () => {
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   onClick={() => navigate(`/audits/${event.id}`)}
-                                  className="text-gray-600 hover:text-gray-800 p-2 rounded-lg hover:bg-gray-100 transition-all"
+                                  className="text-muted-foreground hover:text-foreground p-2 rounded-lg hover:bg-muted transition-all"
                                 >
                                   <ExternalLink size={16} />
                                 </motion.button>
@@ -875,41 +872,41 @@ const AuditCalendar: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="px-8 py-6 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200"
+            className="px-8 py-6 bg-muted/50 border-t border-border"
           >
-            <h3 className="text-sm font-bold text-gray-800 mb-4 flex items-center">
-              <Info size={16} className="mr-2 text-blue-600" />
+            <h3 className="text-sm font-bold text-foreground mb-4 flex items-center">
+              <Info size={16} className="mr-2 text-primary" />
               Legend
             </h3>
             
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
               <div className="flex items-center">
                 <span className="inline-block w-4 h-4 rounded-full bg-blue-500 mr-2 shadow-sm"></span>
-                <span className="text-xs text-gray-700 font-medium">Planned</span>
+                <span className="text-xs text-foreground font-medium">Planned</span>
               </div>
               <div className="flex items-center">
                 <span className="inline-block w-4 h-4 rounded-full bg-amber-500 mr-2 shadow-sm"></span>
-                <span className="text-xs text-gray-700 font-medium">In Progress</span>
+                <span className="text-xs text-foreground font-medium">In Progress</span>
               </div>
               <div className="flex items-center">
                 <span className="inline-block w-4 h-4 rounded-full bg-green-500 mr-2 shadow-sm"></span>
-                <span className="text-xs text-gray-700 font-medium">Completed</span>
+                <span className="text-xs text-foreground font-medium">Completed</span>
               </div>
               <div className="flex items-center">
                 <span className="inline-block w-4 h-4 rounded-full bg-red-500 mr-2 shadow-sm"></span>
-                <span className="text-xs text-gray-700 font-medium">Cancelled</span>
+                <span className="text-xs text-foreground font-medium">Cancelled</span>
               </div>
               <div className="flex items-center">
                 <span className="inline-block w-4 h-4 rounded-full bg-purple-500 mr-2 shadow-sm"></span>
-                <span className="text-xs text-gray-700 font-medium">Delayed</span>
+                <span className="text-xs text-foreground font-medium">Delayed</span>
               </div>
               <div className="flex items-center">
-                <span className="inline-block w-4 h-3 border-l-4 border-blue-600 mr-2 bg-gray-100"></span>
-                <span className="text-xs text-gray-700 font-medium">Internal</span>
+                <span className="inline-block w-4 h-3 border-l-4 border-blue-600 mr-2 bg-muted"></span>
+                <span className="text-xs text-foreground font-medium">Internal</span>
               </div>
               <div className="flex items-center">
-                <span className="inline-block w-4 h-3 border-l-4 border-red-600 mr-2 bg-gray-100"></span>
-                <span className="text-xs text-gray-700 font-medium">External</span>
+                <span className="inline-block w-4 h-3 border-l-4 border-red-600 mr-2 bg-muted"></span>
+                <span className="text-xs text-foreground font-medium">External</span>
               </div>
             </div>
           </motion.div>
@@ -929,10 +926,10 @@ const AuditCalendar: React.FC = () => {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.8, opacity: 0, y: 50 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-200"
+                className="bg-card rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-border"
               >
                 {/* Enhanced Modal Header */}
-                <div className="px-8 py-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white relative overflow-hidden">
+                <div className="px-8 py-6 bg-primary text-primary-foreground relative overflow-hidden">
                   <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
                   <div className="relative flex justify-between items-center">
                     <h3 className="text-xl font-bold flex items-center">
@@ -943,7 +940,7 @@ const AuditCalendar: React.FC = () => {
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setSelectedEvent(null)} 
-                      className="text-white/80 hover:text-white rounded-full h-10 w-10 flex items-center justify-center hover:bg-white/20 transition-all"
+                      className="text-primary-foreground/80 hover:text-primary-foreground rounded-full h-10 w-10 flex items-center justify-center hover:bg-white/20 transition-all"
                     >
                       <X size={20} />
                     </motion.button>
@@ -954,24 +951,24 @@ const AuditCalendar: React.FC = () => {
                 <div className="px-8 py-6">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-800 mb-2">{selectedEvent.title}</h2>
+                      <h2 className="text-2xl font-bold text-foreground mb-2">{selectedEvent.title}</h2>
                       <div className="flex flex-wrap gap-2">
                         <span 
                           className={`text-xs font-semibold px-3 py-1 rounded-full shadow-sm ${
                             selectedEvent.auditType === 'INTERNAL' 
-                              ? 'bg-blue-100 text-blue-800 border border-blue-200' 
-                              : 'bg-red-100 text-red-800 border border-red-200'
+                              ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800' 
+                              : 'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800'
                           }`}
                         >
                           {selectedEvent.auditType}
                         </span>
                         <span 
                           className={`text-xs font-semibold px-3 py-1 rounded-full shadow-sm ${
-                            selectedEvent.status === 'COMPLETED' ? 'bg-green-100 text-green-800 border border-green-200' :
-                            selectedEvent.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                            selectedEvent.status === 'PLANNED' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
-                            selectedEvent.status === 'CANCELLED' ? 'bg-red-100 text-red-800 border border-red-200' :
-                            'bg-purple-100 text-purple-800 border border-purple-200'
+                            selectedEvent.status === 'COMPLETED' ? 'bg-green-100 text-green-800 border border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800' :
+                            selectedEvent.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800' :
+                            selectedEvent.status === 'PLANNED' ? 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800' :
+                            selectedEvent.status === 'CANCELLED' ? 'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800' :
+                            'bg-purple-100 text-purple-800 border border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800'
                           }`}
                         >
                           {selectedEvent.status}
@@ -981,19 +978,19 @@ const AuditCalendar: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="px-8 py-6 bg-gray-50">
+                <div className="px-8 py-6 bg-muted/50">
                   <div className="space-y-6">
                     {/* Date & Time */}
                     <div className="flex items-start">
-                      <div className="p-2 bg-blue-100 rounded-lg mr-4">
-                        <CalendarIcon size={20} className="text-blue-600" />
+                      <div className="p-2 bg-primary/10 rounded-lg mr-4">
+                        <CalendarIcon size={20} className="text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 font-semibold mb-1">Date & Time</p>
-                        <p className="text-sm text-gray-800 font-medium">
+                        <p className="text-sm text-muted-foreground font-semibold mb-1">Date & Time</p>
+                        <p className="text-sm text-foreground font-medium">
                           {format(new Date(selectedEvent.start), 'EEEE, MMMM d, yyyy')}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           {format(new Date(selectedEvent.start), 'HH:mm')}
                           {selectedEvent.end && ` - ${format(new Date(selectedEvent.end), 'HH:mm')}`}
                         </p>
@@ -1002,15 +999,15 @@ const AuditCalendar: React.FC = () => {
                     
                     {/* Auditor */}
                     <div className="flex items-start">
-                      <div className="p-2 bg-green-100 rounded-lg mr-4">
-                        <User size={20} className="text-green-600" />
+                      <div className="p-2 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg mr-4">
+                        <User size={20} className="text-emerald-600 dark:text-emerald-400" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 font-semibold mb-1">Auditor</p>
-                        <p className="text-sm text-gray-800 font-medium flex items-center">
+                        <p className="text-sm text-muted-foreground font-semibold mb-1">Auditor</p>
+                        <p className="text-sm text-foreground font-medium flex items-center">
                           {selectedEvent.auditor.name}
                           {selectedEvent.auditor.isExternal && (
-                            <span className="ml-2 text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">
+                            <span className="ml-2 text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">
                               External
                             </span>
                           )}
@@ -1021,12 +1018,12 @@ const AuditCalendar: React.FC = () => {
                     {/* Auditee */}
                     {selectedEvent.auditee && (
                       <div className="flex items-start">
-                        <div className="p-2 bg-purple-100 rounded-lg mr-4">
-                          <Users size={20} className="text-purple-600" />
+                        <div className="p-2 bg-secondary/10 rounded-lg mr-4">
+                          <Users size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500 font-semibold mb-1">Auditee</p>
-                          <p className="text-sm text-gray-800 font-medium">{selectedEvent.auditee.name}</p>
+                          <p className="text-sm text-muted-foreground font-semibold mb-1">Auditee</p>
+                          <p className="text-sm text-foreground font-medium">{selectedEvent.auditee.name}</p>
                         </div>
                       </div>
                     )}
@@ -1034,12 +1031,12 @@ const AuditCalendar: React.FC = () => {
                     {/* Department */}
                     {selectedEvent.department && (
                       <div className="flex items-start">
-                        <div className="p-2 bg-orange-100 rounded-lg mr-4">
-                          <Building size={20} className="text-orange-600" />
+                        <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg mr-4">
+                          <Building size={20} className="text-amber-600 dark:text-amber-400" />
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500 font-semibold mb-1">Department</p>
-                          <p className="text-sm text-gray-800 font-medium">{selectedEvent.department}</p>
+                          <p className="text-sm text-muted-foreground font-semibold mb-1">Department</p>
+                          <p className="text-sm text-foreground font-medium">{selectedEvent.department}</p>
                         </div>
                       </div>
                     )}
@@ -1047,12 +1044,12 @@ const AuditCalendar: React.FC = () => {
                 </div>
                 
                 {/* Enhanced Modal Footer */}
-                <div className="px-8 py-6 bg-white border-t border-gray-200 flex justify-end gap-3">
+                <div className="px-8 py-6 bg-card border-t border-border flex justify-end gap-3">
                   <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedEvent(null)}
-                    className="px-6 py-3 border border-gray-300 rounded-xl bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium transition-all shadow-sm"
+                    className="px-6 py-3 border border-border rounded-xl bg-card text-foreground hover:bg-muted text-sm font-medium transition-all shadow-sm"
                   >
                     Close
                   </motion.button>
@@ -1060,7 +1057,7 @@ const AuditCalendar: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={viewAuditDetails}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-sm font-medium transition-all shadow-lg flex items-center"
+                    className="px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:opacity-90 text-sm font-medium transition-all shadow-lg flex items-center"
                   >
                     <ExternalLink size={16} className="mr-2" />
                     View Full Details

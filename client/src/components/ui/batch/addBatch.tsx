@@ -7,19 +7,16 @@ import {
   AlertCircle,
   X,
   Save,
-  Calendar,
   Package,
   ChevronRight,
   Clock,
   Check,
-  Tag,
   RotateCw,
   Beaker,
   SlidersHorizontal,
   Hash,
   Ruler,
   CheckCircle,
-  Search,
   FileText,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -446,14 +443,14 @@ const AddBatch: React.FC = () => {
   };
 
   // Add handler to select GRN from suggestions
-  const handleSelectGrn = (grn: string) => {
-    setGrnSearchInput(grn);
-    setFormData((prev) => ({
-      ...prev,
-      grnNumber: grn,
-    }));
-    setShowGrnSuggestions(false);
-  };
+  // const handleSelectGrn = (grn: string) => {
+  //   setGrnSearchInput(grn);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     grnNumber: grn,
+  //   }));
+  //   setShowGrnSuggestions(false);
+  // };
 
 
   const basicInfoComplete =
@@ -473,6 +470,8 @@ const AddBatch: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
+      <div style={{display:'none'}}>{isLoadingGRNs}{filteredGrnSuggestions}{showGrnSuggestions}</div>
+      
       <div className="max-w-7xl mx-auto pt-0 px-4 pb-4 sm:pt-0 sm:px-6 sm:pb-6">
         <AnimatePresence>
           {error && (
@@ -529,751 +528,379 @@ const AddBatch: React.FC = () => {
 
         {/* Main Content: 30-70 Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar: Basic Information (30%) */}
+          {/* Left Sidebar: Basic Information (25%) */}
           <motion.div variants={itemVariants} className="lg:col-span-3">
-            <div className="bg-card rounded-xl border border-border sticky top-4">
-              <div className="p-5 border-b border-border">
-                <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                  <SlidersHorizontal size={18} />
-                  Basic Information
-                  {basicInfoComplete && (
-                    <span className="ml-2 inline-flex items-center text-xs text-primary bg-primary/10 px-2 py-0.5 rounded">
-                      <Check size={12} className="mr-1" />
-                      Complete
-                    </span>
-                  )}
+            <div className="bg-card border border-border sticky top-4">
+              {/* Header */}
+              <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                <h2 className="text-sm font-semibold flex items-center gap-2 text-primary">
+                  <SlidersHorizontal size={14} />
+                  Basic Info
                 </h2>
+
+                {basicInfoComplete && (
+                  <Check size={14} className="text-primary" />
+                )}
               </div>
 
-              <div className="p-5 space-y-5">
+              {/* Body */}
+              <div className="px-4 py-3 space-y-3 text-sm">
                 {/* Batch Number */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Batch Number <span className="text-destructive">*</span>
+                <div>
+                  <label className="text-xs text-muted-foreground">
+                    Batch Number
                   </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="batchNumber"
-                      value={formData.batchNumber}
-                      onChange={handleInputChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pl-10"
-                      placeholder="Enter unique batch identifier"
-                      required
-                    />
-                    <Package
-                      size={16}
-                      className="absolute left-3.5 top-3"
-                      style={{ color: 'var(--primary)' }}
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="batchNumber"
+                    value={formData.batchNumber}
+                    onChange={handleInputChange}
+                      className="w-full border border-input px-2 py-1.5 bg-    background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                    required
+                  />
                 </div>
 
                 {/* Product */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Product <span className="text-destructive">*</span>
+                <div>
+                  <label className="text-xs text-muted-foreground">
+                    Product
                   </label>
-                  <div className="relative">
-                    <select
-                      value={showNewProductForm ? 'new' : selectedProductId}
-                      onChange={handleProductChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background appearance-none cursor-pointer pl-10"
-                      required
-                    >
-                      <option value="">Choose product type</option>
-                      {productsData.map((product: any) => (
-                        <option key={product.id} value={product.id}>
-                          {product.name}
-                        </option>
-                      ))}
-                      <option value="new">Create New Product</option>
-                    </select>
-                    <Tag
-                      size={16}
-                      className="absolute left-3.5 top-3 text-muted-foreground pointer-events-none"
-                      style={{ color: 'var(--primary)' }}
-                    />
-                  </div>
+                  <select
+                    value={showNewProductForm ? 'new' : selectedProductId}
+                    onChange={handleProductChange}
+                      className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                    required
+                  >
+                    <option value="">Select</option>
+                    {productsData.map((p: any) => (
+                      <option key={p.id} value={p.id}>{p.name}</option>
+                    ))}
+                    <option value="new">+ New Product</option>
+                  </select>
                 </div>
 
-                {/* New Product Name */}
                 {showNewProductForm && (
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-foreground">
+                  <div>
+                    <label className="text-xs text-muted-foreground">
                       New Product Name
                     </label>
                     <input
                       type="text"
                       value={newProductName}
                       onChange={(e) => setNewProductName(e.target.value)}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background"
-                      placeholder="Enter new product name"
+                        className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
                       required
                     />
                   </div>
                 )}
 
-                {/* Production Date */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Production Date <span className="text-destructive">*</span>
-                  </label>
-                  <div className="relative">
+                {/* Dates */}
+                <div className="flex flex-col gap-2">
+                  <div>
+                    <label className="text-xs text-muted-foreground">Production</label>
                     <input
                       type="date"
                       name="dateOfProduction"
                       value={formData.dateOfProduction}
                       onChange={handleInputChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pl-10"
-                      required
-                    />
-                    <Calendar
-                      size={16}
-                      className="absolute left-3.5 top-3 text-muted-foreground"
-                      style={{ color: 'var(--primary)' }}
+                      className="w-full min-w-[140px] border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
                     />
                   </div>
-                </div>
-
-                {/* Best Before Date */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Best Before Date <span className="text-destructive">*</span>
-                  </label>
-                  <div className="relative">
+                  <div>
+                    <label className="text-xs text-muted-foreground">Best Before</label>
                     <input
                       type="date"
                       name="bestBeforeDate"
                       value={formData.bestBeforeDate}
                       onChange={handleInputChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pl-10"
-                      required
-                    />
-                    <Clock
-                      size={16}
-                      className="absolute left-3.5 top-3 text-muted-foreground"
-                      style={{ color: 'var(--primary)' }}
+                      className="w-full min-w-[140px] border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
                     />
                   </div>
                 </div>
 
-                {/* Sample Analysis Status */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Sample Analysis Status
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <select
-                      name="sampleAnalysisStatus"
-                      value={formData.sampleAnalysisStatus}
-                      onChange={handleInputChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background"
-                    >
-                      <option value="IN_PROGRESS">In Progress</option>
-                      <option value="COMPLETED">Completed</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Analysis Started */}
-                <div className="space-y-2">
-                  <label className="block text-sm text-foreground">
-                    Analysis Started
-                  </label>
-                  <input
-                    type="date"
-                    name="sampleAnalysisStarted"
-                    value={formData.sampleAnalysisStarted}
+                {/* Status */}
+                <div>
+                  <label className="text-xs text-muted-foreground">Analysis Status</label>
+                  <select
+                    name="sampleAnalysisStatus"
+                    value={formData.sampleAnalysisStatus}
                     onChange={handleInputChange}
-                    className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background"
-                  />
-                </div>
-
-                {/* Analysis Completed */}
-                <div className="space-y-2">
-                  <label className="block text-sm text-foreground">
-                    Analysis Completed
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="sampleAnalysisCompleted"
-                      value={formData.sampleAnalysisCompleted}
-                      onChange={handleInputChange}
-                      className={`w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pr-10 ${
-                        formData.sampleAnalysisStatus !== 'COMPLETED'
-                          ? 'cursor-not-allowed text-muted-foreground bg-muted'
-                          : ''
-                      }`}
-                      disabled={formData.sampleAnalysisStatus !== 'COMPLETED'}
-                    />
-                    {formData.sampleAnalysisStatus !== 'COMPLETED' && (
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                        >
-                          <circle
-                            cx="10"
-                            cy="10"
-                            r="8"
-                            stroke="var(--muted-foreground)"
-                            strokeWidth="2"
-                          />
-                          <line
-                            x1="6"
-                            y1="14"
-                            x2="14"
-                            y2="6"
-                            stroke="var(--muted-foreground)"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </span>
-                    )}
-                  </div>
+                      className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                  >
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                  </select>
                 </div>
 
                 {/* Batch Code */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    Batch Code
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="batchCode"
-                      value={formData.batchCode}
-                      onChange={handleInputChange}
-                      className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pl-10"
-                      placeholder="Enter batch code"
-                    />
-                    <Hash
-                      size={16}
-                      className="absolute left-3.5 top-3"
-                      style={{ color: 'var(--primary)' }}
-                    />
-                  </div>
+                <div>
+                  <label className="text-xs text-muted-foreground">Batch Code</label>
+                  <input
+                    type="text"
+                    name="batchCode"
+                    value={formData.batchCode}
+                    onChange={handleInputChange}
+                      className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                  />
                 </div>
 
-                {/* GRN Number with Suggestions */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground">
-                    GRN Number
-                  </label>
-                  <div className="relative">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={grnSearchInput}
-                        onChange={handleGrnInputChange}
-                        onFocus={() => {
-                          if (
-                            grnSearchInput.trim() !== '' &&
-                            filteredGrnSuggestions.length > 0
-                          ) {
-                            setShowGrnSuggestions(true);
-                          }
-                        }}
-                        onBlur={() => {
-                          // Delay hiding to allow clicking on suggestions
-                          setTimeout(() => setShowGrnSuggestions(false), 200);
-                        }}
-                        className="w-full border border-input rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background pl-10"
-                        placeholder="Type GRN number (optional)"
-                        autoComplete="off"
-                      />
-                      <Search
-                        size={16}
-                        className="absolute left-3.5 top-3 text-muted-foreground pointer-events-none"
-                        style={{ color: 'var(--primary)' }}
-                      />
-                      {isLoadingGRNs && (
-                        <div className="absolute right-3 top-3">
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{
-                              duration: 1,
-                              ease: 'linear',
-                              repeat: Infinity,
-                            }}
-                          >
-                            <RotateCw size={16} className="text-primary/70" />
-                          </motion.div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* GRN Suggestions Dropdown */}
-                    {showGrnSuggestions &&
-                      filteredGrnSuggestions.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -8 }}
-                          className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto"
-                        >
-                          {filteredGrnSuggestions.map((suggestion, idx) => (
-                            <motion.button
-                              key={`${suggestion.grn}-${idx}`}
-                              type="button"
-                              initial={{ opacity: 0, y: -4 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: idx * 0.05 }}
-                              onClick={() => handleSelectGrn(suggestion.grn)}
-                              className={`w-full text-left px-4 py-3 hover:bg-accent transition-colors border-b border-border last:border-b-0 ${
-                                idx % 2 === 0 ? 'bg-card' : 'bg-muted/30'
-                              }`}
-                            >
-                              <div className="flex items-start justify-between gap-2">
-                                <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-foreground text-sm truncate">
-                                    {suggestion.grn}
-                                  </div>
-                                  <div className="text-xs text-muted-foreground mt-1 truncate">
-                                    {suggestion.rawMaterialName}
-                                  </div>
-                                  <div className="text-xs text-muted-foreground truncate">
-                                    {suggestion.supplier}
-                                  </div>
-                                </div>
-                                <div className="flex-shrink-0">
-                                  <Check size={16} className="text-primary" />
-                                </div>
-                              </div>
-                            </motion.button>
-                          ))}
-                        </motion.div>
-                      )}
-
-                    {/* No suggestions message */}
-                    {showGrnSuggestions &&
-                      grnSearchInput.trim() !== '' &&
-                      filteredGrnSuggestions.length === 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 p-3"
-                        >
-                          <div className="text-sm text-muted-foreground text-center">
-                            No GRN numbers found matching "{grnSearchInput}"
-                          </div>
-                        </motion.div>
-                      )}
-                  </div>
+                {/* GRN */}
+                <div>
+                  <label className="text-xs text-muted-foreground">GRN</label>
+                  <input
+                    type="text"
+                    value={grnSearchInput}
+                    onChange={handleGrnInputChange}
+                      className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                    placeholder="Optional"
+                  />
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Content: Quality Parameters (70%) */}
+          {/* Right Content: Quality Parameters (75%) */}
           <motion.div variants={itemVariants} className="lg:col-span-9">
-            <div className="bg-card rounded-xl border border-border shadow-sm">
-              <div className="p-5 border-b border-border bg-gradient-to-r from-primary/5 to-transparent">
-                <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                  <Beaker size={18} className="text-primary" />
+            <div className="bg-card border border-border overflow-hidden">
+              {/* Header */}
+              <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Beaker size={16} className="text-primary" />
                   Quality Parameters
-                  {parametersComplete && (
-                    <span className="ml-2 inline-flex items-center text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-md">
-                      <Check size={12} className="mr-1" />
-                      Complete
-                    </span>
-                  )}
                 </h2>
+
+                {parametersComplete && (
+                  <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 border border-primary/20">
+                    <Check size={12} className="inline mr-1" />
+                    Complete
+                  </span>
+                )}
               </div>
 
-              <div className="p-5">
-                {isLoadingProductParameters && selectedProductId && (
-                  <div className="flex items-center justify-center py-12">
+              {/* Body */}
+              {selectedProductId ? (
+                isLoadingProductParameters ? (
+                  <div className="p-8 text-center">
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1.5,
-                        ease: 'linear',
-                        repeat: Infinity,
-                      }}
+                      transition={{ duration: 2, ease: 'linear', repeat: Infinity }}
+                      className="inline-block"
                     >
-                      <RotateCw size={28} className="text-primary/70" />
+                      <RotateCw size={24} className="text-primary" />
                     </motion.div>
+                    <p className="text-sm text-muted-foreground mt-2">Loading parameters...</p>
                   </div>
-                )}
+                ) : Object.keys(parametersByCategory).length > 0 ? (
+                  <div>
+                    {Object.entries(parametersByCategory).map(([category, params]: [string, any]) => (
+                      <div key={category}>
+                        {/* Category Header */}
+                        <div className="px-4 py-2.5 bg-primary/10 border-b border-border">
+                          <span className="text-sm font-semibold text-foreground">
+                            {category}
+                          </span>
+                        </div>
 
-                {selectedProductId &&
-                  !isLoadingProductParameters &&
-                  Object.keys(parametersByCategory).length === 0 && (
-                    <div className="text-center py-12 border border-dashed border-border rounded-lg bg-accent/30">
-                      <div className="text-sm text-muted-foreground">
-                        No Parameters Configured for this product.
-                      </div>
-                    </div>
-                  )}
+                        {/* Table Header */}
+                        <div className="grid grid-cols-12 gap-2 px-4 py-2 bg-muted/50 border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                          <div className="col-span-3 flex items-center gap-1">
+                            <Beaker size={12} /> Parameter
+                          </div>
+                          <div className="col-span-2 flex items-center gap-1">
+                            <CheckCircle size={12} /> Standard
+                          </div>
+                          <div className="col-span-3 flex items-center gap-1">
+                            <Hash size={12} /> Value
+                          </div>
+                          <div className="col-span-1 flex items-center gap-1">
+                            <Ruler size={12} /> Unit
+                          </div>
+                          <div className="col-span-3 flex items-center gap-1">
+                            <FileText size={12} /> Remarks
+                          </div>
+                        </div>
 
-                {!selectedProductId &&
-                  !showNewProductForm &&
-                  !isLoadingProductParameters && (
-                    <div className="text-center py-12 border border-dashed border-border rounded-lg bg-accent/30">
-                      <div className="text-sm text-muted-foreground">
-                        Select a product to view quality parameters.
-                      </div>
-                    </div>
-                  )}
-
-                {selectedProductId &&
-                  !isLoadingProductParameters &&
-                  Object.keys(parametersByCategory).length > 0 && (
-                    <div className="space-y-6">
-                      {Object.entries(parametersByCategory).map(
-                        ([categoryName, parameters]) => {
-                          const categoryParams = Array.isArray(parameters)
-                            ? parameters
-                            : [];
-
-                          return (
-                            <div
-                              key={categoryName}
-                              className="border border-border rounded-lg overflow-hidden shadow-sm"
-                            >
-                              <div className="px-4 py-3 bg-primary/5 border-b border-border">
-                                <div className="text-sm font-semibold text-foreground">
-                                  {categoryName}
+                        {/* Parameter Rows */}
+                        {params
+                          .filter((param: any) => !removedParameters.has(param.id))
+                          .map((param: any, index: number) => {
+                            const paramValue = parameterValues.find(
+                              (pv) => pv.parameterId === param.id
+                            );
+                            return (
+                              <motion.div
+                                key={param.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.02 }}
+                                className="grid grid-cols-12 gap-2 px-4 py-3 border-b border-border hover:bg-muted/30 transition-colors items-center"
+                              >
+                                {/* Parameter Name & Description */}
+                                <div className="col-span-3">
+                                  <div className="text-sm font-medium text-foreground">
+                                    {param.name}
+                                  </div>
+                                  {param.description && (
+                                    <div className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                      {param.description}
+                                    </div>
+                                  )}
                                 </div>
-                              </div>
 
-                              <div className="overflow-x-auto">
-                                <table className="w-full">
-                                  <thead className="bg-accent/40 border-b border-border">
-                                    <tr>
-                                      <th className="text-left p-3 text-xs font-semibold text-foreground uppercase">
-                                        <div className="inline-flex items-center gap-2">
-                                          <Beaker
-                                            size={13}
-                                            className="text-primary"
-                                          />
-                                          Parameter
-                                        </div>
-                                      </th>
-                                      <th className="text-left p-3 text-xs font-semibold text-foreground uppercase w-32">
-                                        <div className="inline-flex items-center gap-2">
-                                          <CheckCircle
-                                            size={13}
-                                            className="text-primary"
-                                          />
-                                          Standard
-                                        </div>
-                                      </th>
-                                      <th className="text-left p-3 text-xs font-semibold text-foreground uppercase w-44">
-                                        <div className="inline-flex items-center gap-2">
-                                          <Hash
-                                            size={13}
-                                            className="text-primary"
-                                          />
-                                          Value
-                                        </div>
-                                      </th>
-                                      <th className="text-left p-3 text-xs font-semibold text-foreground uppercase w-32">
-                                        <div className="inline-flex items-center gap-2">
-                                          <Ruler
-                                            size={13}
-                                            className="text-primary"
-                                          />
-                                          Unit
-                                        </div>
-                                      </th>
-                                      <th className="text-left p-3 text-xs font-semibold text-foreground uppercase w-44">
-                                        <div className="inline-flex items-center gap-2">
-                                          <FileText
-                                            size={13}
-                                            className="text-primary"
-                                          />
-                                          Remarks
-                                        </div>
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {categoryParams
-                                      .filter(
-                                        (parameter: any) =>
-                                          !removedParameters.has(parameter.id)
-                                      )
-                                      .map((parameter: any, idx: number) => {
-                                        const paramValue = parameterValues.find(
-                                          (pv) =>
-                                            pv.parameterId === parameter.id
+                                {/* Standard Value */}
+                                <div className="col-span-2">
+                                  <span className="inline-flex items-center px-2 py-1 bg-primary/10 text-primary text-sm font-medium rounded">
+                                    {param.standardValue || '-'}
+                                  </span>
+                                </div>
+
+                                {/* Value Input */}
+                                <div className="col-span-3">
+                                  {isSieveParam(param.name) ? (
+                                    <select
+                                      value={sieveSelections[param.id] || paramValue?.value || ''}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+                                        setSieveSelections((prev) => ({
+                                          ...prev,
+                                          [param.id]: value,
+                                        }));
+                                        setParameterValues((prev) => {
+                                          const existing = prev.find(
+                                            (pv) => pv.parameterId === param.id
+                                          );
+                                          if (existing) {
+                                            return prev.map((pv) =>
+                                              pv.parameterId === param.id
+                                                ? { ...pv, value }
+                                                : pv
+                                            );
+                                          }
+                                          return [
+                                            ...prev,
+                                            {
+                                              parameterId: param.id,
+                                              value,
+                                              standardValue: param.standardValue,
+                                              unitId: param.unitId,
+                                              remark: '',
+                                            },
+                                          ];
+                                        });
+                                      }}
+                                      className="w-full border border-input px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-ring text-gray-500"
+                                    >
+                                      <option value="">Select sieve</option>
+                                      {SIEVE_OPTIONS.map((opt) => (
+                                        <option key={opt} value={opt}>
+                                          {opt}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  ) : (
+                                    <input
+                                      type="text"
+                                      value={paramValue?.value || ''}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+                                        setParameterValues((prev) => {
+                                          const existing = prev.find(
+                                            (pv) => pv.parameterId === param.id
+                                          );
+                                          if (existing) {
+                                            return prev.map((pv) =>
+                                              pv.parameterId === param.id
+                                                ? { ...pv, value }
+                                                : pv
+                                            );
+                                          }
+                                          return [
+                                            ...prev,
+                                            {
+                                              parameterId: param.id,
+                                              value,
+                                              standardValue: param.standardValue,
+                                              unitId: param.unitId,
+                                              remark: '',
+                                            },
+                                          ];
+                                        });
+                                      }}
+                                        className="w-full text-sm px-3 py-1.5 border border-input bg-background rounded focus:outline-none focus:ring-2 focus:ring-primary/40 placeholder:text-gray-400"
+                                      placeholder="Enter value"
+                                    />
+                                  )}
+                                </div>
+
+                                {/* Unit */}
+                                <div className="col-span-1">
+                                  <span className="inline-flex items-center px-2 py-1 bg-muted text-muted-foreground text-xs font-medium rounded">
+                                    {param.unit?.symbol || param.unit?.name || param.unit || '-'}
+                                  </span>
+                                </div>
+
+                                {/* Remarks */}
+                                <div className="col-span-3">
+                                  <input
+                                    type="text"
+                                    value={paramValue?.remark || ''}
+                                    onChange={(e) => {
+                                      const remark = e.target.value;
+                                      setParameterValues((prev) => {
+                                        const existing = prev.find(
+                                          (pv) => pv.parameterId === param.id
                                         );
-
-                                        return (
-                                          <tr
-                                            key={parameter.id}
-                                            className={`border-b border-border last:border-b-0 ${
-                                              idx % 2 === 1
-                                                ? 'bg-accent/20'
-                                                : 'bg-card'
-                                            } hover:bg-accent/30 transition-colors duration-150`}
-                                          >
-                                            <td className="p-3 align-top">
-                                              <div className="text-sm font-medium text-foreground">
-                                                {parameter.name}
-                                              </div>
-                                              {parameter.description && (
-                                                <div className="text-xs text-muted-foreground mt-0.5">
-                                                  {parameter.description}
-                                                </div>
-                                              )}
-                                            </td>
-                                            <td className="p-3 align-top">
-                                              <span className="text-sm text-foreground px-2 py-1 rounded border border-border bg-primary/5 font-medium">
-                                                {parameter.standardValue ||
-                                                  'N/A'}
-                                              </span>
-                                            </td>
-                                            <td className="p-3 align-top">
-                                              <div className="flex items-center gap-2">
-                                                {isSieveParam(
-                                                  parameter.name
-                                                ) && (
-                                                  <select
-                                                    value={
-                                                      sieveSelections[
-                                                        parameter.id
-                                                      ] || ''
-                                                    }
-                                                    onChange={(e) => {
-                                                      const sel =
-                                                        e.target.value;
-                                                      setSieveSelections(
-                                                        (prev) => ({
-                                                          ...prev,
-                                                          [parameter.id]: sel,
-                                                        })
-                                                      );
-                                                      const existing =
-                                                        parameterValues.find(
-                                                          (pv) =>
-                                                            pv.parameterId ===
-                                                            parameter.id
-                                                        );
-                                                      const valuePart =
-                                                        existing?.value?.includes(
-                                                          '|'
-                                                        )
-                                                          ? existing.value.split(
-                                                              '|'
-                                                            )[1] || ''
-                                                          : '';
-                                                      const combined =
-                                                        sel && valuePart
-                                                          ? `${sel}|${valuePart}`
-                                                          : sel
-                                                            ? `${sel}|`
-                                                            : valuePart;
-                                                      if (existing) {
-                                                        setParameterValues(
-                                                          parameterValues.map(
-                                                            (pv) =>
-                                                              pv.parameterId ===
-                                                              parameter.id
-                                                                ? {
-                                                                    ...pv,
-                                                                    value:
-                                                                      combined,
-                                                                  }
-                                                                : pv
-                                                          )
-                                                        );
-                                                      } else {
-                                                        setParameterValues([
-                                                          ...parameterValues,
-                                                          {
-                                                            parameterId:
-                                                              parameter.id,
-                                                            value: combined,
-                                                            unitId:
-                                                              parameter.unitId,
-                                                          },
-                                                        ]);
-                                                      }
-                                                    }}
-                                                    className="border border-input rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary bg-background w-28 min-w-0"
-                                                  >
-                                                    <option value="">
-                                                      sieve size
-                                                    </option>
-                                                    {SIEVE_OPTIONS.map((o) => (
-                                                      <option key={o} value={o}>
-                                                        {o}
-                                                      </option>
-                                                    ))}
-                                                  </select>
-                                                )}
-
-                                                <input
-                                                  type="text"
-                                                  value={
-                                                    isSieveParam(parameter.name)
-                                                      ? (() => {
-                                                          const pv =
-                                                            parameterValues.find(
-                                                              (pvv) =>
-                                                                pvv.parameterId ===
-                                                                parameter.id
-                                                            );
-                                                          return pv?.value?.includes(
-                                                            '|'
-                                                          )
-                                                            ? pv.value.split(
-                                                                '|'
-                                                              )[1] || ''
-                                                            : '';
-                                                        })()
-                                                      : paramValue?.value || ''
-                                                  }
-                                                  onChange={(e) => {
-                                                    const raw = e.target.value;
-                                                    const selectedSize =
-                                                      sieveSelections[
-                                                        parameter.id
-                                                      ] || '';
-
-                                                    const combined =
-                                                      isSieveParam(
-                                                        parameter.name
-                                                      ) && selectedSize
-                                                        ? `${selectedSize}|${raw}`
-                                                        : raw;
-                                                    const existingParam =
-                                                      parameterValues.find(
-                                                        (pv) =>
-                                                          pv.parameterId ===
-                                                          parameter.id
-                                                      );
-                                                    if (existingParam) {
-                                                      setParameterValues(
-                                                        parameterValues.map(
-                                                          (pv) =>
-                                                            pv.parameterId ===
-                                                            parameter.id
-                                                              ? {
-                                                                  ...pv,
-                                                                  value:
-                                                                    combined,
-                                                                }
-                                                              : pv
-                                                        )
-                                                      );
-                                                    } else {
-                                                      setParameterValues([
-                                                        ...parameterValues,
-                                                        {
-                                                          parameterId:
-                                                            parameter.id,
-                                                          value: combined,
-                                                          unitId:
-                                                            parameter.unitId,
-                                                        },
-                                                      ]);
-                                                    }
-                                                  }}
-                                                  className={`border border-input rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary bg-background flex-1 min-w-0 ${
-                                                    isSieveParam(parameter.name)
-                                                      ? 'w-full'
-                                                      : ''
-                                                  }`}
-                                                  placeholder="Enter value"
-                                                  disabled={
-                                                    isSieveParam(
-                                                      parameter.name
-                                                    ) &&
-                                                    !sieveSelections[
-                                                      parameter.id
-                                                    ]
-                                                  }
-                                                />
-                                              </div>
-                                            </td>
-                                            <td className="p-3 align-top">
-                                              {parameter.unit ? (
-                                                <span className="text-sm text-foreground px-2 py-1 rounded border border-border bg-accent/20">
-                                                  {parameter.unit.symbol}
-                                                </span>
-                                              ) : (
-                                                <span className="text-sm text-muted-foreground italic">
-                                                  No unit
-                                                </span>
-                                              )}
-                                            </td>
-
-                                            <td className="p-3 align-top">
-                                              <input
-                                                type="text"
-                                                placeholder="Add remarks"
-                                                value={
-                                                  parameterValues.find(
-                                                    (pv) =>
-                                                      pv.parameterId ===
-                                                      parameter.id
-                                                  )?.remark || ''
-                                                }
-                                                onChange={(e) => {
-                                                  const remarkValue =
-                                                    e.target.value;
-                                                  const existingParam =
-                                                    parameterValues.find(
-                                                      (pv) =>
-                                                        pv.parameterId ===
-                                                        parameter.id
-                                                    );
-                                                  if (existingParam) {
-                                                    setParameterValues(
-                                                      parameterValues.map(
-                                                        (pv) =>
-                                                          pv.parameterId ===
-                                                          parameter.id
-                                                            ? {
-                                                                ...pv,
-                                                                remark:
-                                                                  remarkValue,
-                                                              }
-                                                            : pv
-                                                      )
-                                                    );
-                                                  } else {
-                                                    setParameterValues([
-                                                      ...parameterValues,
-                                                      {
-                                                        parameterId:
-                                                          parameter.id,
-                                                        value: '',
-                                                        unitId:
-                                                          parameter.unitId,
-                                                        remark: remarkValue,
-                                                      },
-                                                    ]);
-                                                  }
-                                                }}
-                                                className="border border-input rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary bg-background w-full"
-                                              />
-                                            </td>
-                                          </tr>
-                                        );
-                                      })}
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          );
-                        }
-                      )}
+                                        if (existing) {
+                                          return prev.map((pv) =>
+                                            pv.parameterId === param.id
+                                              ? { ...pv, remark }
+                                              : pv
+                                          );
+                                        }
+                                        return [
+                                          ...prev,
+                                          {
+                                            parameterId: param.id,
+                                            value: '',
+                                            standardValue: param.standardValue,
+                                            unitId: param.unitId,
+                                            remark,
+                                          },
+                                        ];
+                                      });
+                                    }}
+                                      className="w-full text-sm px-3 py-1.5 border border-input bg-background rounded focus:outline-none focus:ring-2 focus:ring-primary/40 placeholder:text-gray-400"
+                                    placeholder="Add remark"
+                                  />
+                                </div>
+                              </motion.div>
+                            );
+                          })}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-6">
+                    <div className="bg-muted/30 border border-border rounded-lg p-8 text-center">
+                      <p className="text-sm text-muted-foreground">
+                        No parameters found for this product.
+                      </p>
                     </div>
-                  )}
-              </div>
+                  </div>
+                )
+              ) : (
+                <div className="p-6">
+                  <div className="bg-primary/10 border border-primary/20 rounded-lg p-8 text-center">
+                    <p className="text-sm text-muted-foreground">
+                      Select a product to view quality parameters.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
+
 
         {/* Footer actions */}
         <motion.div

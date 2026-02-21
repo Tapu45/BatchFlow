@@ -176,26 +176,26 @@ const cardVariants = {
   }
 };
 
-// Status color mapping
+// Status color mapping - theme aware
 const getStatusColor = (status: string) => {
   const colors = {
-    'COMPLETED': 'text-green-600 bg-green-100',
-    'IN_PROGRESS': 'text-blue-600 bg-blue-100',
-    'PLANNED': 'text-yellow-600 bg-yellow-100',
-    'DRAFT': 'text-gray-600 bg-gray-100',
-    'CANCELLED': 'text-red-600 bg-red-100'
+    'COMPLETED': 'text-green-700 bg-green-100 dark:bg-green-900/40 dark:text-green-300',
+    'IN_PROGRESS': 'text-blue-700 bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300',
+    'PLANNED': 'text-yellow-700 bg-yellow-100 dark:bg-yellow-900/40 dark:text-yellow-300',
+    'DRAFT': 'text-gray-700 bg-gray-100 dark:bg-gray-700/40 dark:text-gray-300',
+    'CANCELLED': 'text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
   };
-  return colors[status as keyof typeof colors] || 'text-gray-600 bg-gray-100';
+  return colors[status as keyof typeof colors] || 'text-gray-700 bg-gray-100 dark:bg-gray-700/40 dark:text-gray-300';
 };
 
 const getPriorityColor = (priority: string) => {
   const colors = {
-    'CRITICAL': 'text-red-600 bg-red-100',
-    'HIGH': 'text-orange-600 bg-orange-100',
-    'MEDIUM': 'text-yellow-600 bg-yellow-100',
-    'LOW': 'text-green-600 bg-green-100'
+    'CRITICAL': 'text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-300',
+    'HIGH': 'text-orange-700 bg-orange-100 dark:bg-orange-900/40 dark:text-orange-300',
+    'MEDIUM': 'text-yellow-700 bg-yellow-100 dark:bg-yellow-900/40 dark:text-yellow-300',
+    'LOW': 'text-green-700 bg-green-100 dark:bg-green-900/40 dark:text-green-300'
   };
-  return colors[priority as keyof typeof colors] || 'text-gray-600 bg-gray-100';
+  return colors[priority as keyof typeof colors] || 'text-gray-700 bg-gray-100 dark:bg-gray-700/40 dark:text-gray-300';
 };
 
 // Components
@@ -205,29 +205,30 @@ const StatCard: React.FC<{
   icon: React.ReactNode;
   change?: string;
   changeType?: 'increase' | 'decrease';
-  color: string;
-}> = ({ title, value, icon, change, changeType, color }) => (
+  colorClass: string;
+  iconColorClass: string;
+}> = ({ title, value, icon, change, changeType, colorClass, iconColorClass }) => (
   <motion.div
     variants={cardVariants}
     whileHover="hover"
-    className={`bg-white rounded-xl shadow-lg p-6 border-l-4 ${color} relative overflow-hidden group`}
+    className={`bg-card rounded-xl shadow-lg p-6 border-l-4 ${colorClass} relative overflow-hidden group border border-border`}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-muted/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     <div className="relative z-10">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
+          <p className="text-2xl font-bold text-foreground">{value}</p>
           {change && (
             <div className={`flex items-center mt-2 text-sm ${
-              changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+              changeType === 'increase' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
             }`}>
               {changeType === 'increase' ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
               <span className="ml-1">{change}</span>
             </div>
           )}
         </div>
-        <div className="text-gray-400 group-hover:scale-110 transition-transform duration-300">
+        <div className={`${iconColorClass} group-hover:scale-110 transition-transform duration-300`}>
           {icon}
         </div>
       </div>
@@ -243,9 +244,9 @@ const ChartCard: React.FC<{
   <motion.div
     variants={cardVariants}
     whileHover="hover"
-    className={`bg-white rounded-xl shadow-lg p-6 ${className}`}
+    className={`bg-card rounded-xl shadow-lg p-6 border border-border ${className}`}
   >
-    <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    <h3 className="text-lg font-semibold text-foreground mb-4">{title}</h3>
     {children}
   </motion.div>
 );
@@ -258,10 +259,10 @@ const ListCard: React.FC<{
   <motion.div
     variants={cardVariants}
     whileHover="hover"
-    className="bg-white rounded-xl shadow-lg p-6"
+    className="bg-card rounded-xl shadow-lg p-6 border border-border"
   >
     <div className="flex items-center justify-between mb-4">
-      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       {action}
     </div>
     {children}
@@ -320,14 +321,14 @@ const AuditDashboard: React.FC = () => {
 
   if (overviewError) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Error loading dashboard</h3>
-          <p className="text-gray-600 mb-4">Please try refreshing the page</p>
+          <AlertCircle className="mx-auto h-12 w-12 text-destructive mb-4" />
+          <h3 className="text-lg font-medium text-foreground mb-2">Error loading dashboard</h3>
+          <p className="text-muted-foreground mb-4">Please try refreshing the page</p>
           <button
             onClick={handleRefresh}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
           >
             Retry
           </button>
@@ -337,25 +338,25 @@ const AuditDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="bg-white shadow-sm border-b border-gray-200"
+        className="bg-card shadow-sm border-b border-border"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Activity className="h-8 w-8 text-blue-600 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">Audit Dashboard</h1>
+              <Activity className="h-8 w-8 text-primary mr-3" />
+              <h1 className="text-2xl font-bold text-foreground">Audit Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleRefresh}
-                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground transition-colors"
                 disabled={isLoading}
               >
                 <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
@@ -363,14 +364,14 @@ const AuditDashboard: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Download className="h-5 w-5" />
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Settings className="h-5 w-5" />
               </motion.button>
@@ -396,9 +397,9 @@ const AuditDashboard: React.FC = () => {
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   className="inline-block"
                 >
-                  <RefreshCw className="h-8 w-8 text-blue-600" />
+                  <RefreshCw className="h-8 w-8 text-primary" />
                 </motion.div>
-                <p className="mt-2 text-gray-600">Loading dashboard...</p>
+                <p className="mt-2 text-muted-foreground">Loading dashboard...</p>
               </div>
             </motion.div>
           ) : (
@@ -412,31 +413,35 @@ const AuditDashboard: React.FC = () => {
               {/* Overview Stats */}
               {overview && (
                 <motion.div variants={itemVariants}>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Overview</h2>
+                  <h2 className="text-xl font-semibold text-foreground mb-6">Overview</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatCard
                       title="Total Audits"
                       value={overview.totalAudits}
                       icon={<FileText size={24} />}
-                      color="border-blue-500"
+                      colorClass="border-primary"
+                      iconColorClass="text-primary"
                     />
                     <StatCard
                       title="Active Audits"
                       value={overview.activeAudits}
                       icon={<Activity size={24} />}
-                      color="border-green-500"
+                      colorClass="border-secondary"
+                      iconColorClass="text-secondary"
                     />
                     <StatCard
                       title="Completion Rate"
                       value={`${overview.auditCompletionRate}%`}
                       icon={<Target size={24} />}
-                      color="border-purple-500"
+                      colorClass="border-purple-500"
+                      iconColorClass="text-purple-500 dark:text-purple-400"
                     />
                     <StatCard
                       title="Critical Findings"
                       value={overview.criticalFindings}
                       icon={<AlertTriangle size={24} />}
-                      color="border-red-500"
+                      colorClass="border-destructive"
+                      iconColorClass="text-destructive"
                     />
                   </div>
                 </motion.div>
@@ -453,12 +458,12 @@ const AuditDashboard: React.FC = () => {
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ delay: index * 0.1 }}
-                          className="text-center p-4 rounded-lg bg-gray-50"
+                          className="text-center p-4 rounded-lg bg-muted"
                         >
                           <div className={`inline-flex px-3 py-1 rounded-full text-sm font-medium mb-2 ${getStatusColor(item.status)}`}>
                             {item.status.replace('_', ' ')}
                           </div>
-                          <p className="text-2xl font-bold text-gray-900">{item.count}</p>
+                          <p className="text-2xl font-bold text-foreground">{item.count}</p>
                         </motion.div>
                       ))}
                     </div>
@@ -477,10 +482,10 @@ const AuditDashboard: React.FC = () => {
                           initial={{ x: -50, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: index * 0.1 }}
-                          className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
+                          className="flex items-center justify-between p-3 rounded-lg bg-muted"
                         >
-                          <span className="font-medium text-gray-900">{item.type.replace('_', ' ')}</span>
-                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          <span className="font-medium text-foreground">{item.type.replace('_', ' ')}</span>
+                          <span className="bg-secondary/20 text-secondary px-3 py-1 rounded-full text-sm font-medium">
                             {item.count}
                           </span>
                         </motion.div>
@@ -500,7 +505,7 @@ const AuditDashboard: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center"
+                          className="text-primary hover:text-primary/80 font-medium text-sm flex items-center"
                         >
                           View All
                           <ChevronRight size={16} className="ml-1" />
@@ -514,16 +519,16 @@ const AuditDashboard: React.FC = () => {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: index * 0.1 }}
-                            className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors group"
+                            className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors group"
                           >
                             <div className="flex-1">
-                              <h4 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                              <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">
                                 {audit.name}
                               </h4>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-muted-foreground">
                                 {audit.department.name} • {audit.auditor.name}
                               </p>
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-muted-foreground mt-1">
                                 {formatDate(audit.createdAt)}
                               </p>
                             </div>
@@ -531,7 +536,7 @@ const AuditDashboard: React.FC = () => {
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(audit.status)}`}>
                                 {audit.status.replace('_', ' ')}
                               </span>
-                              <ExternalLink size={16} className="text-gray-400 group-hover:text-blue-600 transition-colors" />
+                              {/* <ExternalLink size={16} className="text-muted-foreground group-hover:text-primary transition-colors" /> */}
                             </div>
                           </motion.div>
                         ))}
@@ -549,7 +554,7 @@ const AuditDashboard: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="text-red-600 hover:text-red-800 font-medium text-sm flex items-center"
+                          className="text-destructive hover:text-destructive/80 font-medium text-sm flex items-center"
                         >
                           View All
                           <ChevronRight size={16} className="ml-1" />
@@ -563,13 +568,13 @@ const AuditDashboard: React.FC = () => {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: index * 0.1 }}
-                            className="p-4 rounded-lg border-l-4 border-red-500 bg-red-50 hover:bg-red-100 transition-colors group"
+                            className="p-4 rounded-lg border-l-4 border-destructive bg-destructive/5 hover:bg-destructive/10 transition-colors group"
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <h4 className="font-medium text-gray-900">{finding.title}</h4>
-                                <p className="text-sm text-gray-600 mt-1">{finding.audit.name}</p>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <h4 className="font-medium text-foreground">{finding.title}</h4>
+                                <p className="text-sm text-muted-foreground mt-1">{finding.audit.name}</p>
+                                <p className="text-xs text-muted-foreground mt-1">
                                   Assigned to: {finding.assignedTo.name}
                                 </p>
                               </div>
@@ -577,12 +582,12 @@ const AuditDashboard: React.FC = () => {
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(finding.priority)}`}>
                                   {finding.priority}
                                 </span>
-                                <AlertTriangle size={16} className="text-red-500" />
+                                <AlertTriangle size={16} className="text-destructive" />
                               </div>
                             </div>
                             {finding.actions.length > 0 && (
-                              <div className="mt-3 pt-3 border-t border-red-200">
-                                <p className="text-xs text-gray-600">
+                              <div className="mt-3 pt-3 border-t border-destructive/20">
+                                <p className="text-xs text-muted-foreground">
                                   {finding.actions.length} action(s) • Due: {formatDate(finding.actions[0].dueDate)}
                                 </p>
                               </div>
@@ -604,7 +609,7 @@ const AuditDashboard: React.FC = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+                        className="bg-destructive text-destructive-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-colors text-sm font-medium"
                       >
                         Manage All
                       </motion.button>
@@ -617,19 +622,19 @@ const AuditDashboard: React.FC = () => {
                           initial={{ x: -50, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: index * 0.1 }}
-                          className="p-4 rounded-lg bg-yellow-50 border border-yellow-200 hover:bg-yellow-100 transition-colors"
+                          className="p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors"
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
-                              <h4 className="font-medium text-gray-900">{action.title}</h4>
-                              <p className="text-sm text-gray-600 mt-1">{action.audit.name}</p>
-                              <p className="text-sm text-gray-600">Finding: {action.finding.title}</p>
+                              <h4 className="font-medium text-foreground">{action.title}</h4>
+                              <p className="text-sm text-muted-foreground mt-1">{action.audit.name}</p>
+                              <p className="text-sm text-muted-foreground">Finding: {action.finding.title}</p>
                             </div>
                             <div className="text-right">
-                              <p className="text-sm font-medium text-red-600">
+                              <p className="text-sm font-medium text-destructive">
                                 Overdue by {Math.ceil((new Date().getTime() - new Date(action.dueDate).getTime()) / (1000 * 60 * 60 * 24))} days
                               </p>
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-muted-foreground mt-1">
                                 Assigned to: {action.assignedTo.name}
                               </p>
                             </div>

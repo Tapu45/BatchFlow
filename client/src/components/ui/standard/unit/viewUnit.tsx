@@ -87,7 +87,7 @@ const ViewUnit: React.FC<ViewUnitProps> = ({ onAddUnitClick }) => {
       console.error('Failed to delete unit:', err);
       toast.error(
         err.response?.data?.message ||
-          'Failed to delete unit. Please try again.',
+        'Failed to delete unit. Please try again.',
         {
           position: 'bottom-right',
           autoClose: 3000,
@@ -235,7 +235,8 @@ const ViewUnit: React.FC<ViewUnitProps> = ({ onAddUnitClick }) => {
             setUnitToDelete(row.original);
             setShowDeleteModal(true);
           }}
-          className="flex items-center gap-2 px-3 py-2 bg-[var(--destructive)] text-[var(--destructive-foreground)] rounded-lg hover:bg-[var(--destructive)]/90 transition-all shadow-sm hover:shadow-md"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--destructive)] text-[var(--destructive-foreground)] rounded-md hover:bg-[var(--destructive)]/90 transition-all text-sm font-semibold shadow-sm"
+          title={`Delete ${row.original.name}`}
           whileHover={{ scale: 1.05, y: -1 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -378,14 +379,14 @@ const ViewUnit: React.FC<ViewUnitProps> = ({ onAddUnitClick }) => {
                       {headerGroup.headers.map((header) => (
                         <th
                           key={header.id}
-                          className="px-6 py-4 text-left text-base font-bold text-[var(--foreground)]"
+                          className="px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-[var(--muted-foreground)]"
                         >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </th>
                       ))}
                     </tr>
@@ -404,7 +405,7 @@ const ViewUnit: React.FC<ViewUnitProps> = ({ onAddUnitClick }) => {
                         {row.getVisibleCells().map((cell) => (
                           <td
                             key={cell.id}
-                            className="px-6 py-4 text-base text-[var(--foreground)]"
+                            className="px-4 py-3 text-sm text-[var(--foreground)]"
                           >
                             {flexRender(
                               cell.column.columnDef.cell,

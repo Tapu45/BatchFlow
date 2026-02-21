@@ -174,6 +174,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle, pageTitle = 'Dashboard' }) 
           icon: <FileStack className="sidebar-icon" size={18} />,
           permissionKey: "manage_purchase_order"
         },
+          {
+          path: "/raw/quality-report",
+          name: "RM Quality Report",
+          icon: <FileText className="sidebar-icon" size={18} />,
+          permissionKey: "manage_rm_quality_report"
+        },
         {
           path: "/raw/cleaning-raw-materials",
           name: "Cleaning",
@@ -186,12 +192,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle, pageTitle = 'Dashboard' }) 
           icon: <SwitchCamera className="sidebar-icon" size={18} />,
           permissionKey: "manage_purchase_order"
         },
-        {
-          path: "/raw/quality-report",
-          name: "RM Quality Report",
-          icon: <FileText className="sidebar-icon" size={18} />,
-          permissionKey: "manage_rm_quality_report"
-        },
+      
         {
           path: "/stock-distribution",
           name: "Stock Distribution",

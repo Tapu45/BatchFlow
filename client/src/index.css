@@ -166,3 +166,509 @@ body {
   font-weight: 400;
 }
 
+/* Subtle brand gradient – works in light & dark */
+.bg-brand-gradient {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--primary) 12%, transparent),
+      color-mix(in srgb, var(--secondary) 10%, transparent) 50%,
+      transparent 80%);
+}
+
+/* Header-style gradient (stronger but safe) */
+.bg-brand-gradient-strong {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--primary) 18%, transparent),
+      color-mix(in srgb, var(--secondary) 14%, transparent));
+}
+
+/* Horizontal filter bar gradient */
+.bg-brand-gradient-x {
+  background:
+    linear-gradient(to right,
+      color-mix(in srgb, var(--primary) 10%, transparent),
+      transparent 70%);
+}
+
+/* === Brand-safe gradients (light + dark) === */
+
+.bg-brand-header {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--primary) 18%, transparent),
+      color-mix(in srgb, var(--secondary) 14%, transparent));
+}
+
+.bg-brand-subtle {
+  background:
+    linear-gradient(to right,
+      color-mix(in srgb, var(--primary) 10%, transparent),
+      transparent 70%);
+}
+
+.bg-input-soft {
+  background:
+    color-mix(in srgb, var(--card) 96%, var(--primary) 4%);
+}
+
+/* ============================================
+   Training Table - Dark/Light Mode Overrides
+   ============================================ */
+.training-table-wrapper .ant-table {
+  background: transparent !important;
+}
+
+.training-table-wrapper .ant-table-container {
+  background: transparent !important;
+}
+
+.training-table-wrapper .ant-table-thead>tr>th {
+  background: var(--muted) !important;
+  color: var(--foreground) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.training-table-wrapper .ant-table-tbody>tr>td {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.training-table-wrapper .ant-table-tbody>tr:hover>td {
+  background: var(--muted) !important;
+}
+
+.training-table-wrapper .ant-table-placeholder {
+  background: var(--card) !important;
+}
+
+.training-table-wrapper .ant-table-placeholder .ant-empty-description {
+  color: var(--muted-foreground) !important;
+}
+
+.training-table-wrapper .ant-pagination {
+  color: var(--foreground) !important;
+}
+
+.training-table-wrapper .ant-pagination-item {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.training-table-wrapper .ant-pagination-item a {
+  color: var(--foreground) !important;
+}
+
+.training-table-wrapper .ant-pagination-item-active {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.training-table-wrapper .ant-pagination-item-active a {
+  color: var(--primary-foreground) !important;
+}
+
+.training-table-wrapper .ant-pagination-prev button,
+.training-table-wrapper .ant-pagination-next button {
+  color: var(--foreground) !important;
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.training-table-wrapper .ant-pagination-options .ant-select-selector {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.training-table-wrapper .ant-spin-dot-item {
+  background: var(--primary) !important;
+}
+
+.training-table-wrapper .ant-table-cell-row-hover {
+  background: var(--muted) !important;
+}
+
+/* Also fix input quick jumper */
+.training-table-wrapper .ant-pagination-options-quick-jumper input {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.training-table-wrapper .ant-pagination-total-text {
+  color: var(--muted-foreground) !important;
+}
+
+/* Remove left/right padding from table */
+.training-table-wrapper .ant-table-thead>tr>th:first-child,
+.training-table-wrapper .ant-table-tbody>tr>td:first-child {
+  padding-left: 24px !important;
+}
+
+.training-table-wrapper .ant-table-thead>tr>th:last-child,
+.training-table-wrapper .ant-table-tbody>tr>td:last-child {
+  padding-right: 0 !important;
+}
+
+/* ============================================
+   Create Training Form - Dark/Light Mode
+   ============================================ */
+.create-training-form .ant-form-item-label>label {
+  color: var(--foreground) !important;
+}
+
+.create-training-form .ant-input,
+.create-training-form .ant-input-number,
+.create-training-form .ant-input-number-input,
+.create-training-form .ant-picker,
+.create-training-form .ant-select-selector,
+.create-training-form textarea.ant-input {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.create-training-form .ant-input::placeholder,
+.create-training-form .ant-input-number-input::placeholder,
+.create-training-form .ant-picker-input>input::placeholder,
+.create-training-form textarea.ant-input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.create-training-form .ant-input:hover,
+.create-training-form .ant-input-number:hover,
+.create-training-form .ant-picker:hover,
+.create-training-form .ant-select-selector:hover {
+  border-color: var(--primary) !important;
+}
+
+.create-training-form .ant-input:focus,
+.create-training-form .ant-input-focused,
+.create-training-form .ant-input-number-focused,
+.create-training-form .ant-picker-focused,
+.create-training-form .ant-select-focused .ant-select-selector {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent) !important;
+}
+
+.create-training-form .ant-select-arrow,
+.create-training-form .ant-picker-suffix {
+  color: var(--muted-foreground) !important;
+}
+
+.create-training-form .ant-select-selection-placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.create-training-form .ant-select-selection-item {
+  color: var(--foreground) !important;
+}
+
+.create-training-form .ant-input-number-group-addon {
+  background: var(--muted) !important;
+  border-color: var(--border) !important;
+  color: var(--muted-foreground) !important;
+}
+
+.create-training-form .ant-input-textarea-show-count::after {
+  color: var(--muted-foreground) !important;
+}
+
+.create-training-form .ant-form-item-explain-error {
+  color: var(--destructive) !important;
+}
+
+.create-training-form .ant-form-item-extra {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ant Card dark mode */
+.create-training-form .ant-card {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+/* Ant Alert dark mode */
+.create-training-form .ant-alert-info {
+  background: color-mix(in srgb, var(--secondary) 10%, var(--card)) !important;
+  border-color: var(--secondary) !important;
+}
+
+.create-training-form .ant-alert-info .ant-alert-message {
+  color: var(--foreground) !important;
+}
+
+.create-training-form .ant-alert-info .ant-alert-description {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ant Divider */
+.ant-divider {
+  border-color: var(--border) !important;
+}
+
+/* Ant Dropdown dark mode */
+.ant-select-dropdown,
+.ant-picker-dropdown {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.ant-select-dropdown .ant-select-item {
+  color: var(--foreground) !important;
+}
+
+.ant-select-dropdown .ant-select-item-option-active,
+.ant-select-dropdown .ant-select-item-option-selected {
+  background: var(--muted) !important;
+}
+
+.ant-picker-dropdown .ant-picker-panel-container {
+  background: var(--card) !important;
+}
+
+.ant-picker-dropdown .ant-picker-header,
+.ant-picker-dropdown .ant-picker-content th {
+  color: var(--foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell {
+  color: var(--muted-foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view {
+  color: var(--foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-selected .ant-picker-cell-inner {
+  background: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-today-btn {
+  color: var(--primary) !important;
+}
+
+/* Input Search button */
+.ant-input-search .ant-input-search-button {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* ============================================
+   Global Ant Design Dark Mode Overrides
+   ============================================ */
+
+/* Ant Card global */
+.ant-card {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.ant-card-head {
+  border-bottom-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.ant-card-body {
+  background: var(--card) !important;
+}
+
+/* Ant Button */
+.ant-btn-default {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.ant-btn-default:hover {
+  background: var(--muted) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.ant-btn-text {
+  color: var(--foreground) !important;
+}
+
+.ant-btn-text:hover {
+  background: var(--muted) !important;
+  color: var(--primary) !important;
+}
+
+/* Ant Input global */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-number,
+.ant-input-number-input,
+.ant-picker,
+.ant-select-selector,
+textarea.ant-input {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.ant-input-affix-wrapper {
+  background: var(--card) !important;
+}
+
+.ant-input-affix-wrapper .ant-input {
+  background: transparent !important;
+}
+
+.ant-input-prefix {
+  color: var(--primary) !important;
+}
+
+/* Ant Empty */
+.ant-empty-description {
+  color: var(--muted-foreground) !important;
+}
+
+.ant-empty-image svg {
+  fill: var(--muted-foreground) !important;
+}
+
+/* Ant Result */
+.ant-result-title {
+  color: var(--foreground) !important;
+}
+
+.ant-result-subtitle {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ant Spin */
+.ant-spin-dot-item {
+  background: var(--primary) !important;
+}
+
+/* Ant Badge */
+.ant-badge-count {
+  box-shadow: none !important;
+}
+
+/* Ant Tooltip */
+.ant-tooltip-inner {
+  background: var(--popover) !important;
+  color: var(--popover-foreground) !important;
+}
+
+.ant-tooltip-arrow::before {
+  background: var(--popover) !important;
+}
+
+/* Ant Form */
+.ant-form-item-label>label {
+  color: var(--foreground) !important;
+}
+
+.ant-form-item-explain,
+.ant-form-item-extra {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ant picker range */
+.ant-picker-range .ant-picker-active-bar {
+  background: var(--primary) !important;
+}
+
+.ant-picker-input>input {
+  color: var(--foreground) !important;
+}
+
+.ant-picker-input>input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.ant-picker-separator {
+  color: var(--muted-foreground) !important;
+}
+
+.ant-picker-clear {
+  background: var(--card) !important;
+  color: var(--muted-foreground) !important;
+}
+
+/* Picker dropdown extras */
+.ant-picker-dropdown .ant-picker-header button {
+  color: var(--foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-header button:hover {
+  color: var(--primary) !important;
+}
+
+.ant-picker-dropdown .ant-picker-footer {
+  background: var(--card) !important;
+  border-top-color: var(--border) !important;
+}
+
+.ant-picker-dropdown .ant-picker-ranges {
+  background: var(--card) !important;
+}
+
+.ant-picker-dropdown .ant-picker-preset>.ant-tag {
+  background: var(--muted) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-time-panel {
+  border-left-color: var(--border) !important;
+}
+
+.ant-picker-dropdown .ant-picker-time-panel-column>li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+  color: var(--foreground) !important;
+}
+
+.ant-picker-dropdown .ant-picker-time-panel-column>li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* Alert improvements */
+.ant-alert {
+  border-color: var(--border) !important;
+}
+
+.ant-alert-info {
+  background: color-mix(in srgb, var(--secondary) 10%, var(--card)) !important;
+  border-color: color-mix(in srgb, var(--secondary) 30%, var(--border)) !important;
+}
+
+.ant-alert-info .ant-alert-icon {
+  color: var(--secondary) !important;
+}
+
+.ant-alert-message {
+  color: var(--foreground) !important;
+}
+
+.ant-alert-description {
+  color: var(--muted-foreground) !important;
+}
+
+/* Input number addon */
+.ant-input-number-group-addon {
+  background: var(--muted) !important;
+  border-color: var(--border) !important;
+  color: var(--muted-foreground) !important;
+}
+
+/* Textarea count */
+.ant-input-textarea-show-count::after {
+  color: var(--muted-foreground) !important;
+}
+
+/* Message popups */
+.ant-message-notice-content {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}

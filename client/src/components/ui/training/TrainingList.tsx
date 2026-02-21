@@ -6,7 +6,6 @@ import {
   FiTrash2,
   FiCalendar,
   FiSearch,
-  FiFilter,
   FiRefreshCw,
   FiUsers,
   FiMapPin,
@@ -15,6 +14,7 @@ import {
   FiCheck,
   FiClock,
   FiAlertCircle,
+  FiChevronDown,
 } from 'react-icons/fi';
 import api from '../../../utils/api';
 import { API_ROUTES } from '../../../utils/api';
@@ -27,98 +27,46 @@ import {
   message,
   Dropdown,
   Space,
-  Spin,
   Empty,
-  Tag,
 } from 'antd';
 import type { MenuProps } from 'antd';
-import { 
-  Sparkles, 
-  BookOpen,
-  ChevronDown,
-  Calendar as CalendarIcon} from 'lucide-react';
+import { BookOpen, Calendar as CalendarIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-// Enhanced status configuration with gradients and animations
-const statusConfig: Record<
-  string,
-  { 
-    color: string; 
-    bgColor: string; 
-    textColor: string; 
-    gradient: string;
-    icon: React.ReactNode;
-    borderColor: string;
+// Status configuration
+const statusConfig: Record<string, { icon: React.ReactNode; label: string }> = {
+  SCHEDULED: { icon: <CalendarIcon size={12} />, label: 'Scheduled' },
+  COMPLETED: { icon: <FiCheck size={12} />, label: 'Completed' },
+  CANCELLED: { icon: <FiX size={12} />, label: 'Cancelled' },
+  IN_PROGRESS: { icon: <FiClock size={12} />, label: 'In Progress' },
+  POSTPONED: { icon: <FiAlertCircle size={12} />, label: 'Postponed' },
+};
+
+// Status color mapping for theme support
+const getStatusClasses = (status: string) => {
+  switch (status) {
+    case 'SCHEDULED':
+      return 'bg-primary/10 text-primary border-primary/20';
+    case 'COMPLETED':
+      return 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20';
+    case 'CANCELLED':
+      return 'bg-destructive/10 text-destructive border-destructive/20';
+    case 'IN_PROGRESS':
+      return 'bg-secondary/10 text-secondary border-secondary/20';
+    case 'POSTPONED':
+      return 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20';
+    default:
+      return 'bg-muted text-muted-foreground border-border';
   }
-> = {
-  SCHEDULED: { 
-    color: 'blue', 
-    bgColor: '#EFF6FF', 
-    textColor: '#1D4ED8',
-    gradient: 'from-blue-400 to-blue-600',
-    icon: <CalendarIcon size={12} />,
-    borderColor: '#DBEAFE'
-  },
-  COMPLETED: { 
-    color: 'green', 
-    bgColor: '#ECFDF5', 
-    textColor: '#047857',
-    gradient: 'from-green-400 to-green-600',
-    icon: <FiCheck size={12} />,
-    borderColor: '#D1FAE5'
-  },
-  CANCELLED: { 
-    color: 'red', 
-    bgColor: '#FEF2F2', 
-    textColor: '#B91C1C',
-    gradient: 'from-red-400 to-red-600',
-    icon: <FiX size={12} />,
-    borderColor: '#FECACA'
-  },
-  IN_PROGRESS: { 
-    color: 'orange', 
-    bgColor: '#FFF7ED', 
-    textColor: '#C2410C',
-    gradient: 'from-orange-400 to-orange-600',
-    icon: <FiClock size={12} />,
-    borderColor: '#FED7AA'
-  },
-  POSTPONED: { 
-    color: 'purple', 
-    bgColor: '#F5F3FF', 
-    textColor: '#6D28D9',
-    gradient: 'from-purple-400 to-purple-600',
-    icon: <FiAlertCircle size={12} />,
-    borderColor: '#E9D5FF'
-  },
 };
-
-// Enhanced animation variants
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0, scale: 0.95 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 80,
-      damping: 12,
-    },
-  },
-};
-
-
-
-// Enhanced Stats Card Component - Made smaller
 
 const TrainingList: React.FC = () => {
+  const navigate = useNavigate();
   const [trainings, setTrainings] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedTraining, setSelectedTraining] = useState<any>(null);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [, setIsTransitioning] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [trainingIdToDelete, setTrainingIdToDelete] = useState<string | null>(null);
@@ -141,17 +89,9 @@ const TrainingList: React.FC = () => {
         limit: pageSize.toString(),
       });
 
-      if (searchText) {
-        params.append('search', searchText);
-      }
-
-      if (filters.status) {
-        params.append('status', filters.status);
-      }
-
-      if (filters.trainingType) {
-        params.append('trainingType', filters.trainingType);
-      }
+      if (searchText) params.append('search', searchText);
+      if (filters.status) params.append('status', filters.status);
+      if (filters.trainingType) params.append('trainingType', filters.trainingType);
 
       const response = await api.get(
         `${API_ROUTES.TRAINING.GET_ALL_TRAININGS}?${params}`,
@@ -184,8 +124,8 @@ const TrainingList: React.FC = () => {
     fetchTrainings(pagination.current, pagination.pageSize);
   }, [filters, searchText]);
 
-  const handleTableChange = (pagination: any) => {
-    fetchTrainings(pagination.current, pagination.pageSize);
+  const handleTableChange = (pag: any) => {
+    fetchTrainings(pag.current, pag.pageSize);
   };
 
   const handleViewDetails = (training: any) => {
@@ -200,19 +140,11 @@ const TrainingList: React.FC = () => {
 
   const confirmDelete = async () => {
     if (!trainingIdToDelete) return;
-
     try {
       setLoading(true);
-
-      await api.delete(
-        API_ROUTES.TRAINING.DELETE_TRAINING(trainingIdToDelete),
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        }
-      );
-
+      await api.delete(API_ROUTES.TRAINING.DELETE_TRAINING(trainingIdToDelete), {
+        headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+      });
       message.success('Training deleted successfully');
       fetchTrainings(pagination.current, pagination.pageSize);
     } catch (error) {
@@ -230,10 +162,7 @@ const TrainingList: React.FC = () => {
   };
 
   const handleFilterChange = (key: string, value: any) => {
-    setFilters({
-      ...filters,
-      [key]: value,
-    });
+    setFilters({ ...filters, [key]: value });
   };
 
   const handleSearch = () => {
@@ -242,10 +171,7 @@ const TrainingList: React.FC = () => {
 
   const handleReset = () => {
     setSearchText('');
-    setFilters({
-      status: null,
-      trainingType: null,
-    });
+    setFilters({ status: null, trainingType: null });
     setIsRefreshing(true);
     fetchTrainings(1, pagination.pageSize);
   };
@@ -268,21 +194,18 @@ const TrainingList: React.FC = () => {
     { key: 'WEBINAR', label: 'Webinar' },
   ];
 
-  // Calculate stats
-
   const columns = [
     {
       title: 'Training Title',
       dataIndex: 'title',
       key: 'title',
       render: (title: string, record: any) => (
-        <motion.div
-          className="font-semibold text-gray-900 cursor-pointer hover:text-blue-600 transition-colors"
-          whileHover={{ scale: 1.01 }}
+        <div
+          className="font-medium text-foreground cursor-pointer hover:text-primary transition-colors"
           onClick={() => handleViewDetails(record)}
         >
           {title}
-        </motion.div>
+        </div>
       ),
     },
     {
@@ -290,20 +213,17 @@ const TrainingList: React.FC = () => {
       dataIndex: 'trainingType',
       key: 'trainingType',
       render: (type: string) => (
-        <Tag
-          color="blue"
-          className="rounded-full px-3 py-1 bg-blue-50 text-blue-700 border-blue-200 capitalize text-xs"
-        >
+        <span className="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-medium capitalize">
           {type?.toLowerCase().replace('_', ' ')}
-        </Tag>
+        </span>
       ),
     },
     {
       title: 'Participants',
       key: 'participants',
       render: (_: any, record: any) => (
-        <div className="flex items-center text-sm text-gray-700">
-          <FiUsers className="mr-2 text-blue-500" size={14} />
+        <div className="flex items-center text-sm text-muted-foreground">
+          <FiUsers className="mr-2 text-primary" size={14} />
           <span>
             {record._count?.participants || 0}
             {record.maxParticipants && ` / ${record.maxParticipants}`}
@@ -316,8 +236,8 @@ const TrainingList: React.FC = () => {
       dataIndex: 'location',
       key: 'location',
       render: (location: string) => (
-        <div className="flex items-center text-sm text-gray-700">
-          <FiMapPin className="mr-2 text-blue-500" size={14} />
+        <div className="flex items-center text-sm text-muted-foreground">
+          <FiMapPin className="mr-2 text-primary" size={14} />
           <span className="truncate max-w-[150px]">{location}</span>
         </div>
       ),
@@ -326,11 +246,11 @@ const TrainingList: React.FC = () => {
       title: 'Schedule',
       key: 'schedule',
       render: (_: any, record: any) => (
-        <div className="flex items-center text-sm text-gray-700">
-          <FiCalendar className="mr-2 text-blue-500" size={14} />
+        <div className="flex items-center text-sm text-muted-foreground">
+          <FiCalendar className="mr-2 text-primary" size={14} />
           <div>
-            <div>{format(new Date(record.startDate), 'MMM dd, yyyy')}</div>
-            <div className="text-xs text-gray-500">
+            <div className="text-foreground">{format(new Date(record.startDate), 'MMM dd, yyyy')}</div>
+            <div className="text-xs text-muted-foreground">
               to {format(new Date(record.endDate), 'MMM dd, yyyy')}
             </div>
           </div>
@@ -342,27 +262,12 @@ const TrainingList: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => {
-        const config = statusConfig[status] || {
-          color: 'default',
-          bgColor: '#F3F4F6',
-          textColor: '#4B5563',
-          icon: <FiAlertCircle size={12} />,
-          borderColor: '#D1D5DB'
-        };
+        const config = statusConfig[status] || { icon: <FiAlertCircle size={12} />, label: status };
         return (
-          <motion.div whileHover={{ scale: 1.05 }} className="inline-block">
-            <div
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium border"
-              style={{
-                backgroundColor: config.bgColor,
-                color: config.textColor,
-                borderColor: config.borderColor,
-              }}
-            >
-              {config.icon}
-              <span className="capitalize">{status.replace('_', ' ')}</span>
-            </div>
-          </motion.div>
+          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusClasses(status)}`}>
+            {config.icon}
+            <span>{config.label}</span>
+          </div>
         );
       },
     },
@@ -370,51 +275,35 @@ const TrainingList: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       render: (_: any, record: any) => (
-        <Space size="small" className="flex flex-row">
-          <Tooltip title="View Details">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<FiEye />}
-                onClick={() => handleViewDetails(record)}
-                className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 border-none shadow-md"
-                size="small"
-              />
-            </motion.div>
+        <Space size="small">
+          <Tooltip title="View">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<FiEye size={14} />}
+              onClick={() => handleViewDetails(record)}
+              size="small"
+              className="bg-primary hover:bg-primary/90 border-none"
+            />
           </Tooltip>
-
-          <Tooltip title={record.status === "SCHEDULED" ? "Edit Training" : "Only scheduled trainings can be edited"}>
-            <motion.div whileHover={record.status === "SCHEDULED" ? { scale: 1.1 } : {}} whileTap={record.status === "SCHEDULED" ? { scale: 0.95 } : {}}>
-              <Button 
-                shape="circle" 
-                icon={<FiEdit />} 
-                onClick={() => record.status === "SCHEDULED" && handleEditTraining(record.id)}
-                className={`flex items-center justify-center shadow-md ${
-                  record.status === "SCHEDULED"
-                    ? "text-blue-500 hover:text-white hover:bg-blue-500 border-blue-500" 
-                    : "text-gray-400 border-gray-300 cursor-not-allowed"
-                }`}
-                disabled={record.status !== "SCHEDULED"}
-                size="small"
-              />
-            </motion.div>
+          <Tooltip title={record.status === 'SCHEDULED' ? 'Edit' : 'Only scheduled can be edited'}>
+            <Button
+              shape="circle"
+              icon={<FiEdit size={14} />}
+              onClick={() => record.status === 'SCHEDULED' && handleEditTraining(record.id)}
+              disabled={record.status !== 'SCHEDULED'}
+              size="small"
+              className={record.status === 'SCHEDULED' ? 'text-primary border-primary hover:bg-primary/10' : ''}
+            />
           </Tooltip>
-
-          <Tooltip title="Delete Training">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                danger
-                shape="circle"
-                icon={<FiTrash2 />}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteTraining(record.id);
-                }}
-                className="flex items-center justify-center shadow-md"
-                size="small"
-              />
-            </motion.div>
+          <Tooltip title="Delete">
+            <Button
+              danger
+              shape="circle"
+              icon={<FiTrash2 size={14} />}
+              onClick={(e) => { e.stopPropagation(); handleDeleteTraining(record.id); }}
+              size="small"
+            />
           </Tooltip>
         </Space>
       ),
@@ -423,249 +312,153 @@ const TrainingList: React.FC = () => {
 
   return (
     <>
-        <AnimatePresence mode="wait">
-          {!showDetails ? (
-            <motion.div
-              key="list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="max-w-7xl mx-auto px-4 py-8">
-              {/* Single unified component - no gaps */}
-              <motion.div
-                variants={itemVariants}
-                className=" rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
-              >
-                {/* Header Section */}
-                <div className="relative bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 p-6 border-b border-gray-100">
-                  <div className="absolute top-0 right-0 -mt-2 -mr-2">
-                    <Sparkles size={60} className="text-blue-100 opacity-50" />
-                  </div>
-
-                  <div className="relative">
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-3 lg:space-y-0">
-                      <div>
-                        <div className="flex items-center space-x-3 mb-1">
-                          <div className="p-2 bg-blue-100 rounded-xl">
-                            <BookOpen className="text-blue-600" size={20} />
-                          </div>
-                          <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Training Management</h1>
-                            <p className="text-gray-600 text-sm mt-0.5">
-                              Manage and track all training programs and sessions
-                            </p>
-                          </div>
-                        </div>
+      <AnimatePresence mode="wait">
+        {!showDetails ? (
+          <motion.div
+            key="list"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="max-w-7xl mx-auto ">
+              {/* Main Card */}
+              <div className="rounded-lg border border-border bg-card shadow-sm overflow-hidden">
+                {/* Header */}
+                <div className="px-6 py-4 border-b border-border bg-primary/5">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <BookOpen className="text-primary" size={20} />
                       </div>
-                      
-                      <div className="flex items-center gap-3">
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg text-sm"
-                        >
-                          <FiPlus size={14} />
-                          New Training
-                        </motion.button>
+                      <div>
+                        <h1 className="text-lg font-semibold text-foreground">Training Management</h1>
+                        <p className="text-sm text-muted-foreground">Manage and track training programs</p>
                       </div>
                     </div>
+                    <button
+                    onClick={()=>navigate('/trainings/create')}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
+                      <FiPlus size={16} />
+                      New Training
+                    </button>
                   </div>
                 </div>
 
-
-                {/* Search and Filters Section */}
-                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50/50 to-blue-50/50">
-                  <div className="flex flex-wrap gap-4 items-center">
-                    <div className="flex-1 min-w-[300px] relative">
-                      <div className="relative">
-                        <FiSearch 
-                          className={`absolute left-4 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${
-                            isSearchFocused ? 'text-blue-600' : 'text-gray-400'
-                          }`} 
-                          size={18}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Search trainings by title, type, or location..."
-                          value={searchText}
-                          onChange={(e) => setSearchText(e.target.value)}
-                          onFocus={() => setIsSearchFocused(true)}
-                          onBlur={() => setIsSearchFocused(false)}
-                          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                          className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-gray-50 hover:bg-white"
-                        />
-                        {searchText && (
-                          <motion.button
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            onClick={() => setSearchText('')}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                          >
-                            <FiX size={16} />
-                          </motion.button>
-                        )}
-                      </div>
+                {/* Search and Filters */}
+                <div className="px-6 py-4 border-b border-border bg-muted/30">
+                  <div className="flex flex-wrap gap-3 items-center">
+                    {/* Search Input */}
+                    <div className="flex-1 min-w-[250px] relative">
+                      <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+                      <input
+                        type="text"
+                        placeholder="Search trainings..."
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        className="w-full pl-10 pr-8 py-2 text-sm rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                      {searchText && (
+                        <button
+                          onClick={() => setSearchText('')}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                          <FiX size={14} />
+                        </button>
+                      )}
                     </div>
 
-                    <div className="flex gap-3">
-                      <Dropdown
-                        menu={{
-                          items: statusFilterMenu,
-                          onClick: ({ key }) =>
-                            handleFilterChange('status', key === 'all' ? null : key),
-                        }}
-                        trigger={['click']}
-                      >
-                        <motion.button 
-                          whileHover={{ scale: 1.02 }}
-                          className="flex items-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all bg-white shadow-sm"
-                        >
-                          <FiFilter className="text-blue-500" />
-                          <span className="text-gray-700 font-medium">
-                            Status: {filters.status || 'All'}
-                          </span>
-                          <ChevronDown size={14} className="text-gray-400" />
-                        </motion.button>
-                      </Dropdown>
+                    {/* Filters */}
+                    <Dropdown
+                      menu={{
+                        items: statusFilterMenu,
+                        onClick: ({ key }) => handleFilterChange('status', key === 'all' ? null : key),
+                      }}
+                      trigger={['click']}
+                    >
+                      <button className="flex items-center gap-2 px-3 py-2 text-sm border border-input rounded-lg bg-background text-foreground hover:bg-muted transition-colors">
+                        Status: {filters.status || 'All'}
+                        <FiChevronDown size={14} />
+                      </button>
+                    </Dropdown>
 
-                      <Dropdown
-                        menu={{
-                          items: typeFilterMenu,
-                          onClick: ({ key }) =>
-                            handleFilterChange('trainingType', key === 'all' ? null : key),
-                        }}
-                        trigger={['click']}
-                      >
-                        <motion.button 
-                          whileHover={{ scale: 1.02 }}
-                          className="flex items-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all bg-white shadow-sm"
-                        >
-                          <FiFilter className="text-blue-500" />
-                          <span className="text-gray-700 font-medium">
-                            Type: {filters.trainingType || 'All'}
-                          </span>
-                          <ChevronDown size={14} className="text-gray-400" />
-                        </motion.button>
-                      </Dropdown>
+                    <Dropdown
+                      menu={{
+                        items: typeFilterMenu,
+                        onClick: ({ key }) => handleFilterChange('trainingType', key === 'all' ? null : key),
+                      }}
+                      trigger={['click']}
+                    >
+                      <button className="flex items-center gap-2 px-3 py-2 text-sm border border-input rounded-lg bg-background text-foreground hover:bg-muted transition-colors">
+                        Type: {filters.trainingType || 'All'}
+                        <FiChevronDown size={14} />
+                      </button>
+                    </Dropdown>
 
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleReset}
-                        className="flex items-center gap-2 px-4 py-3 text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-all shadow-sm"
-                      >
-                        <FiRefreshCw className={isRefreshing ? 'animate-spin' : ''} />
-                        <span className="font-medium">Reset</span>
-                      </motion.button>
-                    </div>
+                    <button
+                      onClick={handleReset}
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-primary border border-primary/30 rounded-lg hover:bg-primary/10 transition-colors"
+                    >
+                      <FiRefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+                      Reset
+                    </button>
                   </div>
 
-                  {/* Active Filters Display */}
+                  {/* Active Filters */}
                   {(filters.status || filters.trainingType || searchText) && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="mt-4 pt-4 border-t border-gray-100"
-                    >
-                      <div className="flex flex-wrap gap-2 items-center">
-                        <span className="text-sm font-medium text-gray-600">Active filters:</span>
-                        {filters.status && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
-                          >
-                            Status: {filters.status}
-                            <button 
-                              onClick={() => handleFilterChange('status', null)}
-                              className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
-                            >
-                              <FiX size={12} />
-                            </button>
-                          </motion.div>
-                        )}
-                        {filters.trainingType && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="flex items-center gap-1 bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm"
-                          >
-                            Type: {filters.trainingType}
-                            <button 
-                              onClick={() => handleFilterChange('trainingType', null)}
-                              className="ml-1 hover:bg-indigo-200 rounded-full p-0.5"
-                            >
-                              <FiX size={12} />
-                            </button>
-                          </motion.div>
-                        )}
-                        {searchText && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="flex items-center gap-1 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm"
-                          >
-                            Search: "{searchText}"
-                            <button 
-                              onClick={() => setSearchText('')}
-                              className="ml-1 hover:bg-purple-200 rounded-full p-0.5"
-                            >
-                              <FiX size={12} />
-                            </button>
-                          </motion.div>
-                        )}
-                      </div>
-                    </motion.div>
+                    <div className="mt-1 flex flex-wrap gap-2 items-center">
+                      <span className="text-xs text-muted-foreground">Active:</span>
+                      {filters.status && (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 text-primary text-xs">
+                          {filters.status}
+                          <button onClick={() => handleFilterChange('status', null)}><FiX size={12} /></button>
+                        </span>
+                      )}
+                      {filters.trainingType && (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs">
+                          {filters.trainingType}
+                          <button onClick={() => handleFilterChange('trainingType', null)}><FiX size={12} /></button>
+                        </span>
+                      )}
+                      {searchText && (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs">
+                          "{searchText}"
+                          <button onClick={() => setSearchText('')}><FiX size={12} /></button>
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
 
-                {/* Table Section */}
-                <div>
+                {/* Table */}
+                <div className="py-4 training-table-wrapper">
                   <Table
                     columns={columns}
                     dataSource={trainings}
                     rowKey="id"
-                    loading={{
-                      spinning: loading,
-                      indicator: <Spin size="large" />,
-                    }}
+                    loading={loading}
                     pagination={{
                       ...pagination,
                       showSizeChanger: true,
                       showQuickJumper: true,
-                      showTotal: (total, range) => 
-                        `${range[0]}-${range[1]} of ${total} trainings`,
-                      className: 'px-6 py-4',
-                      size: 'default',
+                      showTotal: (total, range) => `${range[0]}-${range[1]} of ${total}`,
+                      size: 'small',
                     }}
                     onChange={handleTableChange}
-                    className="w-full"
-                    rowClassName={(_record, index) => 
-                      `hover:bg-blue-50 transition-all duration-200 ${
-                        index % 2 === 0 ? 'bg-gray-50/30' : 'bg-white'
-                      }`
-                    }
+                    className="training-table"
                     locale={{
                       emptyText: (
-                        <div className="py-16">
+                        <div className="py-12">
                           <Empty
-                            image={
-                              <div className="flex justify-center mb-4">
-                                <BookOpen size={64} className="text-gray-300" />
-                              </div>
-                            }
+                            image={<BookOpen size={48} className="mx-auto text-muted-foreground/50" />}
                             description={
                               <div className="text-center">
-                                <p className="text-gray-500 font-medium text-lg mb-2">
-                                  No trainings found
-                                </p>
-                                <p className="text-gray-400 text-sm">
+                                <p className="text-muted-foreground font-medium">No trainings found</p>
+                                <p className="text-muted-foreground/70 text-sm">
                                   {searchText || filters.status || filters.trainingType
-                                    ? 'Try adjusting your search criteria'
-                                    : 'Create your first training to get started'
-                                  }
+                                    ? 'Try adjusting your filters'
+                                    : 'Create your first training'}
                                 </p>
                               </div>
                             }
@@ -675,98 +468,76 @@ const TrainingList: React.FC = () => {
                     }}
                   />
                 </div>
-              </motion.div>
               </div>
-            </motion.div>
-          ) : (
-            <TrainingDetails
-              training={selectedTraining}
-              onClose={async () => {
-                setIsTransitioning(true);
-                await fetchTrainings(pagination.current, pagination.pageSize);
-                setShowDetails(false);
-                setSelectedTraining(null);
-                setIsTransitioning(false);
-              }}
-              onRefresh={() => {
-                fetchTrainings(pagination.current, pagination.pageSize);
-              }}
-            />
-          )}
-        </AnimatePresence>
+            </div>
+          </motion.div>
+        ) : (
+          <TrainingDetails
+            training={selectedTraining}
+            onClose={async () => {
+              setIsTransitioning(true);
+              await fetchTrainings(pagination.current, pagination.pageSize);
+              setShowDetails(false);
+              setSelectedTraining(null);
+              setIsTransitioning(false);
+            }}
+            onRefresh={() => fetchTrainings(pagination.current, pagination.pageSize)}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* Enhanced Delete Modal */}
-        <AnimatePresence>
-          {isDeleteModalOpen && (
+      {/* Delete Modal */}
+      <AnimatePresence>
+        {isDeleteModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            onClick={() => { setIsDeleteModalOpen(false); setTrainingIdToDelete(null); }}
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[9999] overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
-              onClick={() => {
-                setIsDeleteModalOpen(false);
-                setTrainingIdToDelete(null);
-              }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-card border border-border rounded-lg shadow-xl max-w-md w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 50 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="inline-block align-middle bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full relative"
-                  onClick={(e) => e.stopPropagation()}
+              <div className="p-6 border-b border-border bg-destructive/5">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-full bg-destructive/10">
+                    <FiTrash2 className="text-destructive" size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">Delete Training</h3>
+                    <p className="text-sm text-muted-foreground">This action cannot be undone</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-foreground">
+                  Are you sure you want to delete this training? All sessions, participants, and related data will be permanently removed.
+                </p>
+              </div>
+              <div className="px-6 pb-6 flex justify-end gap-3">
+                <button
+                  onClick={() => { setIsDeleteModalOpen(false); setTrainingIdToDelete(null); }}
+                  className="px-4 py-2 text-sm font-medium border border-border rounded-lg text-foreground hover:bg-muted transition-colors"
                 >
-                  <div className="bg-gradient-to-r from-red-50 to-pink-50 px-6 pt-6 pb-4 border-b border-red-100">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                        <FiTrash2 className="h-6 w-6 text-red-600" />
-                      </div>
-                      <div className="ml-4">
-                        <h3 className="text-xl font-bold text-gray-900">
-                          Delete Training
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          This action cannot be undone
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-white px-6 py-4">
-                    <p className="text-gray-700">
-                      Are you sure you want to delete this training? All sessions, 
-                      participants, documents, and related data will be permanently removed.
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gray-50 px-6 py-4 flex flex-row-reverse gap-3">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={confirmDelete}
-                      className="px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-all shadow-lg"
-                    >
-                      Delete Training
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setIsDeleteModalOpen(false);
-                        setTrainingIdToDelete(null);
-                      }}
-                      className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-all"
-                    >
-                      Cancel
-                    </motion.button>
-                  </div>
-                </motion.div>
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 text-sm font-medium bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90 transition-colors"
+                >
+                  Delete
+                </button>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-     </>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

@@ -6,9 +6,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist", // Add this line to specify output directory
-    "rootDir": "src",  // Add this to ensure correct structure in dist
-    "types": ["date-fns", "node"]
+    "outDir": "dist",
+    "rootDir": "src",
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"]
 }

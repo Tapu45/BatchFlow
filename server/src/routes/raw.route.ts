@@ -12,6 +12,10 @@ import { authenticate } from '../middlewares/authMiddleware';
 import { getPurchaseOrdersByProduct, getPurchaseOrderTimeline } from '../controllers/rawmaterial/time.controller';
 import { DashboardController } from '../controllers/rawmaterial/Dashboard.controller';
 import { RMQualityController } from '../controllers/rawmaterial/quality.controller';
+import { RMQualityMailController } from '../controllers/rawmaterial/qualityMail.controller';
+import { RMQualityMailFilteredController } from '../controllers/rawmaterial/qualityMailFiltered.controller';
+import { RMQualityExportFilteredController } from '../controllers/rawmaterial/qualityExportFiltered.controller';
+import { sendPurchaseOrderMail } from '../controllers/rawmaterial/sendPurchaseOrderMail.controller';
 
 const router = Router();
 
@@ -40,11 +44,12 @@ router.delete('/product/:id', RawMaterialProductController.deleteRawMaterialProd
 // Purchase Orders
 router.post('/purchase', PurchaseOrderController.createPurchaseOrder);
 router.get('/purchase', PurchaseOrderController.getPurchaseOrders);
-router.get('/purchase/:id', PurchaseOrderController.getPurchaseOrderById);
-router.put('/purchase/:id', PurchaseOrderController.updatePurchaseOrder);
-router.put('/purchase/item/:itemId', PurchaseOrderController.updatePurchaseOrderItem);
+router.get('/purchase/send-mail', sendPurchaseOrderMail);
 router.get('/purchase/received/raw-materials', PurchaseOrderController.getReceivedRawMaterials);
 router.get('/purchase/received/vendors', PurchaseOrderController.getVendorsFromReceivedOrders);
+router.put('/purchase/item/:itemId', PurchaseOrderController.updatePurchaseOrderItem);
+router.get('/purchase/:id', PurchaseOrderController.getPurchaseOrderById);
+router.put('/purchase/:id', PurchaseOrderController.updatePurchaseOrder);
 
 // Stock Entries
 router.post('/stock', StockEntryController.createStockEntry);
@@ -97,10 +102,13 @@ router.get('/dashboard/product-wise-conversion', DashboardController.getProductW
 // RM Quality Reports
 router.post('/quality-report', RMQualityController.createQualityReport);
 router.get('/quality-report', RMQualityController.getQualityReports);
+router.get('/quality-report/export/all', RMQualityController.exportAllQualityReports);
+router.get('/quality-report/mail/all', RMQualityMailController.mailAllQualityReports);
+router.post('/quality-report/mail/filtered', RMQualityMailFilteredController.mailFilteredQualityReports);
+router.post('/quality-report/export/filtered', RMQualityExportFilteredController.exportFilteredQualityReports);
 router.get('/quality-report/:id', RMQualityController.getQualityReportById);
 router.put('/quality-report/:id', RMQualityController.updateQualityReport);
 router.delete('/quality-report/:id', RMQualityController.deleteQualityReport);
 router.get('/quality-report/:id/export', RMQualityController.exportQualityReport);
-router.get('/quality-report/export/all', RMQualityController.exportAllQualityReports);
 
 export default router;
